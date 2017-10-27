@@ -4,12 +4,17 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "client": "electron ./client/main.js",
+    "server": "electron ./server/main.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "mysql": "^2.15.0",
     "node-cp-abe": "0.0.6"
+  },
+  "devDependencies": {
+    "electron": "1.7.9",
+    "electron-rebuild": "^1.6.0"
   }
 }
