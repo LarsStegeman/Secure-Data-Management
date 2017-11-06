@@ -1,13 +1,10 @@
 Run client and server with:
 npm run client/server
 
-Cannot use node-cp-abe package without executing electron since the versions will mismatch.
-If versions mismatch when using electron use this: 
-https://github.com/electron/electron/blob/master/docs/tutorial/using-native-node-modules.md
-
+If versions mismatch when using nw use this: 
+http://docs.nwjs.io/en/latest/For%20Users/Advanced/Use%20Native%20Node%20Modules/
 
 TODO:
-- Fix version mismatch (2 node modules?, not possible to use node-cp-abe with just node now). Server has to be initialized with electron now.
 - All connection parameters should be in configuration folders (database, server, client).
 Client:
 	- Make it look better.

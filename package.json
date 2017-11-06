@@ -2,19 +2,24 @@
   "name": "secure-data-management",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
-  "scripts": {
-    "client": "electron ./client/main.js",
-    "server": "electron ./server/main.js"
+  "window": {
+    "show": true,
+    "position": "center",
+    "width": 500,
+    "height": 500
   },
+  "main": "/client/index.html",
+  "scripts": {
+    "client": "nw .",
+    "server": "node ./server/main.js"
+  },
+  "chromium-args": "--enable-logging=stderr",
   "author": "",
   "license": "ISC",
   "dependencies": {
     "mysql": "^2.15.0",
-    "node-cp-abe": "0.0.6"
-  },
-  "devDependencies": {
-    "electron": "1.7.9",
-    "electron-rebuild": "^1.6.0"
+    "node-cp-abe": "0.0.6",
+    "nw": "^0.26.3",
+    "nw-gyp": "^3.6.2"
   }
 }

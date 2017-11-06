@@ -1,5 +1,11 @@
 var net = require('net');
-const cpabe = require("node-cp-abe");
+var cpabe = require('node-cp-abe');
+var gui = require('nw.gui');
+
+'use strict'
+
+
+
 
 var login = document.getElementById("login");
 
