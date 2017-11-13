@@ -13,15 +13,11 @@ DROP TABLE IF EXISTS `doctorhospital`;
 
 CREATE TABLE `patient` (
   `patientID` int(11) NOT NULL,
-  `firstName` varchar(45) NOT NULL,
-  `lastName` varchar(45) NOT NULL,
-  `address` varchar(100) NOT NULL,
-  `birthDate` varchar(45) NOT NULL,
-  `bloodGroup` varchar(2) NOT NULL,
-  `mobileNumber` varchar(15) NOT NULL,
-  `Gender` varchar(1) NOT NULL,
+  `name` varchar(20) NOT NULL,	
+  `data` varchar(5000) NOT NULL,
   PRIMARY KEY (`patientID`)
 );
+
 
 CREATE TABLE `doctor` (
   `doctorID` int(11) NOT NULL,

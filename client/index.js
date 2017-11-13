@@ -1,12 +1,10 @@
 var net = require('net');
 var cpabe = require('node-cp-abe');
 var gui = require('nw.gui');
+const fs = require('fs');
 
+cpabe.setup();
 'use strict'
-
-
-
-
 var login = document.getElementById("login");
 
 
@@ -29,10 +27,22 @@ function sendToServer(){
 
 	//Send username to server
 	console.log("Sending request to server");	
-	client.write("request: " + username);
+	client.write(username);
 }
 
 
 client.on('data', function(data) {
 	console.log('Received: ' + data);
+	
+	//Create buffers
+	var key = Buffer.from(fs.readFileSync('patientkey'), 'base64');
+	var pubkey = Buffer.from(fs.readFileSync('pubkey'), 'base64');
+	var data  = Buffer.from(data, 'base64');
+	console.log('try to decrypt');
+	//Try to decrypt
+	console.log(cpabe.decryptMessage(pubkey, key, data));
 });
+
+
+
+
