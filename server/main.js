@@ -1,7 +1,9 @@
-var net = require('net');
 const cpabe = require("node-cp-abe");
 const fs = require('fs');
 const path = require("path");
+
+// MySQL DB
+const db = require('./db/db.js');
 
 // Directory to save key files
 const KEY_DIR = path.join(__dirname, "keys");
@@ -18,9 +20,9 @@ var pat1_unser = JSON.parse(pat1_ser);
 
 WORKS:
 var pat1_ser = patient1.toString('binary');
-var pat1_unser = new Buffer(pat1_ser, 'binary');'binary'
+var pat1_unser = new Buffer(pat1_ser, 'binary');
 
-ALSO WORKS:
+[USED] ALSO WORKS:
 fs.writeFile(path, key);
 fs.readFile(path);
 *******************************************************************/
@@ -36,19 +38,35 @@ var keys = cpabe.setup();
 // Save public key file
 saveKeyToFile(keys.pubkey, "pubkey");
 
-// Message to decrypt.
-var message = 'hello patient 1';
-
+// Create other keys
 var patient1 = cpabe.keygen(keys.pubkey, keys.mstkey, ["patient = 1"]);
 var patient2 = cpabe.keygen(keys.pubkey, keys.mstkey, ["patient = 2"]);
 
 saveKeyToFile(patient1, "patient1skey");
 
-//encryption.
+// Plain text message.
+var message = 'hospital 1 name';
+
+// Encrypt message.
 var enc_data = cpabe.encryptMessage(keys.pubkey, 'patient=1', new Buffer(message));
 console.log("encrypted data");
 
+// Store in database (Hospital table)
+/*let query = db.query('INSERT INTO hospital SET Name=?', enc_data, function (error, results, fields) {
+  if (error) throw error;
+  console.log("Inserted Hospital ID: " + results.insertId);
+});
+console.log("Executed: " + query.sql);*/
+
+// Read from database (Hospital table)
+/*query = db.query('SELECT * FROM hospital', function (error, results, fields) {
+  if (error) throw error;
+  console.log("Results: " + results);
+});
+console.log("Executed: " + query.sql);*/
+
 //decryption
+/*
 try {
 	var decrypted = cpabe.decryptMessage(keys.pubkey, patient1, enc_data);
 	console.log("decrypted: " + decrypted.toString());
@@ -63,15 +81,4 @@ try {
 } catch (e) {
 	console.log(e);
 }
-
-var server = net.createServer(function(socket) {
-	socket.on('data', function(data){
-		//Log request
-		console.log(data.toString());
-
-		//Look up username in table and send encrypted data back
-
-	});
-});
-
-//server.listen(4004);
+*/
