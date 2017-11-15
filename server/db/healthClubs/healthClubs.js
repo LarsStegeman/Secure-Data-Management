@@ -33,11 +33,12 @@ module.exports.getPacients = function(clubID, callback){
 
 //create a new HealthClub
 module.export.insertClub = function(clubID, name, callback){
-  connection.query('INSERT INTO healthclub(clubID, name)'
-    + 'VALUES(:id, :name)',
+  connection.query('INSERT INTO healthclub(clubID, name, address)'
+    + 'VALUES(:id, :name, :address)',
     {
       id: clubID,
-      name: name
+      name: name,
+      address: address
     },
     function(err, result){
       callback(err, result);
@@ -45,11 +46,12 @@ module.export.insertClub = function(clubID, name, callback){
 }
 
 //update values of a healthclub
-module.export.updateValues = function(clubID, name, callback){
-  connection.query('UPDATE healthclub SET name=:name WHERE clubID=:id',
+module.export.updateValues = function(clubID, name, address,callback){
+  connection.query('UPDATE healthclub SET name=:name, address=:address WHERE clubID=:id',
   {
     id: clubID,
-    name: name
+    name: name,
+    address: address
   },
   function(err, result){
     callback(err, result);

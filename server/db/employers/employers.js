@@ -32,12 +32,13 @@ module.exports.getPacients = function(employerID, callback){
 
 
 //create a new Employer
-module.export.insertEmployer = function(employerID, name, callback){
-  connection.query('INSERT INTO employer(employerID, name)'
-    + 'VALUES(:id, :name)',
+module.export.insertEmployer = function(employerID, name, address, callback){
+  connection.query('INSERT INTO employer(employerID, name, address)'
+    + 'VALUES(:id, :name, address=:address)',
     {
       id: employerID,
-      name: name
+      name: name,
+      address: address
     },
     function(err, result){
       callback(err, result);
@@ -45,11 +46,12 @@ module.export.insertEmployer = function(employerID, name, callback){
 }
 
 //update values of a employer
-module.export.updateValues = function(employerID, name, callback){
-  connection.query('UPDATE employer SET name=:name WHERE employerID=:id',
+module.export.updateValues = function(employerID, name, address, callback){
+  connection.query('UPDATE employer SET name=:name, address=:address WHERE employerID=:id',
   {
     id: employerID,
-    name: name
+    name: name,
+    address: address
   },
   function(err, result){
     callback(err, result);

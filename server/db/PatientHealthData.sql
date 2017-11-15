@@ -35,18 +35,21 @@ CREATE TABLE `doctor` (
 CREATE TABLE `hospital` (
   `hospitalID` int(11) NOT NULL,
   `name` BLOB NOT NULL,
+  `address` BLOB NOT NULL,
   PRIMARY KEY (`hospitalID`)
 );
 
 CREATE TABLE `healthclub` (
   `clubID` int(11) NOT NULL,
   `name` BLOB NOT NULL,
+  `address` BLOB NOT NULL,
   PRIMARY KEY (`clubID`)
 );
 
 CREATE TABLE `employer` (
   `employerID` int(11) NOT NULL,
   `name` BLOB NOT NULL,
+  `address` BLOB NOT NULL,
   PRIMARY KEY (`employerID`)
 );
 

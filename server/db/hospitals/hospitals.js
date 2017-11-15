@@ -42,12 +42,13 @@ module.exports.getPatients = function(hospitalID, callback){
 };
 
 //create a new hospital
-module.export.insertHospital = function(hospitalID, name, callback){
-  connection.query('INSERT INTO hospital(hospitalID, name)'
-    + 'VALUES(:id, :name)',
+module.export.insertHospital = function(hospitalID, name, address, callback){
+  connection.query('INSERT INTO hospital(hospitalID, name, address)'
+    + 'VALUES(:id, :name, :address)',
     {
       id: hospitalID,
       name: name,
+      address: address
     },
     function(err, result){
       callback(err, result);
@@ -80,11 +81,12 @@ module.export.newDoctor = function(doctorID, hospitalID, callback){
 
 
 //update values of a hospital
-module.export.updateValues = function(hospitalID, name, callback){
-  connection.query('UPDATE hospital SET name=:name WHERE hospitalID=:id',
+module.export.updateValues = function(hospitalID, name, address, callback){
+  connection.query('UPDATE hospital SET name=:name, address=:address WHERE hospitalID=:id',
   {
     id: hospitalID,
-    name: name
+    name: name,
+    address: address
   },
   function(err, result){
     callback(err, result);
