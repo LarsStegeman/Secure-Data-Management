@@ -43,6 +43,7 @@ var patient1 = cpabe.keygen(keys.pubkey, keys.mstkey, ["patient = 1"]);
 var patient2 = cpabe.keygen(keys.pubkey, keys.mstkey, ["patient = 2"]);
 
 saveKeyToFile(patient1, "patient1skey");
+saveKeyToFile(patient2, "patient2skey");
 
 // Plain text message.
 var message = 'hospital 1 name';
