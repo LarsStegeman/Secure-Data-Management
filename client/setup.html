@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Client</title>
+  </head>
+  <body>
+    <h1>Patient Health System</h1>
+		<div class="container" style="text-align: center;">
+		  <form>
+        <label>Your selected keys will be copied to the "client/keys/" directory</label>
+		    <div>
+          <p>
+            <label>Select your public key file</label>
+            <input type="file" id="publicKey">
+          </p>
+          <p>
+            <label>Select your private key file</label>
+            <input type="file" id="privateKey">
+          </p>
+      	</div>
+        <br>
+      	<button type="button" id="setKeys">Set keys</button>
+    	</form>
+  	</div>
+    <script src="setup.js"></script>
+	</body>
+</html>

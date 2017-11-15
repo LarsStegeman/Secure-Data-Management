@@ -13,48 +13,47 @@ DROP TABLE IF EXISTS `doctorhospital`;
 
 CREATE TABLE `patient` (
   `patientID` int(11) NOT NULL,
-  `firstName` varchar(45) NOT NULL,
-  `lastName` varchar(45) NOT NULL,
-  `address` varchar(100) NOT NULL,
-  `birthDate` varchar(45) NOT NULL,
-  `bloodGroup` varchar(2) NOT NULL,
-  `mobileNumber` varchar(15) NOT NULL,
-  `Gender` varchar(1) NOT NULL,
+  `name` BLOB NOT NULL,
+  `address` BLOB NOT NULL,
+  `birthDate` BLOB NOT NULL,
+  `bloodGroup` BLOB NOT NULL,
+  `mobileNumber` BLOB NOT NULL,
+  `gender` BLOB NOT NULL,
+  `notes` BLOB,
   PRIMARY KEY (`patientID`)
 );
 
 CREATE TABLE `doctor` (
   `doctorID` int(11) NOT NULL,
-  `firstName` varchar(45) NOT NULL,
-  `lastName` varchar(45) NOT NULL,
-  `birthDate` varchar(45) NOT NULL,
-  `address` varchar(200) NOT NULL,
-  `mobileNum` varchar(15) NOT NULL,
+  `name` BLOB NOT NULL,
+  `birthDate` BLOB NOT NULL,
+  `address` BLOB NOT NULL,
+  `mobileNum` BLOB NOT NULL,
   PRIMARY KEY (`doctorID`)
 );
 
 CREATE TABLE `hospital` (
   `hospitalID` int(11) NOT NULL,
-  `Name` varchar(45) NOT NULL,
+  `name` BLOB NOT NULL,
   PRIMARY KEY (`hospitalID`)
 );
 
 CREATE TABLE `healthclub` (
   `clubID` int(11) NOT NULL,
-  `Name` varchar(45) NOT NULL,
+  `name` BLOB NOT NULL,
   PRIMARY KEY (`clubID`)
 );
 
 CREATE TABLE `employer` (
   `employerID` int(11) NOT NULL,
-  `Name` varchar(45) NOT NULL,
+  `name` BLOB NOT NULL,
   PRIMARY KEY (`employerID`)
 );
 
 CREATE TABLE `insurance` (
   `insuranceID` int(11) NOT NULL,
-  `name` varchar(45) NOT NULL,
-  `address` varchar(45) NOT NULL,
+  `name` BLOB NOT NULL,
+  `address` BLOB NOT NULL,
   PRIMARY KEY (`insuranceID`)
 );
 
@@ -79,7 +78,7 @@ CREATE TABLE `patientemployer` (
 CREATE TABLE `patienthealthclub` (
   `patientID` int(11) NOT NULL,
   `clubID` int(11) NOT NULL,
-  `data` varchar(200) NOT NULL,
+  `data` BLOB,
   PRIMARY KEY (`patientID`,`clubID`),
   KEY `hospital_idx` (`clubID`),
   KEY `patient_idx` (`patientID`),
@@ -90,7 +89,7 @@ CREATE TABLE `patienthealthclub` (
 CREATE TABLE `patienthospital` (
   `patientID` int(11) NOT NULL,
   `hospitalID` int(11) NOT NULL,
-  `Data` varchar(200) NOT NULL,
+  `data` BLOB,
   PRIMARY KEY (`patientID`,`hospitalID`),
   KEY `hospital_idx` (`hospitalID`),
   CONSTRAINT `hospital` FOREIGN KEY (`hospitalID`) REFERENCES `hospital` (`hospitalID`) ON DELETE NO ACTION ON UPDATE NO ACTION,

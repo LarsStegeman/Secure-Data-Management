@@ -11,7 +11,11 @@
   "main": "/client/index.html",
   "scripts": {
     "client": "nw .",
-    "server": "node ./server/main.js"
+    "server": "node ./server/main.js",
+    "db.create": "cd server/db && mysql -u root -p -e \"drop database if exists PatientHealthData;create database PatientHealthData;\"",
+    "db.tables": "cd server/db && mysql -u root -p PatientHealthData < PatientHealthData.sql",
+    "sudo.db.create": "cd server/db && sudo mysql -u root -e \"drop database if exists PatientHealthData;create database PatientHealthData;\"",
+    "sudo.db.tables": "cd server/db && sudo mysql -u root -p PatientHealthData < PatientHealthData.sql"
   },
   "chromium-args": "--enable-logging=stderr",
   "author": "",
@@ -20,6 +24,7 @@
     "mysql": "^2.15.0",
     "node-cp-abe": "0.0.6",
     "nw": "^0.26.3",
-    "nw-gyp": "^3.6.2"
+    "nw-gyp": "^3.6.2",
+    "path": "^0.12.7"
   }
 }
