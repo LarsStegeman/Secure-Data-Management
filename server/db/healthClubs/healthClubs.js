@@ -32,7 +32,7 @@ module.exports.getPacients = function(clubID, callback){
 
 
 //create a new HealthClub
-module.export.insertClub = function(clubID, name, callback){
+module.exports.insertClub = function(clubID, name, callback){
   connection.query('INSERT INTO healthclub(clubID, name, address)'
     + 'VALUES(:id, :name, :address)',
     {
@@ -46,7 +46,7 @@ module.export.insertClub = function(clubID, name, callback){
 }
 
 //update values of a healthclub
-module.export.updateValues = function(clubID, name, address,callback){
+module.exports.updateValues = function(clubID, name, address,callback){
   connection.query('UPDATE healthclub SET name=:name, address=:address WHERE clubID=:id',
   {
     id: clubID,
@@ -60,7 +60,7 @@ module.export.updateValues = function(clubID, name, address,callback){
 
 
 //remove a patient from patient-club
-module.export.removePatient = function(patientID, clubID, callback){
+module.exports.removePatient = function(patientID, clubID, callback){
   connection.query('DELETE FROM patienthealthclub WHERE patientID=:patientID AND clubID=:clubID',
   {
       patientID: patientID,

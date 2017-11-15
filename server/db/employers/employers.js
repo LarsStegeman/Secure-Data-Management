@@ -32,7 +32,7 @@ module.exports.getPacients = function(employerID, callback){
 
 
 //create a new Employer
-module.export.insertEmployer = function(employerID, name, address, callback){
+module.exports.insertEmployer = function(employerID, name, address, callback){
   connection.query('INSERT INTO employer(employerID, name, address)'
     + 'VALUES(:id, :name, address=:address)',
     {
@@ -46,7 +46,7 @@ module.export.insertEmployer = function(employerID, name, address, callback){
 }
 
 //update values of a employer
-module.export.updateValues = function(employerID, name, address, callback){
+module.exports.updateValues = function(employerID, name, address, callback){
   connection.query('UPDATE employer SET name=:name, address=:address WHERE employerID=:id',
   {
     id: employerID,
@@ -59,7 +59,7 @@ module.export.updateValues = function(employerID, name, address, callback){
 };
 
 //fire a patient
-module.export.removePatient = function(patientID, employerID, callback){
+module.exports.removePatient = function(patientID, employerID, callback){
   connection.query('DELETE FROM patientemployer WHERE patientID=:patientID AND employerID=:employerID',
   {
       patientID: patientID,

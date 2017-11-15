@@ -1,9 +1,13 @@
 const cpabe = require("node-cp-abe");
 const fs = require('fs');
 const path = require("path");
+const net = require('net');
 
 // MySQL DB
 const db = require('./db/db.js');
+
+//imports
+const inputs = require('./inputs.js');
 
 // Directory to save key files
 const KEY_DIR = path.join(__dirname, "keys");
@@ -52,6 +56,27 @@ var message = 'hospital 1 name';
 var enc_data = cpabe.encryptMessage(keys.pubkey, 'patient=1', new Buffer(message));
 console.log("encrypted data");
 
+var server = net.createServer(function(socket) {
+  console.log('client connected');
+
+	socket.on('data', function(data){
+    console.log('received');
+		console.log(data.toString());
+
+		var result = inputs.verifyInput(data);
+    socket.write(string);
+	});
+
+  socket.on('end', function(){
+    console.log('client disconnected');
+  });
+
+  socket.pipe(socket);
+});
+
+server.listen(4004);
+
+/*
 // Store in database (Hospital table)
 let query = db.query('INSERT INTO hospital SET ?', {name: enc_data}, function (error, results, fields) {
   if (error) throw error;
@@ -72,3 +97,4 @@ let query = db.query('INSERT INTO hospital SET ?', {name: enc_data}, function (e
 	console.log("Executed: " + query.sql);
 });
 console.log("Executed: " + query.sql);
+*/

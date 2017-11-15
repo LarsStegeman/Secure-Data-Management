@@ -42,7 +42,7 @@ module.exports.getPatients = function(hospitalID, callback){
 };
 
 //create a new hospital
-module.export.insertHospital = function(hospitalID, name, address, callback){
+module.exports.insertHospital = function(hospitalID, name, address, callback){
   connection.query('INSERT INTO hospital(hospitalID, name, address)'
     + 'VALUES(:id, :name, :address)',
     {
@@ -56,7 +56,7 @@ module.export.insertHospital = function(hospitalID, name, address, callback){
 }
 
 //insert a new patient-hospital relation
-module.export.newPatient = function(patientID, hospitalID, callback){
+module.exports.newPatient = function(patientID, hospitalID, callback){
   connection.query('INSERT INTO patienthospital(patientID, hospitalID) VALUES(:patientID, :hospitalID)',
   {
     patientID: patientID,
@@ -68,7 +68,7 @@ module.export.newPatient = function(patientID, hospitalID, callback){
 };
 
 //insert a new doctor-hospital relation
-module.export.newDoctor = function(doctorID, hospitalID, callback){
+module.exports.newDoctor = function(doctorID, hospitalID, callback){
   connection.query('INSERT INTO doctorhospital(doctorID, hospitalID) VALUES(:doctorID, :hospitalID)',
   {
     doctorID: doctorID,
