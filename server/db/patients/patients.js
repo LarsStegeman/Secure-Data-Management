@@ -181,3 +181,15 @@ module.export.updateValues = function(patientID, notes, callback){
     callback(err, result);
   });
 };
+
+//remove doctor from patient-doctor
+module.export.removePatient = function(patientID, doctorID, callback){
+  connection.query('DELETE FROM patientdoctor WHERE patientID=:patientID AND doctorID=:doctorID',
+  {
+      patientID: patientID,
+      doctorID: doctorID
+  },
+  function(err, result){
+    callback(err, result);
+  });
+};

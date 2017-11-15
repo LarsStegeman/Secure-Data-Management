@@ -55,3 +55,16 @@ module.export.updateValues = function(clubID, name, callback){
     callback(err, result);
   });
 };
+
+
+//remove a patient from patient-club
+module.export.removePatient = function(patientID, clubID, callback){
+  connection.query('DELETE FROM patienthealthclub WHERE patientID=:patientID AND clubID=:clubID',
+  {
+      patientID: patientID,
+      clubID: clubID
+  },
+  function(err, result){
+    callback(err, result);
+  });
+};

@@ -55,3 +55,15 @@ module.export.updateValues = function(employerID, name, callback){
     callback(err, result);
   });
 };
+
+//fire a patient
+module.export.removePatient = function(patientID, employerID, callback){
+  connection.query('DELETE FROM patientemployer WHERE patientID=:patientID AND employerID=:employerID',
+  {
+      patientID: patientID,
+      employerID: employerID
+  },
+  function(err, result){
+    callback(err, result);
+  });
+};
