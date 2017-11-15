@@ -2,6 +2,7 @@ var net = require('net');
 
 // Get db connection
 const db = require('./db/db.js');
+const hospital = require('./db/hospitals/hospitals.js');
 
 var server = net.createServer(function(socket) {
   console.log('client connected');
@@ -11,7 +12,7 @@ var server = net.createServer(function(socket) {
 		console.log(data.toString());
 
     if (data.toString() == 'hospitals'){
-      var hospitals = db.query('Select * FROM hospital', function (err, result, fields) {
+      var hospitals = hospital.getHospitals(function(err, result){
         if (err) throw err;
         var string = JSON.stringify(result)
         var json = JSON.parse(string);
