@@ -31,7 +31,7 @@ module.exports.getPacients = function(insuranceID, callback){
 };
 
 //create a new insurance
-module.export.insertInsurance = function(insuranceID, name, address, callback){
+module.exports.insertInsurance = function(insuranceID, name, address, callback){
   connection.query('INSERT INTO insurance(insuranceID, name, address)'
     + 'VALUES(:id, :name, :addres)',
     {
@@ -45,7 +45,7 @@ module.export.insertInsurance = function(insuranceID, name, address, callback){
 }
 
 //update values of a insurance
-module.export.updateValues = function(insuranceID, name, callback){
+module.exports.updateValues = function(insuranceID, name, callback){
   connection.query('UPDATE insurance SET name=:name, address=:address WHERE insuranceID=:id',
   {
     id: insuranceID,

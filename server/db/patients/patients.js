@@ -104,7 +104,7 @@ module.exports.newDoctor = function(patientID, doctorID, callback){
 };
 
 //insert a new patient-employer relation
-module.export.newEmployer = function(patientID, employerID, callback){
+module.exports.newEmployer = function(patientID, employerID, callback){
   connection.query('INSERT INTO patientemployer(patientID, employerID) VALUES(:patientID,:employerID)',
   {
     patientID: patientID,
@@ -116,7 +116,7 @@ module.export.newEmployer = function(patientID, employerID, callback){
 };
 
 //insert a new patient-healthclub relation
-module.export.newHealthClub = function(patientID, clubID, callback){
+module.exports.newHealthClub = function(patientID, clubID, callback){
   connection.query('INSERT INTO patienthealthclub(patientID, clubID) VALUES(:patientID,:clubID)',
   {
     patientID: patientID,

@@ -42,7 +42,7 @@ module.exports.getHospitals = function(doctorID, callback){
 };
 
 //create a new doctor
-module.export.insertDoctor = function(doctorID, name, birthDate, address, mobileNum, callback){
+module.exports.insertDoctor = function(doctorID, name, birthDate, address, mobileNum, callback){
   connection.query('INSERT INTO doctor(doctorID, name, birthDate, address, mobileNum)'
     + 'VALUES(:id, :name, :birth, :add, :mob)',
     {
@@ -58,7 +58,7 @@ module.export.insertDoctor = function(doctorID, name, birthDate, address, mobile
 }
 
 //insert a new patient-doctor relation
-module.export.newPatient = function(patientID, doctorID, callback){
+module.exports.newPatient = function(patientID, doctorID, callback){
   connection.query('INSERT INTO patientdoctor(patientID, doctorID) VALUES(:patientID, :doctorID)',
   {
     patientID: patientID,
@@ -70,7 +70,7 @@ module.export.newPatient = function(patientID, doctorID, callback){
 };
 
 //update values of a doctor
-module.export.updateValues = function(doctorID, name, birthDate, address, mobileNum, callback){
+module.exports.updateValues = function(doctorID, name, birthDate, address, mobileNum, callback){
   connection.query('UPDATE patient SET name=:name, birthDate=:birthDate, address=:address, mobileNum=:mobileNum WHERE doctorID=:id',
   {
     id: doctorID,
