@@ -1,5 +1,6 @@
 const connection = require('../db');
 
+//get all healthclubs in db
 module.exports.getHealthClubs = function(callback){
   connection.query('SELECT * FROM healthclub',
     function(err, result){
@@ -7,6 +8,7 @@ module.exports.getHealthClubs = function(callback){
     });
 };
 
+//get a certain healthclub by id
 module.exports.getHealthClubbyID = function(clubID, callback){
   connection.query('SELECT * FROM healthclub WHERE clubID = :id',
     {
@@ -17,6 +19,7 @@ module.exports.getHealthClubbyID = function(clubID, callback){
     });
 };
 
+//get all pacients id from patient-club relation
 module.exports.getPacients = function(clubID, callback){
   connection.query('SELECT * FROM patienthealthclub WHERE clubID = :id',
   {
@@ -26,3 +29,17 @@ module.exports.getPacients = function(clubID, callback){
     callback(err, result);
   });
 };
+
+
+//create a new HealthClub
+module.export.insertClub = function(clubID, name, callback){
+  connection.query('INSERT INTO healthclub(clubID, name)'
+    + 'VALUES(:id, :name)',
+    {
+      id: clubID,
+      name: name
+    },
+    function(err, result){
+      callback(err, result);
+    });
+}

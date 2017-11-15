@@ -1,5 +1,6 @@
 const connection = require('../db');
 
+//get all doctors in db
 module.exports.getDoctors = function(callback){
   connection.query('SELECT * FROM doctor',
     function(err, result){
@@ -7,6 +8,7 @@ module.exports.getDoctors = function(callback){
     });
 };
 
+//get a doctor by ID
 module.exports.getDoctorbyID = function(doctorID, callback){
   connection.query('SELECT * FROM patient WHERE doctorID = :id',
     {
@@ -17,6 +19,7 @@ module.exports.getDoctorbyID = function(doctorID, callback){
     });
 };
 
+//get patients id from patient-doctor relation
 module.exports.getPacients = function(doctorID, callback){
   connection.query('SELECT * FROM patientdoctor WHERE doctorID = :id',
   {
@@ -27,10 +30,39 @@ module.exports.getPacients = function(doctorID, callback){
   });
 };
 
+//get hospitals id from doctor-hospital relation
 module.exports.getHospitals = function(doctorID, callback){
   connection.query('SELECT * FROM doctorhospital WHERE doctorID = :id',
   {
     id: doctorID
+  },
+  function(err, result){
+    callback(err, result);
+  });
+};
+
+//create a new doctor
+module.export.insertDoctor = function(doctorID, name, birthDate, address, mobileNum, callback){
+  connection.query('INSERT INTO doctor(doctorID, name, birthDate, address, mobileNum)'
+    + 'VALUES(:id, :name, :birth, :add, :mob)',
+    {
+      id: doctorID,
+      name: name,
+      birth: birthDate,
+      add: address,
+      mob: mobileNum
+    },
+    function(err, result){
+      callback(err, result);
+    });
+}
+
+//insert a new patient-doctor relation
+module.export.newPatient = function(patientID, doctorID, callback){
+  connection.query('INSERT INTO patientdoctor(patientID, doctorID) VALUES(:patientID, :doctorID)',
+  {
+    patientID: patientID,
+    doctorID: doctorID
   },
   function(err, result){
     callback(err, result);

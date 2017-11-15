@@ -1,5 +1,6 @@
 const connection = require('../db');
 
+//get all hospitals in db
 module.exports.getHospitals = function(callback){
   connection.query('SELECT * FROM hospital',
     function(err, result){
@@ -7,6 +8,7 @@ module.exports.getHospitals = function(callback){
     });
 };
 
+//get an hospital with a certain ID
 module.exports.getHospitalbyID = function(hospitalID, callback){
   connection.query('SELECT * FROM hospital WHERE hospitalID = :id',
     {
@@ -17,6 +19,7 @@ module.exports.getHospitalbyID = function(hospitalID, callback){
     });
 };
 
+//get doctors id of doctor-hospital relation
 module.exports.getDoctors = function(hospitalID, callback){
   connection.query('SELECT * FROM doctorhospital WHERE hospitalID = :id',
   {
@@ -27,10 +30,48 @@ module.exports.getDoctors = function(hospitalID, callback){
   });
 };
 
+//get patients id of patient-hospital relation
 module.exports.getPatients = function(hospitalID, callback){
   connection.query('SELECT * FROM patienthospital WHERE hospitalID = :id',
   {
     id: hospitalID
+  },
+  function(err, result){
+    callback(err, result);
+  });
+};
+
+//create a new hospital
+module.export.insertHospital = function(hospitalID, name, callback){
+  connection.query('INSERT INTO hospital(hospitalID, name)'
+    + 'VALUES(:id, :name)',
+    {
+      id: hospitalID,
+      name: name,
+    },
+    function(err, result){
+      callback(err, result);
+    });
+}
+
+//insert a new patient-hospital relation
+module.export.newPatient = function(patientID, hospitalID, callback){
+  connection.query('INSERT INTO patienthospital(patientID, hospitalID) VALUES(:patientID, :hospitalID)',
+  {
+    patientID: patientID,
+    hospitalID: hospitalID
+  },
+  function(err, result){
+    callback(err, result);
+  });
+};
+
+//insert a new doctor-hospital relation
+module.export.newDoctor = function(doctorID, hospitalID, callback){
+  connection.query('INSERT INTO doctorhospital(doctorID, hospitalID) VALUES(:doctorID, :hospitalID)',
+  {
+    doctorID: doctorID,
+    hospitalID: hospitalID
   },
   function(err, result){
     callback(err, result);
