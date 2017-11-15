@@ -52,33 +52,22 @@ var enc_data = cpabe.encryptMessage(keys.pubkey, 'patient=1', new Buffer(message
 console.log("encrypted data");
 
 // Store in database (Hospital table)
-/*let query = db.query('INSERT INTO hospital SET Name=?', enc_data, function (error, results, fields) {
+let query = db.query('INSERT INTO hospital SET ?', {name: enc_data}, function (error, results, fields) {
   if (error) throw error;
   console.log("Inserted Hospital ID: " + results.insertId);
+
+	// Read from database (Hospital table)
+	query = db.query('SELECT * FROM hospital', function (error, results, fields) {
+	  if (error) throw error;
+
+		//decryption
+		try {
+			var decrypted = cpabe.decryptMessage(keys.pubkey, patient1, results[0].name);
+			console.log("decrypted: " + decrypted.toString());
+		} catch (e) {
+			console.log(e);
+		}
+	});
+	console.log("Executed: " + query.sql);
 });
-console.log("Executed: " + query.sql);*/
-
-// Read from database (Hospital table)
-/*query = db.query('SELECT * FROM hospital', function (error, results, fields) {
-  if (error) throw error;
-  console.log("Results: " + results);
-});
-console.log("Executed: " + query.sql);*/
-
-//decryption
-/*
-try {
-	var decrypted = cpabe.decryptMessage(keys.pubkey, patient1, enc_data);
-	console.log("decrypted: " + decrypted.toString());
-} catch (e) {
-	console.log(e);
-}
-
-try {
-	// Will not decrypt
-	var decrypted = cpabe.decryptMessage(keys.pubkey, patient2, enc_data);
-	console.log("decrypted: " + decrypted.toString());
-} catch (e) {
-	console.log(e);
-}
-*/
+console.log("Executed: " + query.sql);
