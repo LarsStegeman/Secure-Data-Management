@@ -18,8 +18,8 @@ CREATE TABLE `patient` (
   `birthDate` BLOB NOT NULL,
   `bloodGroup` BLOB NOT NULL,
   `mobileNumber` BLOB NOT NULL,
-  `Gender` BLOB NOT NULL,
-  `Notes` BLOB,
+  `gender` BLOB NOT NULL,
+  `notes` BLOB,
   PRIMARY KEY (`patientID`)
 );
 
@@ -34,19 +34,19 @@ CREATE TABLE `doctor` (
 
 CREATE TABLE `hospital` (
   `hospitalID` int(11) NOT NULL,
-  `Name` BLOB NOT NULL,
+  `name` BLOB NOT NULL,
   PRIMARY KEY (`hospitalID`)
 );
 
 CREATE TABLE `healthclub` (
   `clubID` int(11) NOT NULL,
-  `Name` BLOB NOT NULL,
+  `name` BLOB NOT NULL,
   PRIMARY KEY (`clubID`)
 );
 
 CREATE TABLE `employer` (
   `employerID` int(11) NOT NULL,
-  `Name` BLOB NOT NULL,
+  `name` BLOB NOT NULL,
   PRIMARY KEY (`employerID`)
 );
 
@@ -89,7 +89,7 @@ CREATE TABLE `patienthealthclub` (
 CREATE TABLE `patienthospital` (
   `patientID` int(11) NOT NULL,
   `hospitalID` int(11) NOT NULL,
-  `Data` BLOB,
+  `data` BLOB,
   PRIMARY KEY (`patientID`,`hospitalID`),
   KEY `hospital_idx` (`hospitalID`),
   CONSTRAINT `hospital` FOREIGN KEY (`hospitalID`) REFERENCES `hospital` (`hospitalID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
