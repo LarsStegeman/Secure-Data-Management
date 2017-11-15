@@ -8,6 +8,7 @@ const db = require('./db/db.js');
 
 //imports
 const inputs = require('./inputs.js');
+const hospital = require('./db/hospitals/hospitals.js');
 
 // Directory to save key files
 const KEY_DIR = path.join(__dirname, "keys");
@@ -63,8 +64,19 @@ var server = net.createServer(function(socket) {
     console.log('received');
 		console.log(data.toString());
 
-		var result = inputs.verifyInput(data);
-    socket.write(string);
+		if (data.toString() == 'hospitals'){
+      var hospitals = hospital.getHospitals(function(err, result){
+        if (err) throw err;
+        var string = JSON.stringify(result)
+        var json = JSON.parse(string);
+       	console.log(string.toString('binary'));
+        socket.write(string);
+      });
+    }
+
+		//var result = inputs.verifyInput(data);
+		//console.log(result);
+    //socket.write(result);
 	});
 
   socket.on('end', function(){

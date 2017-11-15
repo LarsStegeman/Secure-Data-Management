@@ -4,6 +4,7 @@ const connection = require('../db');
 module.exports.getHospitals = function(callback){
   connection.query('SELECT * FROM hospital',
     function(err, result){
+      console.log(result);
       callback(err, result);
     });
 };
@@ -81,7 +82,7 @@ module.exports.newDoctor = function(doctorID, hospitalID, callback){
 
 
 //update values of a hospital
-module.export.updateValues = function(hospitalID, name, address, callback){
+module.exports.updateValues = function(hospitalID, name, address, callback){
   connection.query('UPDATE hospital SET name=:name, address=:address WHERE hospitalID=:id',
   {
     id: hospitalID,
@@ -94,7 +95,7 @@ module.export.updateValues = function(hospitalID, name, address, callback){
 };
 
 //fire a doctor
-module.export.removeDoctor = function(doctorID, hospitalID, callback){
+module.exports.removeDoctor = function(doctorID, hospitalID, callback){
   connection.query('DELETE FROM doctorhospital WHERE doctorID=:doctorID AND hospitalID=:hospitalID',
   {
       doctorID: doctorID,
@@ -106,7 +107,7 @@ module.export.removeDoctor = function(doctorID, hospitalID, callback){
 };
 
 //remove patient from hospital
-module.export.removePatient = function(patientID, hospitalID, callback){
+module.exports.removePatient = function(patientID, hospitalID, callback){
   connection.query('DELETE FROM patienthospital WHERE patientID=:patientID AND hospitalID=:hospitalID',
   {
       patientID: patientID,
