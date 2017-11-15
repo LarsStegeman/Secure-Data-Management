@@ -68,3 +68,18 @@ module.export.newPatient = function(patientID, doctorID, callback){
     callback(err, result);
   });
 };
+
+//update values of a doctor
+module.export.updateValues = function(doctorID, name, birthDate, address, mobileNum, callback){
+  connection.query('UPDATE patient SET name=:name, birthDate=:birthDate, address=:address, mobileNum=:mobileNum WHERE doctorID=:id',
+  {
+    id: doctorID,
+    name: name,
+    birthDate: birthDate,
+    address: address,
+    mobileNum: mobileNum
+  },
+  function(err, result){
+    callback(err, result);
+  });
+};

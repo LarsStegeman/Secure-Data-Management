@@ -139,11 +139,43 @@ module.export.newHospital = function(patientID, hospitalID, callback){
   });
 };
 
+//insert a new patient-insurance relation
 module.export.newInsurance = function(patientID, insuranceID, callback){
   connection.query('INSERT INTO patientinsurance(patientID, insuranceID) VALUES(:patientID,:insuranceID)',
   {
     patientID: patientID,
     insuranceID: insuranceID
+  },
+  function(err, result){
+    callback(err, result);
+  });
+};
+
+//update values of a patient
+module.export.updateValues = function(patientID, name, address, birthDate, bloodGroup, mobileNumber, gender, notes, callback){
+  connection.query('UPDATE patient SET name=:name, address=:address, birthDate=:birthDate, '
+    + 'bloodGroup=:bloodGroup, mobileNumber=:mobileNumber, notes=:notes WHERE patientID=:id',
+  {
+    id: patientID,
+    name: name,
+    addres: address,
+    birthDate: birthDate,
+    bloodGroup: bloodGroup,
+    mobileNumber: mobileNumber,
+    gender: gender,
+    notes: notes
+  },
+  function(err, result){
+    callback(err, result);
+  });
+};
+
+//update notes of a patient
+module.export.updateValues = function(patientID, notes, callback){
+  connection.query('UPDATE patient SET notes=:notes WHERE patientID=:id',
+  {
+    id: patientID,
+    notes: notes
   },
   function(err, result){
     callback(err, result);

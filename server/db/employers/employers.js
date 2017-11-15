@@ -43,3 +43,15 @@ module.export.insertEmployer = function(employerID, name, callback){
       callback(err, result);
     });
 }
+
+//update values of a employer
+module.export.updateValues = function(employerID, name, callback){
+  connection.query('UPDATE employer SET name=:name WHERE employerID=:id',
+  {
+    id: employerID,
+    name: name
+  },
+  function(err, result){
+    callback(err, result);
+  });
+};

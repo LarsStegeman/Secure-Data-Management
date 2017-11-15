@@ -77,3 +77,16 @@ module.export.newDoctor = function(doctorID, hospitalID, callback){
     callback(err, result);
   });
 };
+
+
+//update values of a hospital
+module.export.updateValues = function(hospitalID, name, callback){
+  connection.query('UPDATE hospital SET name=:name WHERE hospitalID=:id',
+  {
+    id: hospitalID,
+    name: name
+  },
+  function(err, result){
+    callback(err, result);
+  });
+};

@@ -43,3 +43,16 @@ module.export.insertInsurance = function(insuranceID, name, address, callback){
       callback(err, result);
     });
 }
+
+//update values of a insurance
+module.export.updateValues = function(insuranceID, name, callback){
+  connection.query('UPDATE insurance SET name=:name, address=:address WHERE insuranceID=:id',
+  {
+    id: insuranceID,
+    name: name,
+    address: address
+  },
+  function(err, result){
+    callback(err, result);
+  });
+};

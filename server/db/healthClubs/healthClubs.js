@@ -43,3 +43,15 @@ module.export.insertClub = function(clubID, name, callback){
       callback(err, result);
     });
 }
+
+//update values of a healthclub
+module.export.updateValues = function(clubID, name, callback){
+  connection.query('UPDATE healthclub SET name=:name WHERE clubID=:id',
+  {
+    id: clubID,
+    name: name
+  },
+  function(err, result){
+    callback(err, result);
+  });
+};
