@@ -1,14 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
   <head>
     <meta charset="UTF-8">
     <title>Client</title>
+    <link href="vendor/bootstrap.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
   </head>
   <body>
-    <h1>Patient Health System</h1>
-		<div class="container">
-		  <a href="setup.html">Key setup</a>
-  	</div>
-		<!--<script src="index.js"></script> -->
+    <h1 style="text-align:center;">Patient Health System</h1>
+    <br />
+    <br />
+    <div class="container">
+      <form class="form-signin">
+        <h4 class="form-signin-heading">Please set your entity type and ID</h4>
+        <br />
+        <div class="form-group" style="margin: 5px 0 15px 0;">
+          <label for="entityType">Entity Type</label>
+          <select class="custom-select form-control" id="entityType" required="required">
+            <option value="" selected>Choose your entity type...</option>
+            <option value="patient">Patient</option>
+            <option value="doctor">Doctor</option>
+            <option value="hospital">Hospital</option>
+            <option value="healthclub">Health Club</option>
+            <option value="insurance">Insurance</option>
+            <option value="employer">Employer</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:30px;">
+          <label for="entityID">ID</label>
+          <input type="number" class="form-control" id="entityID" placeholder="Your ID" required="required">
+        </div>
+          <button class="btn btn-lg btn-primary btn-block" id="submitEntity" type="submit">Proceed</button>
+      </form>
+    </div>
+    <script type="text/javascript" src="vendor/jquery.js"></script>
+    <script type="text/javascript" src="vendor/bootstrap.js"></script>
+		<script src="js/index.js"></script>
 	</body>
 </html>

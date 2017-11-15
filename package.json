@@ -5,13 +5,14 @@
   "window": {
     "show": true,
     "position": "center",
-    "width": 500,
-    "height": 500
+    "width": 800,
+    "height": 800
   },
   "main": "/client/index.html",
   "scripts": {
     "client": "nw .",
     "server": "node ./server/main.js",
+    "build": "node build.js",
     "db.create": "cd server/db && mysql -u root -p -e \"drop database if exists PatientHealthData;create database PatientHealthData;\"",
     "db.tables": "cd server/db && mysql -u root -p PatientHealthData < PatientHealthData.sql",
     "sudo.db.create": "cd server/db && sudo mysql -u root -e \"drop database if exists PatientHealthData;create database PatientHealthData;\"",
@@ -21,9 +22,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.1",
     "mysql": "^2.15.0",
     "node-cp-abe": "0.0.6",
-    "nw": "^0.26.3",
+    "nw": "^0.26.6",
     "nw-gyp": "^3.6.2",
     "path": "^0.12.7"
   }
