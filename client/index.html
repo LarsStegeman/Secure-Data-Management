@@ -17,21 +17,21 @@
         <br />
         <div class="form-group" style="margin: 5px 0 15px 0;">
           <label for="entityType">Entity Type</label>
-          <select class="custom-select form-control" id="entityType">
-            <option selected>Choose your entity type...</option>
-            <option value="1">Patient</option>
-            <option value="2">Doctor</option>
-            <option value="3">Hospital</option>
-            <option value="3">Health Club</option>
-            <option value="3">Insurance</option>
-            <option value="3">Employer</option>
+          <select class="custom-select form-control" id="entityType" required="required">
+            <option value="" selected>Choose your entity type...</option>
+            <option value="patient">Patient</option>
+            <option value="doctor">Doctor</option>
+            <option value="hospital">Hospital</option>
+            <option value="healthclub">Health Club</option>
+            <option value="insurance">Insurance</option>
+            <option value="employer">Employer</option>
           </select>
         </div>
         <div class="form-group" style="margin-bottom:30px;">
-          <label for="ownID">ID</label>
-          <input type="number" class="form-control" id="ownID" placeholder="Your ID">
+          <label for="entityID">ID</label>
+          <input type="number" class="form-control" id="entityID" placeholder="Your ID" required="required">
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Proceed</button>
+          <button class="btn btn-lg btn-primary btn-block" id="submitEntity" type="submit">Proceed</button>
       </form>
     </div>
     <script type="text/javascript" src="vendor/jquery.js"></script>
