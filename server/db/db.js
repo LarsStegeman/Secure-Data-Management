@@ -8,7 +8,10 @@ let connection = mysql.createConnection({
 });
 
 connection.connect(function(err) {
-    if (err) throw err;
+    if (err){
+      console.log("Connection error");
+      throw err;
+    }
 });
 
 module.exports = connection;
