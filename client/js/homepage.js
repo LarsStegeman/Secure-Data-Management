@@ -24,22 +24,26 @@ document.getElementById("navbar-user").innerHTML = entityType + " " + entityID;
 switch(entityType){
   case "patient":
     document.getElementById("nav-patient").classList.add("active");
+    httpGetAsync("http://localhost:8080/patient/" + entityID, function(response){printPatient(response)});
     break;
   case "doctor":
     document.getElementById("nav-doctor").classList.add("active");
     break;
   case "hospital":
     document.getElementById("nav-hospital").classList.add("active");
-    httpGetAsync("localhost:8080/hospital/"+entityID, function(response){printHospital(response)});
+    httpGetAsync("http://localhost:8080/hospital/" + entityID, function(response){printNameAddress(response)});
     break;
   case "healthclub":
     document.getElementById("nav-healthclub").classList.add("active");
+    httpGetAsync("http://localhost:8080/healthclub/" + entityID, function(response){printNameAddress(response)});
     break;
   case "employer":
     document.getElementById("nav-employer").classList.add("active");
+    httpGetAsync("http://localhost:8080/employer/" + entityID, function(response){printNameAddress(response)});
     break;
   case "insurance":
     document.getElementById("nav-insurance").classList.add("active");
+    httpGetAsync("http://localhost:8080/insurance/" + entityID, function(response){printNameAddress(response)});
     break;
   default:
     console.log(entityType);
@@ -52,18 +56,29 @@ document.getElementById("nav-changeuser").onmousedown = function() {
 
 function httpGetAsync(theUrl, callback)
 {
-    console.log(theUrl);
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
-      callback(xmlHttp.responseText);
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-            callback(xmlHttp.responseText);
+      if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
+        callback(xmlHttp.responseText);
+      }
     }
-
     xmlHttp.open("GET", theUrl, true); // true for asynchronous
-    xmlHttp.send(null);
+    xmlHttp.send();
 }
 
-function printHospital(response){
+function printNameAddress(response){
   console.log(response);
+  response = JSON.parse(response);
+  document.getElementById("content").innerHTML = "<p>Name: " + response[0]['name']['data'] + "</p>" + "<p>Address: " + response[0]['address']['data'] + "</p>";
+}
+
+function printPatient(response){
+  console.log(response);
+  response = JSON.parse(response);
+  document.getElementById("content").innerHTML = "<p>Name: " + response[0]['name']['data']
+  + "</p>" + "<p>Address: " + response[0]['address']['data'] + "</p>"
+  + "</p>" + "<p>birthDate: " + response[0]['birthDate']['data'] + "</p>"
+  + "</p>" + "<p>bloodGroup: " + response[0]['bloodGroup']['data'] + "</p>"
+  + "</p>" + "<p>mobileNumber: " + response[0]['mobileNumber']['data'] + "</p>"
+  + "</p>" + "<p>gender: " + response[0]['gender']['data'] + "</p>";
 }
