@@ -1,4 +1,4 @@
-# SDM - Health Records System
+# SDM - Patient Health Records System
 
 ### Requirements
 - NodeJS (I would recommend v9.0.0) and NPM
@@ -46,12 +46,25 @@ or the server
 $ npm run server
 ```
 
-If versions mismatch when using nw use this: 
+### Server REST API
+
+When running the server, you can reach it at localhost:8080
+
+The current working routes are:
+- localhost:8080/hospital/ - Returns all the hospitals IDs
+- localhost:8080/hospital/:id - Returns the data from the hospital with hospitalID = id
+- localhost:8080/patient/ - Returns all the patients IDs
+- localhost:8080/patient/:id - Returns the data from the patient with patientID = id
+
+
+### Troubleshooting
+
+If versions mismatch when using nw use this:
 http://docs.nwjs.io/en/latest/For%20Users/Advanced/Use%20Native%20Node%20Modules/
 
 For more troubleshooting check the Drive
 
-TODO:
+ ### TODO
 - All connection parameters should be in configuration folders (database, server, client).
 Client:
 	- Make it look better.
@@ -64,4 +77,3 @@ Server:
 	- Create keys with given policy.
 	- Handle request messages and return results from database.
 	- Handle update messages and update in database. (Later: add some validation).
-
