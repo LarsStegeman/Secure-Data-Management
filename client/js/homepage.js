@@ -30,7 +30,7 @@ switch(entityType){
     break;
   case "hospital":
     document.getElementById("nav-hospital").classList.add("active");
-    showHospital();
+    httpGetAsync("localhost:8080/hospital/"+entityID, function(response){printHospital(response)});
     break;
   case "healthclub":
     document.getElementById("nav-healthclub").classList.add("active");
@@ -50,12 +50,20 @@ document.getElementById("nav-changeuser").onmousedown = function() {
   window.location.replace("index.html");
 }
 
-function showHospital(){
-  console.log("localhost:8080/hospital/" + entityID);
-  var xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "localhost:8080/hospital/" + entityID, true);
-  xhttp.setRequestHeader("Content-type", "application/json");
-  xhttp.send();
-  var response = JSON.parse(xhttp.responseText);
+function httpGetAsync(theUrl, callback)
+{
+    console.log(theUrl);
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() {
+      callback(xmlHttp.responseText);
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+    }
+
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous
+    xmlHttp.send(null);
+}
+
+function printHospital(response){
   console.log(response);
 }
