@@ -13,11 +13,14 @@ const getParams = query => {
       return params;
     }, { });
 };
+//get type and id of user
 entityType = getParams(window.location.search)["type"];
 entityID = getParams(window.location.search)["id"];
 
+
 document.getElementById("navbar-user").innerHTML = entityType + " " + entityID;
 
+//select active bar based on user
 switch(entityType){
   case "patient":
     document.getElementById("nav-patient").classList.add("active");
@@ -27,6 +30,7 @@ switch(entityType){
     break;
   case "hospital":
     document.getElementById("nav-hospital").classList.add("active");
+    showHospital();
     break;
   case "healthclub":
     document.getElementById("nav-healthclub").classList.add("active");
@@ -41,6 +45,17 @@ switch(entityType){
     console.log(entityType);
 }
 
+//switch user (logout)
 document.getElementById("nav-changeuser").onmousedown = function() {
   window.location.replace("index.html");
+}
+
+function showHospital(){
+  console.log("localhost:8080/hospital/" + entityID);
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "localhost:8080/hospital/" + entityID, true);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send();
+  var response = JSON.parse(xhttp.responseText);
+  console.log(response);
 }
