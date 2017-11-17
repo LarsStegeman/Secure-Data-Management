@@ -15,6 +15,10 @@ $ git clone git@github.com:LarsStegeman/Secure-Data-Management.git
 ```sh
 $ npm install
 ```
+** Recommendation: ** Install nwjs SDK, so you can access Chromium Devtools with F12 while running the client for better debugging
+```sh
+$ npm install nw --nwjs_build_type=sdk
+```
 
 3. Create the database
 ```sh
