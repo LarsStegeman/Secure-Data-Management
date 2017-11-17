@@ -17,12 +17,19 @@ const db = require('./db/db.js');
 
 // Express
 const app = express();
+app.all('/', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+ });
 
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
+// config
+app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 
+/************** ROUTES ***************/
 const index = require('./routes/index'); // API index
 const patient = require('./routes/patient'); // Patient route
 const hospital = require('./routes/hospital'); // Hospital route
@@ -45,78 +52,83 @@ fs.writeFile(path, key);
 fs.readFile(path);
 *******************************************************************/
 
+/************** KEY GENERATION **************/
 function saveKeyToFile(key, filename) {
 	destinyPath = path.join(KEY_DIR, filename);
 	fs.writeFileSync(destinyPath, key);
 }
 
-// keys has public and master key.
-let keys = cpabe.setup();
+// keys.pubkey and keys.mstkey
+const keys = cpabe.setup();
 
 // Save public key file
 saveKeyToFile(keys.pubkey, "pubkey");
 
-// Create other keys
-let patient1 = cpabe.keygen(keys.pubkey, keys.mstkey, ["patient = 1"]);
-let patient2 = cpabe.keygen(keys.pubkey, keys.mstkey, ["patient = 2"]);
 
-saveKeyToFile(patient1, "patient1skey");
-saveKeyToFile(patient2, "patient2skey");
-
-// Plain text message.
-let name = 'hospital 1 name';
-let address = 'hospital 1 address';
-
-// Encrypt message.
-let enc_name = cpabe.encryptMessage(keys.pubkey, 'patient=1', new Buffer(name));
-let enc_address = cpabe.encryptMessage(keys.pubkey, 'patient=1', new Buffer(address));
-console.log("encrypted data");
-
-
-// catch 404 and forward to error handler
+// Catch 404 error and forward to error handler
 app.use(function(req, res, next) {
   let err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-// error handler
+// Error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = err;
 
   // render the error page
   res.status(err.status || 500);
   res.render('error');
 });
 
-module.exports = app;
+// Start server
 app.listen(8080, function () {
-    console.log('Node app is running on port 8080');
+    console.log('SDM-PHR server is running on port 8080 (localhost)');
 });
 
+/****************** FOR TESTS ONLIY ******************/
+function testEncryption() {
+	// Create other keys
+	let patient1 = cpabe.keygen(keys.pubkey, keys.mstkey, ["patient = 1"]);
+	let patient2 = cpabe.keygen(keys.pubkey, keys.mstkey, ["patient = 2"]);
 
+	saveKeyToFile(patient1, "patient1skey");
+	saveKeyToFile(patient2, "patient2skey");
 
-// Store in database (Hospital table)
-/*
-let query = db.query('INSERT INTO hospital SET ?', {name: enc_name, address: enc_address}, function (error, results, fields) {
-  if (error) throw error;
-  console.log("Inserted Hospital ID: " + results.insertId);
-	/*
-	// Read from database (Hospital table)
-	query = db.query('SELECT * FROM hospital', function (error, results, fields) {
+	// Plain text message.
+	let name = 'hospital 1 name';
+	let address = 'hospital 1 address';
+
+	// Encrypt message.
+	let enc_name = cpabe.encryptMessage(keys.pubkey, 'patient=1', new Buffer(name));
+	let enc_address = cpabe.encryptMessage(keys.pubkey, 'patient=1', new Buffer(address));
+	console.log("encrypted data");
+}
+
+function testStorageAndDecryption() {
+	// STORE in database (Hospital table)
+	let query = db.query('INSERT INTO hospital SET ?', {name: enc_name, address: enc_address}, function (error, results, fields) {
 	  if (error) throw error;
+	  console.log("Inserted Hospital ID: " + results.insertId);
 
-		//decryption
-		try {
-			let decrypted = cpabe.decryptMessage(keys.pubkey, patient1, results[0].name);
-			console.log("decrypted: " + decrypted.toString());
-		} catch (e) {
-			console.log(e);
-		}
+		// READ from database (Hospital table)
+		query = db.query('SELECT * FROM hospital', function (error, results, fields) {
+		  if (error) throw error;
+
+			//decryption
+			try {
+				let decrypted = cpabe.decryptMessage(keys.pubkey, patient1, results[0].name);
+				console.log("decrypted: " + decrypted.toString());
+			} catch (e) {
+				console.log(e);
+			}
+		});
+		console.log("Executed: " + query.sql);
 	});
 	console.log("Executed: " + query.sql);
-});
-console.log("Executed: " + query.sql);
-*/
+}
+
+// TESTS
+testEncryption();
+// testStorageAndDecryption(); // Can only insert once before resetting or specifying ID
