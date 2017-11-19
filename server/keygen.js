@@ -30,7 +30,7 @@ function testEncryption(identity, id) {
   // Create other keys
 	let key = cpabe.keygen(pubkey, mstkey, [policy]);
 
-	saveKeyToFile(key, ""+identity+id+"key");
+	saveKeyToFile(key, ""+identity+id+".key");
 
 	// Plain text message.
 	let name = 'hospital 1 name';
