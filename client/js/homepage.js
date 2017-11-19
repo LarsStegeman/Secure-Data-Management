@@ -28,6 +28,7 @@ switch(entityType){
     break;
   case "doctor":
     document.getElementById("nav-doctor").classList.add("active");
+    httpGetAsync("http://localhost:8080/doctor/" + entityID, function(response){printDoctor(response)});
     break;
   case "hospital":
     document.getElementById("nav-hospital").classList.add("active");
@@ -69,16 +70,27 @@ function httpGetAsync(theUrl, callback)
 function printNameAddress(response){
   console.log(response);
   response = JSON.parse(response);
-  document.getElementById("content").innerHTML = "<p>Name: " + response[0]['name']['data'] + "</p>" + "<p>Address: " + response[0]['address']['data'] + "</p>";
+  document.getElementById("content").innerHTML = "<dl clas='dl-horizontal'><dt>Name</dt><dd>" + response[0]['name']['data'] + "</dd>" + "<dt>Address</dt><dd> " + response[0]['address']['data'] + "</dd>";
 }
 
 function printPatient(response){
   console.log(response);
   response = JSON.parse(response);
-  document.getElementById("content").innerHTML = "<p>Name: " + response[0]['name']['data']
-  + "</p>" + "<p>Address: " + response[0]['address']['data'] + "</p>"
-  + "</p>" + "<p>birthDate: " + response[0]['birthDate']['data'] + "</p>"
-  + "</p>" + "<p>bloodGroup: " + response[0]['bloodGroup']['data'] + "</p>"
-  + "</p>" + "<p>mobileNumber: " + response[0]['mobileNumber']['data'] + "</p>"
-  + "</p>" + "<p>gender: " + response[0]['gender']['data'] + "</p>";
+  document.getElementById("content").innerHTML = "<dl class='dl-horizontal'><dt>Name</dt><dd>" + response[0]['name']['data']
+  + "</dd>" + "<dt>Address</dt><dd> " + response[0]['address']['data'] + "</dd>"
+  + "<dt>birthDate</dt><dd> " + response[0]['birthDate']['data'] + "</dd>"
+  + "<dt>bloodGroup</dt><dd> " + response[0]['bloodGroup']['data'] + "</dd>"
+  + "<dt>mobileNumber</dt><dd> " + response[0]['mobileNumber']['data'] + "</dd>"
+  + "<dt>gender</dt><dd> " + response[0]['gender']['data'] + "</dd>"
+  + "</dl>";
+}
+
+function printDoctor(response){
+  console.log(response);
+  response = JSON.parse(response);
+  document.getElementById("content").innerHTML = "<dl class='dl-horizontal'><dt>Name</dt><dd>" + response[0]['name']['data']
+  + "</dd>" + "<dt>Address</dt><dd> " + response[0]['address']['data'] + "</dd>"
+  + "<dt>Birth Date</dt><dd> " + response[0]['birthDate']['data'] + "</dd>"
+  + "<dt>Mobile Number</dt><dd> " + response[0]['mobileNum']['data'] + "</dd>"
+  + "</dl>";
 }
