@@ -4,9 +4,9 @@ var router = express.Router();
 // MySQL DB
 const db = require('../db/db.js');
 
-// GET all patients IDs
+// GET all doctos IDs
 router.get('/', function(req, res, next) {
-  db.query('SELECT patientID from patient', function (error, results, fields) {
+  db.query('SELECT doctorID from doctor', function (error, results, fields) {
     if(error){
       console.log(error);
       // Error 500
@@ -17,13 +17,13 @@ router.get('/', function(req, res, next) {
   	});
 });
 
-// Get single patient
+// Get a single doctor
 router.get('/:id', function (req, res) {
-  let patientID = req.params.id;
-  if (!patientID) {
-    res.status(400).send({ error: 'Please provide patientID' });
+  let doctorID = req.params.id;
+  if (!doctorID) {
+    return res.status(400).send({ error: true, message: 'Please provide doctorID' });
   }
-  db.query('select * from patient where patientID=?', [patientID], function (error, results, fields) {
+  db.query('select * from hospital where doctorID=?', [doctorID], function (error, results, fields) {
     if(error){
       console.log(error);
       // Error 500
@@ -34,11 +34,11 @@ router.get('/:id', function (req, res) {
 	});
 });
 
-/* POST patient */
+/* POST doctor */
 router.post('/', function (req, res) {
     let params = req.body;
     console.log(params);
-    db.query("INSERT INTO patient SET ? ", params, function (error, results, fields) {
+    db.query("INSERT INTO doctor SET ?", params, function (error, results, fields) {
       if(error){
         console.log(error);
         // Error 500
@@ -49,13 +49,13 @@ router.post('/', function (req, res) {
     });
 });
 
-/* PUT patient */
-// If the body's request includes the patientID, this can change the patientID in the DB
+/* PUT doctor */
+// If the body's request includes the doctorID, this can change the doctorID in the DB
 router.put('/:id', function (req, res) {
-    let patientID = req.params.id;
+    let doctorID = req.params.id;
     let params = req.body;
     console.log(params);
-    db.query("UPDATE patient SET ? WHERE patientID = ?", [params, patientID], function (error, results, fields) {
+    db.query("UPDATE doctor SET ? WHERE doctorID = ?", [params, doctorID], function (error, results, fields) {
       if(error){
         console.log(error);
         // Error 500
@@ -66,13 +66,13 @@ router.put('/:id', function (req, res) {
     });
 });
 
-/* DELETE patient */
+/* DELETE doctor */
 router.delete('/:id', function (req, res) {
-  let patientID = req.params.id;
-  if (!patientID) {
-    return res.status(400).send({ error: true, message: 'Please provide patientID' });
+  let doctorID = req.params.id;
+  if (!doctorID) {
+    return res.status(400).send({ error: true, message: 'Please provide doctorID' });
   }
-  db.query('DELETE FROM patient WHERE patientID=?', [patientID], function (error, results, fields) {
+  db.query('DELETE FROM doctor WHERE doctorID=?', [doctorID], function (error, results, fields) {
     if(error){
       console.log(error);
       // Error 500
