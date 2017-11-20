@@ -51,11 +51,30 @@ $ npm run server
 When running the server, you can reach it at localhost:8080
 
 The current working routes are:
-- localhost:8080/hospital/ - Returns all the hospitals IDs
-- localhost:8080/hospital/:id - Returns the data from the hospital with hospitalID = id
-- localhost:8080/patient/ - Returns all the patients IDs
-- localhost:8080/patient/:id - Returns the data from the patient with patientID = id
-
+* GET:
+    * http://localhost:8080/hospital/ - Returns all the hospitals IDs
+    * http://localhost:8080/hospital/:id - Returns the data from the hospital with hospitalID = id
+    * http://localhost:8080/patient/ - Returns all the patients IDs
+    * http://localhost:8080/patient/:id - Returns the data from the patient with patientID = id
+    * http://localhost:8080/doctor/ - Returns all the doctors IDs
+    * http://localhost:8080/doctor/:id - Returns the data from the doctor with doctorID = id
+    * http://localhost:8080/healthclub/ - Returns all the healthclubs IDs
+    * http://localhost:8080/healthclub/:id - Returns the data from the healthclub with clubID = id
+* POST:
+    * http://localhost:8080/patient
+    * http://localhost:8080/doctor
+    * http://localhost:8080/hospital
+    * http://localhost:8080/healthclub
+* PUT:
+    * http://localhost:8080/patient/:id
+    * http://localhost:8080/doctor/:id
+    * http://localhost:8080/hospital/:id
+    * http://localhost:8080/healthclub/:id
+* DELETE:
+    * http://localhost:8080/patient/:id
+    * http://localhost:8080/doctor/:id
+    * http://localhost:8080/hospital/:id
+    * http://localhost:8080/healthclub/:id
 
 ### Troubleshooting
 
