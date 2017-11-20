@@ -24,7 +24,8 @@ document.getElementById("navbar-user").innerHTML = entityType + " " + entityID;
 switch(entityType){
   case "patient":
     document.getElementById("nav-patient").classList.add("active");
-    httpGetAsync("http://localhost:8080/patient/" + entityID, function(response){printPatient(response)});
+    window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
+    //httpGetAsync("http://localhost:8080/patient/" + entityID, function(response){printPatient(response)});
     break;
   case "doctor":
     document.getElementById("nav-doctor").classList.add("active");
@@ -78,11 +79,16 @@ function printPatient(response){
   response = JSON.parse(response);
   document.getElementById("content").innerHTML = "<dl class='dl-horizontal'><dt>Name</dt><dd>" + response[0]['name']['data']
   + "</dd>" + "<dt>Address</dt><dd> " + response[0]['address']['data'] + "</dd>"
-  + "<dt>birthDate</dt><dd> " + response[0]['birthDate']['data'] + "</dd>"
-  + "<dt>bloodGroup</dt><dd> " + response[0]['bloodGroup']['data'] + "</dd>"
-  + "<dt>mobileNumber</dt><dd> " + response[0]['mobileNumber']['data'] + "</dd>"
-  + "<dt>gender</dt><dd> " + response[0]['gender']['data'] + "</dd>"
-  + "</dl>";
+  + "<dt>Birth Date</dt><dd> " + response[0]['birthDate']['data'] + "</dd>"
+  + "<dt>Blood Group</dt><dd> " + response[0]['bloodGroup']['data'] + "</dd>"
+  + "<dt>Mobile Number</dt><dd> " + response[0]['mobileNumber']['data'] + "</dd>"
+  + "<dt>Gender</dt><dd> " + response[0]['gender']['data'] + "</dd>"
+  + "<dt>Health Data</dt><dd> " + response[0]['notes'] + "</dd>"
+  + "</dl>"
+  + "<form id='addNotesForm'>"
+  + "<label>Add Health Data</label><br><input type='text' id='dataInput'>"
+  + "<br><button id='addNote' onClick='addData(document.getElementById("+'dataInput'+").value)'>Add Health Data</button>"
+  + "</form>";
 }
 
 function printDoctor(response){
@@ -93,4 +99,12 @@ function printDoctor(response){
   + "<dt>Birth Date</dt><dd> " + response[0]['birthDate']['data'] + "</dd>"
   + "<dt>Mobile Number</dt><dd> " + response[0]['mobileNum']['data'] + "</dd>"
   + "</dl>";
+}
+
+function addData(data){
+  console.log("data:");
+  console.log(data);
+  if(entityType && entityID) {
+    window.location.reload();
+  }
 }
