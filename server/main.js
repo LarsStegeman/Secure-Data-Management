@@ -66,7 +66,8 @@ function saveKeyToFile(key, filename) {
 const keys = cpabe.setup();
 
 // Save public key file
-saveKeyToFile(keys.pubkey, "pubkey");
+saveKeyToFile(keys.pubkey, "pubkey.key");
+saveKeyToFile(keys.mstkey, "mstkey.key");
 
 
 // Catch 404 error and forward to error handler
@@ -96,8 +97,8 @@ function testEncryption() {
 	let patient1 = cpabe.keygen(keys.pubkey, keys.mstkey, ["patient = 1"]);
 	let patient2 = cpabe.keygen(keys.pubkey, keys.mstkey, ["patient = 2"]);
 
-	saveKeyToFile(patient1, "patient1skey");
-	saveKeyToFile(patient2, "patient2skey");
+	saveKeyToFile(patient1, "patient1skey.key");
+	saveKeyToFile(patient2, "patient2skey.key");
 
 	// Plain text message.
 	let name = 'hospital 1 name';
