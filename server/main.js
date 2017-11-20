@@ -33,10 +33,14 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 const index = require('./routes/index'); // API index
 const patient = require('./routes/patient'); // Patient route
 const hospital = require('./routes/hospital'); // Hospital route
+const doctor = require('./routes/doctor'); // Doctor route
+const healthclub = require('./routes/healthclub'); // Health Club route
 
 app.use('/', index);
 app.use('/patient', patient);
 app.use('/hospital', hospital);
+app.use('/doctor', doctor);
+app.use('/healthclub', healthclub);
 
 /****************** NOTES FOR (UN)SERIALIZING KEYS ****************
 WONT WORK: "TypeError: Second argument must be a Buffer of private key"
@@ -79,7 +83,6 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
 });
 
 // Start server
