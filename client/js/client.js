@@ -21,3 +21,23 @@ module.exports.httpPostAsync = function(theUrl, data, callback)
     xmlHttp.open("POST", theUrl, true); // true for asynchronous
     xmlHttp.send(data);
 }
+
+module.exports.httpPutAsync = function(theUrl, data, callback)
+{
+    var json = JSON.stringify(data);
+    console.log("json");
+    console.log(json);
+    var params = JSON.stringify({ notes: data });
+    console.log("params");
+    console.log(params);
+    var xmlHttp = new XMLHttpRequest();
+
+    xmlHttp.open("PUT", theUrl, true); // true for asynchronous
+    xmlHttp.setRequestHeader("Content-type", "application/json; charset=utf-8");
+    xmlHttp.onreadystatechange = function() {
+      if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
+        callback(xmlHttp.responseText);
+      }
+    }
+    xmlHttp.send(params);
+}
