@@ -65,16 +65,16 @@ document.getElementById("decryptButton").onmousedown = function(){
   console.log(string);
   var buff = new Buffer(string);
   console.log(buff);
-  var name = "tobias o mal cheiroso";
+  var name = "patientname";
 
 
-  crypto.encrypt(entityType, entityID, name, function(enc){
-    console.log(enc);
-    crypto.decrypt(entityType, entityID, buff, function(decrypted){
-      console.log(decrypted);
-      document.getElementById('patientName').innerHTML = decrypted;
-    });
-  })
+  //crypto.encrypt(entityType, entityID, name, function(enc){
+    //console.log(enc);
+  //})
+  crypto.decrypt(entityType, entityID, value, function(decrypted){
+    console.log(decrypted);
+    document.getElementById('patientName').innerHTML = decrypted;
+  });
 /*
   buff = new Buffer(name);
   console.log("buffer");
