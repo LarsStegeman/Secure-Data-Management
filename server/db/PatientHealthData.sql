@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS `patientinsurance`;
 DROP TABLE IF EXISTS `doctorhospital`;
 
 CREATE TABLE `patient` (
-  `patientID` int(11) NOT NULL,
+  `patientID` int(11) NOT NULL AUTO_INCREMENT,
   `name` BLOB NOT NULL,
   `address` BLOB NOT NULL,
   `birthDate` BLOB NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE `patient` (
 );
 
 CREATE TABLE `doctor` (
-  `doctorID` int(11) NOT NULL,
+  `doctorID` int(11) NOT NULL AUTO_INCREMENT,
   `name` BLOB NOT NULL,
   `birthDate` BLOB NOT NULL,
   `address` BLOB NOT NULL,
@@ -33,28 +33,28 @@ CREATE TABLE `doctor` (
 );
 
 CREATE TABLE `hospital` (
-  `hospitalID` int(11) NOT NULL,
+  `hospitalID` int(11) NOT NULL AUTO_INCREMENT,
   `name` BLOB NOT NULL,
   `address` BLOB NOT NULL,
   PRIMARY KEY (`hospitalID`)
 );
 
 CREATE TABLE `healthclub` (
-  `clubID` int(11) NOT NULL,
+  `clubID` int(11) NOT NULL AUTO_INCREMENT,
   `name` BLOB NOT NULL,
   `address` BLOB NOT NULL,
   PRIMARY KEY (`clubID`)
 );
 
 CREATE TABLE `employer` (
-  `employerID` int(11) NOT NULL,
+  `employerID` int(11) NOT NULL AUTO_INCREMENT,
   `name` BLOB NOT NULL,
   `address` BLOB NOT NULL,
   PRIMARY KEY (`employerID`)
 );
 
 CREATE TABLE `insurance` (
-  `insuranceID` int(11) NOT NULL,
+  `insuranceID` int(11) NOT NULL AUTO_INCREMENT,
   `name` BLOB NOT NULL,
   `address` BLOB NOT NULL,
   PRIMARY KEY (`insuranceID`)
