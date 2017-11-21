@@ -2,8 +2,8 @@ const fs = require("fs");
 const path = require("path");
 
 const KEY_DIR = path.join("client", "keys");
-const PUBLIC_KEY_NAME = path.join(KEY_DIR, "pubkey");
-const PRIVATE_KEY_NAME = path.join(KEY_DIR, "privkey");
+const PUBLIC_KEY_NAME = path.join(KEY_DIR, "pubkey.key");
+const PRIVATE_KEY_NAME = path.join(KEY_DIR, "privkey.key");
 
 // Creates the directory if it doesn't exist
 if (!fs.existsSync(KEY_DIR)){

@@ -28,7 +28,7 @@ CREATE TABLE `doctor` (
   `name` BLOB NOT NULL,
   `birthDate` BLOB NOT NULL,
   `address` BLOB NOT NULL,
-  `mobileNum` BLOB NOT NULL,
+  `mobileNumber` BLOB NOT NULL,
   PRIMARY KEY (`doctorID`)
 );
 
