@@ -1,4 +1,4 @@
-module.exports.httpGetAsync = function(theUrl, callback)
+function httpGetAsync(theUrl, callback)
 {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
@@ -10,7 +10,7 @@ module.exports.httpGetAsync = function(theUrl, callback)
     xmlHttp.send();
 }
 
-module.exports.httpPostAsync = function(theUrl, data, callback)
+function httpPostAsync(theUrl, data, callback)
 {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
@@ -22,7 +22,7 @@ module.exports.httpPostAsync = function(theUrl, data, callback)
     xmlHttp.send(data);
 }
 
-module.exports.httpPutAsync = function(theUrl, data, callback)
+function httpPutAsync(theUrl, data, callback)
 {
     var json = JSON.stringify(data);
     console.log("json");
@@ -41,3 +41,7 @@ module.exports.httpPutAsync = function(theUrl, data, callback)
     }
     xmlHttp.send(params);
 }
+
+module.exports.httpGetAsync = httpGetAsync;
+module.exports.httpPostAsync = httpPostAsync;
+module.exports.httpPutAsync = httpPutAsync;

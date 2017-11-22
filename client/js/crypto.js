@@ -3,6 +3,22 @@ const fs = require('fs');
 const path = require("path");
 
 const KEY_DIR = path.join(__dirname, "../keys");
+const PUBLIC_KEY_NAME = "pubkey.key";
+const PRIVATE_KEY_NAME = "privkey.key";
+
+// Creates the directory if it doesn't exist
+if (!fs.existsSync(KEY_DIR)){
+	fs.mkdirSync(KEY_DIR);
+}
+
+async function copyKeyFile(sourcePath, filename) {
+	destinyPath = path.join(KEY_DIR, filename);
+  console.log(destinyPath);
+	return await fs.copyFile(sourcePath, destinyPath, (err) => {
+    if (err) throw err;
+    console.log(sourcePath + " was copied successfully");
+  });
+}
 
 function getKeyFromFile(filename){
   destinyPath = path.join(KEY_DIR, filename);
@@ -10,21 +26,29 @@ function getKeyFromFile(filename){
   return fs.readFileSync(destinyPath);
 }
 
-module.exports.decrypt = function(identity, id, value, callback) {
-  var pubkey = getKeyFromFile("pubkey.key")
-  var privkey = getKeyFromFile("privkey.key")
-  var policy = "" + identity + " = " + id;
+function encrypt(identity, id, value, callback) {
+  let pubkey = getKeyFromFile(PUBLIC_KEY_NAME);
+  let policy = "" + identity + " = " + id;
+  let enc_value = cpabe.encryptMessage(pubkey, policy, new Buffer(value));
+
+  console.log("encrypted" + enc_value);
+  callback(enc_value);
+}
+
+function decrypt(identity, id, value, callback) {
+  let pubkey = getKeyFromFile(PUBLIC_KEY_NAME);
+  let privkey = getKeyFromFile(PRIVATE_KEY_NAME);
+  let policy = "" + identity + " = " + id;
 
   let decrypted = cpabe.decryptMessage(pubkey, privkey, value);
   console.log("decrypted" + decrypted);
   callback(decrypted);
 }
 
-module.exports.encrypt = function(identity, id, value, callback) {
-  var pubkey = getKeyFromFile("pubkey.key")
-  var policy = "" + identity + " = " + id;
-  let enc_value = cpabe.encryptMessage(pubkey, policy, new Buffer(value));
-
-  console.log("encrypted" + enc_value);
-  callback(enc_value);
-}
+module.exports.KEY_DIR = KEY_DIR;
+module.exports.PUBLIC_KEY_NAME = PUBLIC_KEY_NAME;
+module.exports.PRIVATE_KEY_NAME = PRIVATE_KEY_NAME;
+module.exports.copyKeyFile = copyKeyFile;
+module.exports.getKeyFromFile = getKeyFromFile;
+module.exports.encrypt = encrypt;
+module.exports.decrypt = decrypt;
