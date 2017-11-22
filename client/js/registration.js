@@ -1,6 +1,5 @@
 const fs = require("fs");
 const path = require("path");
-const toastr = require("toastr");
 
 const crypto = require('./js/crypto.js');
 const client = require('./js/client.js');
