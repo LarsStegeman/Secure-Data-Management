@@ -3,6 +3,8 @@ const router = express.Router();
 
 // MySQL DB
 const db = require('../db/db.js');
+// Crypto/key related
+const crypto = require('../crypto.js');
 
 // GET next insurance ID
 // RETURNS string with integer value of next ID
@@ -28,7 +30,7 @@ router.post('/', function (req, res) {
         // Error 500
         res.status(500).send({ error: error });
       } else {
-        console.log("POST successful");
+        crypto.keygen("insurance", results.insertId);
         res.send(results);
       }
     });
