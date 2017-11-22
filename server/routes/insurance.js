@@ -22,9 +22,6 @@ router.get('/next', function(req, res, next) {
 /* POST insurance */
 router.post('/', function (req, res) {
     let params = req.body;
-    console.log(req.body);
-    console.log(req.params);
-    console.log(req.query);
     db.query("INSERT INTO insurance SET ?", params, function (error, results, fields) {
       if(error){
         console.log(error);

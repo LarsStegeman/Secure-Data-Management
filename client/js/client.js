@@ -19,7 +19,7 @@ function httpPostAsync(theUrl, data, callback)
     console.log(jsonData);
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.open("POST", theUrl, true); // true for asynchronous
-    xmlHttp.setRequestHeader("Content-type", "application/json;");
+    xmlHttp.setRequestHeader("Content-type", "application/json");
     xmlHttp.onreadystatechange = function() {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
         callback(xmlHttp.responseText);
@@ -37,7 +37,7 @@ function httpPutAsync(theUrl, data, callback)
     let xmlHttp = new XMLHttpRequest();
 
     xmlHttp.open("PUT", theUrl, true); // true for asynchronous
-    xmlHttp.setRequestHeader("Content-type", "application/json;");
+    xmlHttp.setRequestHeader("Content-type", "application/json");
     xmlHttp.onreadystatechange = function() {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
         callback(xmlHttp.responseText);

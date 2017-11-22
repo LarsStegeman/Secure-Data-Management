@@ -14,7 +14,7 @@ function setEntity(result) {
     switch(entity) {
       case "patient":
         document.getElementById("formNumber").setAttribute("style", "display: block;"); // Shows number
-        document.getElementById("number").setAttribute("required", "required"); // Number required
+        document.getElementById("mobilenumber").setAttribute("required", "required"); // Number required
         document.getElementById("formBirthdate").setAttribute("style", "display: block;"); // Shows birth date
         document.getElementById("birthdate").setAttribute("required", "required"); // Birth date required
         document.getElementById("formGender").setAttribute("style", "display: block;"); // Shows gender
@@ -24,7 +24,7 @@ function setEntity(result) {
         break;
       case "doctor":
         document.getElementById("formNumber").setAttribute("style", "display: block;"); // Shows number
-        document.getElementById("number").setAttribute("required", "required"); // Number required
+        document.getElementById("mobilenumber").setAttribute("required", "required"); // Number required
         document.getElementById("formBirthdate").setAttribute("style", "display: block;"); // Shows birth date
         document.getElementById("birthdate").setAttribute("required", "required"); // Birth date required
         document.getElementById("formGender").setAttribute("style", "display: none;"); // Hides gender
@@ -34,7 +34,7 @@ function setEntity(result) {
         break;
       default:
         document.getElementById("formNumber").setAttribute("style", "display: none;"); // Hides number
-        document.getElementById("number").removeAttribute("required"); // Number not required
+        document.getElementById("mobilenumber").removeAttribute("required"); // Number not required
         document.getElementById("formBirthdate").setAttribute("style", "display: none;"); // Hides birth date
         document.getElementById("birthdate").removeAttribute("required"); // Birth date not required
         document.getElementById("formGender").setAttribute("style", "display: none;"); // Hides gender
@@ -46,6 +46,36 @@ function setEntity(result) {
   } else {
     document.getElementById("registrationForm").setAttribute("style", "display: none;"); // Hides the whole form
   }
+}
+
+function getRadioVal(form, name) {
+    var val;
+    // get list of radio buttons with specified name
+    var radios = form.elements[name];
+
+    // loop through list of radio buttons
+    for (var i=0, len=radios.length; i<len; i++) {
+        if ( radios[i].checked ) { // radio checked?
+            val = radios[i].value; // if so, hold its value in val
+            break; // and break out of for loop
+        }
+    }
+    return val; // return value of checked radio or undefined if none checked
+}
+
+// http://www.dyn-web.com/tutorials/forms/radio/get-selected.php
+function getRadioVal(form, name) {
+    var val;
+    // get list of radio buttons with specified name
+    var radios = form.elements[name];
+    // loop through list of radio buttons
+    for (var i=0, len=radios.length; i<len; i++) {
+        if ( radios[i].checked ) { // radio checked?
+            val = radios[i].value; // if so, hold its value in val
+            break; // and break out of for loop
+        }
+    }
+    return val; // return value of checked radio or undefined if none checked
 }
 
 function getValueAndEncrypt(attribute, type, id) {
@@ -73,16 +103,18 @@ document.getElementById("registBtn").onmousedown = function() {
     // Address encryption
     encryptedEntity.address = getValueAndEncrypt("address", type, nextID);
 
-    let number, birthdate, gender, blood, healthNotes = "";
+    let mobilenumber, birthdate, gender, blood, healthNotes = "";
     if (type == "patient" || type == "doctor") {
-      encryptedEntity.number = getValueAndEncrypt("number", type, nextID);
+      encryptedEntity.mobilenumber = getValueAndEncrypt("mobilenumber", type, nextID);
       encryptedEntity.birthdate = getValueAndEncrypt("birthdate", type, nextID);
       if (type == "patient") {
-        encryptedEntity.gender = getValueAndEncrypt("gender", type, nextID);
+        let gender = getRadioVal( document.getElementById('registrationForm'), 'gender' );
+        encryptedEntity.gender = crypto.encrypt(type, nextID, gender);
         encryptedEntity.bloodgroup = getValueAndEncrypt("bloodgroup", type, nextID);
         encryptedEntity.notes = getValueAndEncrypt("notes", type, nextID);
       }
     }
+    console.log(encryptedEntity);
     client.httpPostAsync(client.SERVER_URL + type, encryptedEntity, console.log);
   });
 };
