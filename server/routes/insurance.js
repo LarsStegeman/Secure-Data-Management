@@ -24,7 +24,7 @@ router.get('/next', function(req, res, next) {
 /* POST insurance */
 router.post('/', function (req, res) {
     let params = req.body;
-    db.query("INSERT INTO insurance SET ?", params, function (error, results, fields) {
+    db.query("INSERT INTO insurance SET ?", {name: "\""+params.name.data+"\"", address: "\""+params.address.data+"\""}, function (error, results, fields) {
       if(error){
         console.log(error);
         // Error 500
