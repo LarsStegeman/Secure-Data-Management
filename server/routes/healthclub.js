@@ -3,6 +3,8 @@ const router = express.Router();
 
 // MySQL DB
 const db = require('../db/db.js');
+// Crypto/key related
+const crypto = require('../crypto.js');
 
 // GET all health clubs IDs
 router.get('/', function(req, res, next) {
@@ -59,6 +61,7 @@ router.post('/', function (req, res) {
         // Error 500
         res.status(500).send({ error: error });
       } else {
+        crypto.keygen("healthclub", results.insertId);
         res.send(results);
       }
     });

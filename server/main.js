@@ -1,19 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser'); // to support JSON-encoded bodies
-const cpabe = require("node-cp-abe");
-const fs = require('fs');
-const path = require("path");
-
-// Directory to save key files
-const KEY_DIR = path.join(__dirname, "keys");
-
-// Creates the directory if it doesn't exist
-if (!fs.existsSync(KEY_DIR)){
-	fs.mkdirSync(KEY_DIR);
-}
 
 // MySQL DB
 const db = require('./db/db.js');
+// Crypto/key related
+const crypto = require('./crypto.js');
 
 // Express
 const app = express();
@@ -60,18 +51,13 @@ fs.writeFile(path, key);
 fs.readFile(path);
 *******************************************************************/
 
-/************** KEY GENERATION **************/
-function saveKeyToFile(key, filename) {
-	destinyPath = path.join(KEY_DIR, filename);
-	fs.writeFileSync(destinyPath, key);
-}
-
 // keys.pubkey and keys.mstkey
-const keys = cpabe.setup();
+const keys = crypto.setup();
 
 // Save public key file
-saveKeyToFile(keys.pubkey, "pubkey.key");
-saveKeyToFile(keys.mstkey, "mstkey.key");
+crypto.checkKeyDirectory();
+crypto.saveKeyToFile(keys.pubkey, crypto.PUBLIC_KEY_NAME);
+crypto.saveKeyToFile(keys.mstkey, crypto.MASTER_KEY_NAME);
 
 
 // Catch 404 error and forward to error handler
@@ -96,6 +82,7 @@ app.listen(8080, function () {
 });
 
 /****************** FOR TESTS ONLIY ******************/
+/*
 function testEncryption() {
 	// Create other keys
 	let patient1 = cpabe.keygen(keys.pubkey, keys.mstkey, ["patient = 1"]);
@@ -140,3 +127,4 @@ function testStorageAndDecryption() {
 // TESTS
 testEncryption();
 // testStorageAndDecryption(); // Can only insert once before resetting or specifying ID
+*/

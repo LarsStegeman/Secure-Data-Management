@@ -3,6 +3,8 @@ const router = express.Router();
 
 // MySQL DB
 const db = require('../db/db.js');
+// Crypto/key related
+const crypto = require('../crypto.js');
 
 // GET all hospitals IDs
 router.get('/', function(req, res, next) {
@@ -52,13 +54,13 @@ router.get('/:id', function (req, res) {
 /* POST hospital */
 router.post('/', function (req, res) {
     let params = req.body;
-    console.log(params);
-    db.query("INSERT INTO hospital SET ?", params, function (error, results, fields) {
+    db.query("INSERT INTO hospital SET ?", {name: "\""+params.name.data+"\"", address: "\""+params.address.data+"\""}, function (error, results, fields) {
       if(error){
         console.log(error);
         // Error 500
         res.status(500).send({ error: error });
       } else {
+        crypto.keygen("hospital", results.insertId);
         res.send(results);
       }
     });

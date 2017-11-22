@@ -6,9 +6,11 @@ const KEY_DIR = path.join(__dirname, "../keys");
 const PUBLIC_KEY_NAME = "pubkey.key";
 const PRIVATE_KEY_NAME = "privkey.key";
 
-// Creates the directory if it doesn't exist
-if (!fs.existsSync(KEY_DIR)){
-	fs.mkdirSync(KEY_DIR);
+// Creates the key directory if it doesn't exist
+function checkKeyDirectory() {
+	if (!fs.existsSync(KEY_DIR)){
+		fs.mkdirSync(KEY_DIR);
+	}
 }
 
 async function copyKeyFile(sourcePath, filename) {
@@ -45,6 +47,7 @@ function decrypt(identity, id, value) {
 module.exports.KEY_DIR = KEY_DIR;
 module.exports.PUBLIC_KEY_NAME = PUBLIC_KEY_NAME;
 module.exports.PRIVATE_KEY_NAME = PRIVATE_KEY_NAME;
+module.exports.checkKeyDirectory = checkKeyDirectory;
 module.exports.copyKeyFile = copyKeyFile;
 module.exports.getKeyFromFile = getKeyFromFile;
 module.exports.encrypt = encrypt;
