@@ -55,6 +55,8 @@ router.put('/:id', function (req, res) {
     let patientID = req.params.id;
     let params = req.body;
     console.log(params);
+    console.log(patientID);
+
     db.query("UPDATE patient SET ? WHERE patientID = ?", [params, patientID], function (error, results, fields) {
       if(error){
         console.log(error);
@@ -64,6 +66,7 @@ router.put('/:id', function (req, res) {
         res.send(JSON.stringify(results));
       }
     });
+
 });
 
 /* DELETE patient */
