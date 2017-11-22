@@ -51,14 +51,8 @@ fs.writeFile(path, key);
 fs.readFile(path);
 *******************************************************************/
 
-// keys.pubkey and keys.mstkey
-const keys = crypto.setup();
-
-// Save public key file
-crypto.checkKeyDirectory();
-crypto.saveKeyToFile(keys.pubkey, crypto.PUBLIC_KEY_NAME);
-crypto.saveKeyToFile(keys.mstkey, crypto.MASTER_KEY_NAME);
-
+// Generate Master Key and Public Key and save them to file
+crypto.setup();
 
 // Catch 404 error and forward to error handler
 app.use(function(req, res, next) {
@@ -78,7 +72,7 @@ app.use(function(err, req, res, next) {
 
 // Start server
 app.listen(8080, function () {
-    console.log('SDM-PHR server is running on port 8080 (localhost)');
+    console.log('SDM-PHR server is running on port 8080 (http://localhost)');
 });
 
 /****************** FOR TESTS ONLIY ******************/

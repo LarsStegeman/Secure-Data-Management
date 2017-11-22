@@ -68,10 +68,9 @@ document.getElementById("decryptButton").onmousedown = function(){
     });
   });
   */
-  crypto.decrypt(entityType, entityID, buff, function(decrypted){
-    console.log(decrypted);
-    document.getElementById('hospitalName').innerHTML = decrypted;
-  });
+  decrypted = crypto.decrypt(entityType, entityID, buff)
+  console.log(decrypted);
+  document.getElementById('hospitalName').innerHTML = decrypted;
 
 /*
   buff = new Buffer(name);

@@ -23,13 +23,17 @@ router.get('/next', function(req, res, next) {
 
 /* POST insurance */
 router.post('/', function (req, res) {
-    let params = req.body;
-    db.query("INSERT INTO insurance SET ?", {name: "\""+params.name.data+"\"", address: "\""+params.address.data+"\""}, function (error, results, fields) {
+    let params = {
+      name: crypto.ab2str(req.body.name.data),
+      address: crypto.ab2str(req.body.name.data)
+    };
+    db.query("INSERT INTO insurance SET ?", params, function (error, results, fields) {
       if(error){
         console.log(error);
         // Error 500
         res.status(500).send({ error: error });
       } else {
+        console.log("Insurance POST request successful");
         crypto.keygen("insurance", results.insertId);
         res.send(results);
       }
