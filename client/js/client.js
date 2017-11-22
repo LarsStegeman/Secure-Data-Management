@@ -15,8 +15,6 @@ function httpGetAsync(theUrl, callback)
 function httpPostAsync(theUrl, data, callback)
 {
     let jsonData = JSON.stringify(data);
-    console.log("JSON POST:");
-    console.log(jsonData);
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.open("POST", theUrl, true); // true for asynchronous
     xmlHttp.setRequestHeader("Content-type", "application/json");

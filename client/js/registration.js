@@ -114,7 +114,6 @@ document.getElementById("registBtn").onmousedown = function() {
         encryptedEntity.notes = getValueAndEncrypt("notes", type, nextID);
       }
     }
-    console.log(encryptedEntity);
     client.httpPostAsync(client.SERVER_URL + type, encryptedEntity, console.log);
   });
 };

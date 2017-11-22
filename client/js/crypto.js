@@ -15,7 +15,6 @@ function checkKeyDirectory() {
 
 async function copyKeyFile(sourcePath, filename) {
 	destinyPath = path.join(KEY_DIR, filename);
-  console.log(destinyPath);
 	return await fs.copyFile(sourcePath, destinyPath, (err) => {
     if (err) throw err;
     console.log(sourcePath + " was copied successfully");
@@ -24,7 +23,6 @@ async function copyKeyFile(sourcePath, filename) {
 
 function getKeyFromFile(filename){
   destinyPath = path.join(KEY_DIR, filename);
-  console.log(destinyPath);
   return fs.readFileSync(destinyPath);
 }
 
@@ -32,6 +30,8 @@ function encrypt(identity, id, value) {
   let pubkey = getKeyFromFile(PUBLIC_KEY_NAME);
   let policy = "" + identity + " = " + id;
   let enc_value = cpabe.encryptMessage(pubkey, policy, new Buffer(value));
+	console.log("Encrypted successfully:");
+	console.log(Array.apply([], enc_value).join(","))
   return enc_value;
 }
 
