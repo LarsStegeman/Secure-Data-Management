@@ -53,7 +53,7 @@ document.getElementById("decryptButton").onmousedown = function(){
   console.log(buff);
   var name = "patientname";
 
-
+  /**
   crypto.encrypt(entityType, entityID, name, function(enc){
     console.log(enc);
     console.log(enc[0]);
@@ -67,11 +67,12 @@ document.getElementById("decryptButton").onmousedown = function(){
       document.getElementById('hospitalName').innerHTML = decrypted;
     });
   });
-  /*crypto.decrypt(entityType, entityID, value, function(decrypted){
+  */
+  crypto.decrypt(entityType, entityID, buff, function(decrypted){
     console.log(decrypted);
     document.getElementById('hospitalName').innerHTML = decrypted;
   });
-  */
+
 /*
   buff = new Buffer(name);
   console.log("buffer");
