@@ -28,10 +28,7 @@ function httpPostAsync(theUrl, data, callback)
 
 function httpPutAsync(theUrl, data, callback)
 {
-    let json = JSON.stringify(data);
-    let params = JSON.stringify({ notes: data });
-    console.log("params");
-    console.log(params);
+    let params = JSON.stringify(data);
     let xmlHttp = new XMLHttpRequest();
 
     xmlHttp.open("PUT", theUrl, true); // true for asynchronous

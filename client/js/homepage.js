@@ -35,7 +35,8 @@ switch(entityType){
     break;
   case "hospital":
     document.getElementById("nav-hospital").classList.add("active");
-    client.httpGetAsync("http://localhost:8080/hospital/" + entityID, function(response){printNameAddress(response)});
+    window.location.replace("hospital.html?type=" + entityType + "&id=" + entityID);
+    //client.httpGetAsync("http://localhost:8080/hospital/" + entityID, function(response){printNameAddress(response)});
     break;
   case "healthclub":
     document.getElementById("nav-healthclub").classList.add("active");
@@ -47,7 +48,8 @@ switch(entityType){
     break;
   case "insurance":
     document.getElementById("nav-insurance").classList.add("active");
-    client.httpGetAsync("http://localhost:8080/insurance/" + entityID, function(response){printNameAddress(response)});
+    window.location.replace("insurance.html?type=" + entityType + "&id=" + entityID);
+    //client.httpGetAsync("http://localhost:8080/insurance/" + entityID, function(response){printNameAddress(response)});
     break;
   default:
     console.log(entityType);

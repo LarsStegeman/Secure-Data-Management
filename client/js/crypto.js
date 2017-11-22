@@ -27,7 +27,9 @@ function getKeyFromFile(filename){
 }
 
 function encrypt(identity, id, value) {
+	console.log("1")
   let pubkey = getKeyFromFile(PUBLIC_KEY_NAME);
+	console.log("2");
   let policy = "" + identity + " = " + id;
   let enc_value = cpabe.encryptMessage(pubkey, policy, new Buffer(value));
 	console.log("Encrypted successfully:");
@@ -36,8 +38,11 @@ function encrypt(identity, id, value) {
 }
 
 function decrypt(identity, id, value) {
+	console.log("a");
   let pubkey = getKeyFromFile(PUBLIC_KEY_NAME);
-  let privkey = getKeyFromFile(PRIVATE_KEY_NAME);
+	console.log("b");
+	let privkey = getKeyFromFile(PRIVATE_KEY_NAME);
+	console.log("c");
   let policy = "" + identity + " = " + id;
   let decrypted = cpabe.decryptMessage(pubkey, privkey, value);
   console.log("decrypted" + decrypted);

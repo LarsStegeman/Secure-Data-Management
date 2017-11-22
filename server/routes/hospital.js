@@ -46,6 +46,7 @@ router.get('/:id', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
+      console.log(results);
       res.send(results);
     }
 	});
