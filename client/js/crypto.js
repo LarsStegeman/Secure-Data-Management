@@ -26,23 +26,20 @@ function getKeyFromFile(filename){
   return fs.readFileSync(destinyPath);
 }
 
-function encrypt(identity, id, value, callback) {
+function encrypt(identity, id, value) {
   let pubkey = getKeyFromFile(PUBLIC_KEY_NAME);
   let policy = "" + identity + " = " + id;
   let enc_value = cpabe.encryptMessage(pubkey, policy, new Buffer(value));
-
-  console.log("encrypted" + enc_value);
-  callback(enc_value);
+  return enc_value;
 }
 
-function decrypt(identity, id, value, callback) {
+function decrypt(identity, id, value) {
   let pubkey = getKeyFromFile(PUBLIC_KEY_NAME);
   let privkey = getKeyFromFile(PRIVATE_KEY_NAME);
   let policy = "" + identity + " = " + id;
-
   let decrypted = cpabe.decryptMessage(pubkey, privkey, value);
   console.log("decrypted" + decrypted);
-  callback(decrypted);
+  return decrypted;
 }
 
 module.exports.KEY_DIR = KEY_DIR;

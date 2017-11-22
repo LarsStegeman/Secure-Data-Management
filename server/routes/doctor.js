@@ -12,12 +12,13 @@ router.get('/', function(req, res, next) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(JSON.stringify(results));
+      res.send(results);
     }
   	});
 });
 
 // GET next doctor ID
+// RETURNS string with integer value of next ID
 router.get('/next', function(req, res, next) {
   db.query('SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = \'doctor\' AND table_schema = DATABASE( ) ;', function (error, results, fields) {
     if(error){
@@ -25,7 +26,8 @@ router.get('/next', function(req, res, next) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(JSON.stringify(results));
+      let nextID = JSON.stringify(results).match(db.numberPattern)[0];
+      res.send(nextID);
     }
   	});
 });
@@ -42,7 +44,7 @@ router.get('/:id', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(JSON.stringify(results));
+      res.send(results);
     }
 	});
 });
@@ -57,7 +59,7 @@ router.post('/', function (req, res) {
         // Error 500
         res.status(500).send({ error: error });
       } else {
-        res.send(JSON.stringify(results));
+        res.send(results);
       }
     });
 });
@@ -74,7 +76,7 @@ router.put('/:id', function (req, res) {
         // Error 500
         res.status(500).send({ error: error });
       } else {
-        res.send(JSON.stringify(results));
+        res.send(results);
       }
     });
 });
@@ -91,7 +93,7 @@ router.delete('/:id', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(JSON.stringify(results));
+      res.send(results);
     }
 	});
 });

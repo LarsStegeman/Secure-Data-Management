@@ -14,10 +14,10 @@ DROP TABLE IF EXISTS `doctorhospital`;
 CREATE TABLE `patient` (
   `patientID` int(11) NOT NULL AUTO_INCREMENT,
   `name` BLOB NOT NULL,
+  `birthdate` BLOB NOT NULL,
   `address` BLOB NOT NULL,
-  `birthDate` BLOB NOT NULL,
-  `bloodGroup` BLOB NOT NULL,
-  `mobileNumber` BLOB NOT NULL,
+  `mobilenumber` BLOB NOT NULL,
+  `bloodgroup` BLOB NOT NULL,
   `gender` BLOB NOT NULL,
   `notes` BLOB,
   PRIMARY KEY (`patientID`)
@@ -26,9 +26,9 @@ CREATE TABLE `patient` (
 CREATE TABLE `doctor` (
   `doctorID` int(11) NOT NULL AUTO_INCREMENT,
   `name` BLOB NOT NULL,
-  `birthDate` BLOB NOT NULL,
+  `birthdate` BLOB NOT NULL,
   `address` BLOB NOT NULL,
-  `mobileNumber` BLOB NOT NULL,
+  `mobilenumber` BLOB NOT NULL,
   PRIMARY KEY (`doctorID`)
 );
 
@@ -40,10 +40,10 @@ CREATE TABLE `hospital` (
 );
 
 CREATE TABLE `healthclub` (
-  `clubID` int(11) NOT NULL AUTO_INCREMENT,
+  `healthclubID` int(11) NOT NULL AUTO_INCREMENT,
   `name` BLOB NOT NULL,
   `address` BLOB NOT NULL,
-  PRIMARY KEY (`clubID`)
+  PRIMARY KEY (`healthclubID`)
 );
 
 CREATE TABLE `employer` (
@@ -80,12 +80,12 @@ CREATE TABLE `patientemployer` (
 
 CREATE TABLE `patienthealthclub` (
   `patientID` int(11) NOT NULL,
-  `clubID` int(11) NOT NULL,
+  `healthclubID` int(11) NOT NULL,
   `data` BLOB,
-  PRIMARY KEY (`patientID`,`clubID`),
-  KEY `hospital_idx` (`clubID`),
+  PRIMARY KEY (`patientID`,`healthclubID`),
+  KEY `hospital_idx` (`healthclubID`),
   KEY `patient_idx` (`patientID`),
-  CONSTRAINT `club` FOREIGN KEY (`clubID`) REFERENCES `healthclub` (`clubID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `club` FOREIGN KEY (`healthclubID`) REFERENCES `healthclub` (`healthclubID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `patientclub` FOREIGN KEY (`patientID`) REFERENCES `patient` (`patientID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
