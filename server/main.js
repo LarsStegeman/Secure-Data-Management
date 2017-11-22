@@ -35,12 +35,16 @@ const patient = require('./routes/patient'); // Patient route
 const hospital = require('./routes/hospital'); // Hospital route
 const doctor = require('./routes/doctor'); // Doctor route
 const healthclub = require('./routes/healthclub'); // Health Club route
+const insurance = require('./routes/insurance'); // Insurance route
+const employer = require('./routes/employer'); // Employer route
 
 app.use('/', index);
 app.use('/patient', patient);
 app.use('/hospital', hospital);
 app.use('/doctor', doctor);
 app.use('/healthclub', healthclub);
+app.use('/insurance', insurance);
+app.use('/employer', employer);
 
 /****************** NOTES FOR (UN)SERIALIZING KEYS ****************
 WONT WORK: "TypeError: Second argument must be a Buffer of private key"

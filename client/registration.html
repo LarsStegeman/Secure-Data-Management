@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Client</title>
+    <link href="vendor/bootstrap.css" rel="stylesheet">
+  </head>
+  <body>
+    <div style="text-align: left">
+      <a href="index.html" class="btn btn-warning" style="font-weight: bold;">
+        &lt;- Back
+      </a>
+    </div>
+    <div class="container">
+      <div class="form-horizontal">
+        <h2 style="text-align: center">Entity Registration</h2>
+        <br />
+        <div style="text-align: center; font-weight: bold;">
+          Warning: You need to set your public key before registering!
+        </div>
+        <br />
+        <br />
+            <div class="form-group">
+                <label for="type" class="col-sm-3 control-label">Entity Type</label>
+                <div class="col-sm-9">
+                    <select id="type" class="form-control" required="required" autofocus onchange="setEntity(this)">
+                      <option value="" selected>Choose your entity type...</option>
+                      <option value="patient">Patient</option>
+                      <option value="doctor">Doctor</option>
+                      <option value="hospital">Hospital</option>
+                      <option value="healthclub">Health Club</option>
+                      <option value="insurance">Insurance</option>
+                      <option value="employer">Employer</option>
+                    </select>
+                </div>
+            </div>
+      </div>
+            <form class="form-horizontal" role="form" id="registrationForm" style="display: none;">
+                <div class="form-group" id="formName" style="display:none;">
+                    <label for="name" class="col-sm-3 control-label">Full Name</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="name" placeholder="Full Name" class="form-control" required="required">
+                    </div>
+                </div>
+                <div class="form-group" id="formAddress" style="display:none;">
+                    <label for="address" class="col-sm-3 control-label">Address</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="address" placeholder="Address" class="form-control" required="required">
+                    </div>
+                </div>
+                <div class="form-group" id="formNumber" style="display:none;">
+                    <label for="number" class="col-sm-3 control-label">Mobile Number</label>
+                    <div class="col-sm-3">
+                        <input type="number" id="number" class="form-control" placeholder="123456789">
+                    </div>
+                </div>
+                <div class="form-group" id="formBirthdate" style="display:none;">
+                    <label for="birthdate" class="col-sm-3 control-label">Date of Birth</label>
+                    <div class="col-sm-3">
+                        <input type="text" id="birthdate" placeholder="DD-MM-AAAA" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group" id="formGender" style="display:none;">
+                    <label class="control-label col-sm-3">Gender</label>
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label class="radio-inline">
+                                    <input type="radio" name="gender" id="maleRadio" value="male" checked>Male
+                                </label>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="radio-inline">
+                                    <input type="radio" name="gender" id="femaleRadio" value="female">Female
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- /.form-group -->
+                <div class="form-group" id="formBlood" style="display:none;">
+                    <label for="bloodgroup" class="col-sm-3 control-label">Blood type</label>
+                    <div class="col-sm-2">
+                        <input type="text" id="bloodgroup" placeholder="Blood type" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group" id="formHealthNotes" style="display:none;">
+                    <label for="notes" class="col-sm-3 control-label">Personal Health Notes</label>
+                    <div class="col-sm-9">
+                      <textarea name="textarea" rows="10" cols="63" id="notes" placeholder="Write some personal health notes of relevance..."></textarea>
+                    </div>
+                </div>
+                <div class="form-group" id="formButton" style="display:none;">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <button type="button" class="btn btn-primary btn-block" id="registBtn">Register Entity</button>
+                    </div>
+                </div>
+            </form> <!-- /form -->
+        </div> <!-- ./container -->
+    <script type="text/javascript" src="vendor/jquery.js"></script>
+    <script type="text/javascript" src="vendor/bootstrap.js"></script>
+    <script src="js/registration.js"></script>
+  </body>
+</html>

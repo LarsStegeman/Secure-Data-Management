@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="UTF-8">
     <title>Client</title>
+    <link href="vendor/bootstrap.css" rel="stylesheet">
   </head>
-
   <body>
-    <h1>Patient Health System</h1>
+    <div style="text-align: left">
+      <a href="index.html" class="btn btn-warning" style="font-weight: bold;">
+        &lt;- Back
+      </a>
+    </div>
 		<div class="container" style="text-align: center;">
 		  <form>
         <label>Your selected keys will be copied to the "client/keys/" directory</label>
@@ -25,6 +28,8 @@
       	<button type="button" id="setKeys">Set keys</button>
     	</form>
   	</div>
+    <script type="text/javascript" src="vendor/jquery.js"></script>
+    <script type="text/javascript" src="vendor/bootstrap.js"></script>
     <script src="js/setup.js"></script>
-	</body>
+  </body>
 </html>
