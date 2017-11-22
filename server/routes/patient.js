@@ -53,8 +53,15 @@ router.get('/:id', function (req, res) {
 
 /* POST patient */
 router.post('/', function (req, res) {
-    let params = req.body;
-    console.log(params);
+  let params = {
+    name: new Buffer(req.body.name.data, 'binary'),
+    address: new Buffer(req.body.address.data, 'binary'),
+    birthdate: new Buffer(req.body.birthdate.data, 'binary'),
+    mobilenumber: new Buffer(req.body.mobilenumber.data, 'binary'),
+    gender: new Buffer(req.body.gender.data, 'binary'),
+    bloodgroup: new Buffer(req.body.bloodgroup.data, 'binary'),
+    notes: new Buffer(req.body.notes.data, 'binary')
+  };
     db.query("INSERT INTO patient SET ? ", params, function (error, results, fields) {
       if(error){
         console.log(error);

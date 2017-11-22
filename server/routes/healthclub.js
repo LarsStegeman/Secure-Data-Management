@@ -53,8 +53,10 @@ router.get('/:id', function (req, res) {
 
 /* POST health club */
 router.post('/', function (req, res) {
-    let params = req.body;
-    console.log(params);
+    let params = {
+      name: new TextDecoder("utf-8").decode(req.body.name.data),
+      address: new TextDecoder("utf-8").decode(req.body.address.data),
+    };
     db.query("INSERT INTO healthclub SET ?", params, function (error, results, fields) {
       if(error){
         console.log(error);

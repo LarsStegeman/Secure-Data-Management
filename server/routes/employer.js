@@ -23,8 +23,10 @@ router.get('/next', function(req, res, next) {
 
 /* POST employer */
 router.post('/', function (req, res) {
-    let params = req.body;
-    console.log(params);
+    let params = {
+      name: new TextDecoder("utf-8").decode(req.body.name.data),
+      address: new TextDecoder("utf-8").decode(req.body.address.data),
+    };
     db.query("INSERT INTO employer SET ?", params, function (error, results, fields) {
       if(error){
         console.log(error);
