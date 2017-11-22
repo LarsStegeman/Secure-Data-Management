@@ -44,19 +44,12 @@ function keygen(entity, id) {
 		saveKeyToFile(privKey, "" + entity + id + ".key");
 }
 
-// Converts ArrayBuffer to String
-function ab2str(buf) {
-  return String.fromCharCode.apply(null, new Uint16Array(buf));
-}
-
-// Converts String to ArrayBuffer
-function str2ab(str) {
-  var buf = new ArrayBuffer(str.length*2); // 2 bytes for each char
-  var bufView = new Uint16Array(buf);
-  for (var i=0, strLen=str.length; i<strLen; i++) {
-    bufView[i] = str.charCodeAt(i);
+function bin2String(array) {
+  var result = "";
+  for (var i = 0; i < array.length; i++) {
+    result += String.fromCharCode(parseInt(array[i], 2));
   }
-  return buf;
+  return result;
 }
 
 /*module.exports.KEY_DIR = KEY_DIR;
@@ -66,5 +59,3 @@ module.exports.checkKeyDirectory = checkKeyDirectory;
 module.exports.saveKeyToFile = saveKeyToFile;*/
 module.exports.setup = setup;
 module.exports.keygen = keygen;
-module.exports.ab2str = ab2str;
-module.exports.str2ab = str2ab;

@@ -1,7 +1,6 @@
 const client = require('./js/client.js');
 
 // https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
-
 const getParams = query => {
   if (!query) {
     return { };
@@ -15,10 +14,10 @@ const getParams = query => {
       return params;
     }, { });
 };
-//get type and id of user
-entityType = getParams(window.location.search)["type"];
-entityID = getParams(window.location.search)["id"];
 
+//get type and id of user
+const entityType = getParams(window.location.search)["type"];
+const entityID = getParams(window.location.search)["id"];
 
 document.getElementById("navbar-user").innerHTML = entityType + " " + entityID;
 
@@ -27,29 +26,29 @@ switch(entityType){
   case "patient":
     document.getElementById("nav-patient").classList.add("active");
     window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
-    //httpGetAsync("http://localhost:8080/patient/" + entityID, function(response){printPatient(response)});
+    //httpGetAsync(client.SERVER_URL + "patient/" + entityID, function(response){printPatient(response);});
     break;
   case "doctor":
     document.getElementById("nav-doctor").classList.add("active");
-    client.httpGetAsync("http://localhost:8080/doctor/" + entityID, function(response){printDoctor(response)});
+    client.httpGetAsync(client.SERVER_URL + "doctor/" + entityID, function(response){printDoctor(response);});
     break;
   case "hospital":
     document.getElementById("nav-hospital").classList.add("active");
     window.location.replace("hospital.html?type=" + entityType + "&id=" + entityID);
-    //client.httpGetAsync("http://localhost:8080/hospital/" + entityID, function(response){printNameAddress(response)});
+    //client.httpGetAsync(client.SERVER_URL + "hospital/" + entityID, function(response){printNameAddress(response);});
     break;
   case "healthclub":
     document.getElementById("nav-healthclub").classList.add("active");
-    client.httpGetAsync("http://localhost:8080/healthclub/" + entityID, function(response){printNameAddress(response)});
+    client.httpGetAsync(client.SERVER_URL + "healthclub/" + entityID, function(response){printNameAddress(response);});
     break;
   case "employer":
     document.getElementById("nav-employer").classList.add("active");
-    client.httpGetAsync("http://localhost:8080/employer/" + entityID, function(response){printNameAddress(response)});
+    client.httpGetAsync(client.SERVER_URL + "employer/" + entityID, function(response){printNameAddress(response);});
     break;
   case "insurance":
     document.getElementById("nav-insurance").classList.add("active");
     window.location.replace("insurance.html?type=" + entityType + "&id=" + entityID);
-    //client.httpGetAsync("http://localhost:8080/insurance/" + entityID, function(response){printNameAddress(response)});
+    //client.httpGetAsync(client.SERVER_URL + "insurance/" + entityID, function(response){printNameAddress(response)});
     break;
   default:
     console.log(entityType);
@@ -58,7 +57,7 @@ switch(entityType){
 //switch user (logout)
 document.getElementById("nav-changeuser").onmousedown = function() {
   window.location.replace("index.html");
-}
+};
 
 function printNameAddress(response){
   console.log(response);

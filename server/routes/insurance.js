@@ -24,8 +24,8 @@ router.get('/next', function(req, res, next) {
 /* POST insurance */
 router.post('/', function (req, res) {
     let params = {
-      name: crypto.ab2str(req.body.name.data),
-      address: crypto.ab2str(req.body.name.data)
+      name: new TextDecoder("utf-8").decode(req.body.name.data),
+      address: new TextDecoder("utf-8").decode(req.body.address.data),
     };
     db.query("INSERT INTO insurance SET ?", params, function (error, results, fields) {
       if(error){

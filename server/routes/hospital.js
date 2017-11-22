@@ -46,7 +46,6 @@ router.get('/:id', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      console.log(results);
       res.send(results);
     }
 	});
@@ -54,9 +53,10 @@ router.get('/:id', function (req, res) {
 
 /* POST hospital */
 router.post('/', function (req, res) {
+    console.log("POST HOSPITAL RECEIVED");
     let params = {
-      name: crypto.ab2str(req.body.name.data),
-      address: crypto.ab2str(req.body.name.data)
+      name: new Buffer(req.body.name.data, 'binary'),
+      address: new Buffer(req.body.address.data, 'binary')
     };
     db.query("INSERT INTO hospital SET ?", params, function (error, results, fields) {
       if(error){

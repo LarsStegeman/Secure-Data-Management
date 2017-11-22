@@ -21,7 +21,7 @@ entityID = getParams(window.location.search)["id"];
 var userInfo = null;
 
 document.getElementById("nav-hospital").classList.add("active");
-client.httpGetAsync("http://localhost:8080/hospital/" + entityID, function(response){printHospital(response)});
+client.httpGetAsync(client.SERVER_URL + "hospital/" + entityID, function(response){printHospital(response)});
 
 
 function printHospital(response){
@@ -46,39 +46,11 @@ document.getElementById("nav-keys").onmousedown = function(){
 }
 
 document.getElementById("decryptButton").onmousedown = function(){
-  var value = JSON.stringify(userInfo['name']['data']);
-  var string = value.toString('utf8')
-  console.log(string);
-  var buff = new Buffer.from(value);
-  console.log(buff);
-  var name = "patientname";
+  let enc_name = new Buffer(userInfo.name.data, 'binary');
+  let enc_address = new Buffer(userInfo.address.data, 'binary');
 
-  /**
-  crypto.encrypt(entityType, entityID, name, function(enc){
-    console.log(enc);
-    console.log(enc[0]);
-    console.log(enc[1]);
-    console.log(enc[2]);
-    console.log(enc[3]);
-    console.log(enc[4]);
-    console.log(enc['data']);
-    crypto.decrypt(entityType, entityID, enc, function(decrypted){
-      console.log(decrypted);
-      document.getElementById('hospitalName').innerHTML = decrypted;
-    });
-  });
-  */
-  decrypted = crypto.decrypt(entityType, entityID, buff)
-  console.log(decrypted);
-  document.getElementById('hospitalName').innerHTML = decrypted;
-
-/*
-  buff = new Buffer(name);
-  console.log("buffer");
-  console.log(buff);
-  crypto.decrypt(entityType, entityID, buff, function(decrypted){
-    console.log(decrypted);
-    document.getElementById('patientName').innerHTML = decrypted;
-  });
-  */
+  dec_name = crypto.decrypt(entityType, entityID, enc_name);
+  document.getElementById('hospitalName').innerHTML = dec_name;
+  dec_address = crypto.decrypt(entityType, entityID, enc_address);
+  document.getElementById('hospitalAddress').innerHTML = dec_address;
 }
