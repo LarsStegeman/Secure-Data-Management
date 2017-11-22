@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 // MySQL DB
 const db = require('../db/db.js');
@@ -7,6 +7,19 @@ const db = require('../db/db.js');
 // GET all health clubs IDs
 router.get('/', function(req, res, next) {
   db.query('SELECT clubID from healthclub', function (error, results, fields) {
+    if(error){
+      console.log(error);
+      // Error 500
+      res.status(500).send({ error: error });
+    } else {
+      res.send(JSON.stringify(results));
+    }
+  	});
+});
+
+// GET next health club ID
+router.get('/next', function(req, res, next) {
+  db.query('SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = \'healthclub\' AND table_schema = DATABASE( ) ;', function (error, results, fields) {
     if(error){
       console.log(error);
       // Error 500

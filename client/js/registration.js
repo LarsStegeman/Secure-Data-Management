@@ -58,6 +58,7 @@ document.getElementById("registBtn").onmousedown = function() {
     window.location.replace("setup.html");
     return;
   }
+  
   let type = document.getElementById("type").value;
   let name = document.getElementById("name").value;
   let address = document.getElementById("address").value;
