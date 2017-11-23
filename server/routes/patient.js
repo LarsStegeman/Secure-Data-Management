@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
   	});
 });
@@ -30,7 +30,7 @@ router.get('/next', function(req, res, next) {
       res.status(500).send({ error: error });
     } else {
       let nextID = JSON.stringify(results).match(db.numberPattern)[0];
-      res.send(nextID);
+      res.status(200).send(nextID);
     }
   	});
 });
@@ -47,7 +47,7 @@ router.get('/:id', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -58,17 +58,21 @@ router.get('/:id', function (req, res) {
 
 // GET ALL PATIENT ASSOCIATIONS
 router.get('/associations/:id', function (req, res) {
+  console.log("get associations received");
   let patientID = req.params.id;
   if (!patientID) {
     res.status(400).send({ error: 'Please provide patientID' });
   }
-  db.query('SELECT doc.*, hos.*, hc.*, emp.*, ins.* FROM patient pat LEFT JOIN patientdoctor doc ON pat.patientID=doc.patientID LEFT JOIN patienthospital hos ON doc.patientID=hos.patientID LEFT JOIN patienthealthclub hc ON hos.patientID=hc.patientID LEFT JOIN patientemployer emp ON hc.patientID=emp.patientID LEFT JOIN patientinsurance ins ON emp.patientID=ins.patientID WHERE pat.patientID=?', [patientID], function (error, results, fields) {
+  let query = 'SELECT doc.*, hos.*, hc.*, emp.*, ins.* FROM patient pat LEFT OUTER JOIN patientdoctor doc USING (patientID) LEFT OUTER JOIN patienthospital hos USING (patientID) LEFT OUTER JOIN patienthealthclub hc USING (patientID) LEFT OUTER JOIN patientemployer emp USING (patientID) LEFT OUTER JOIN patientinsurance ins USING (patientID) WHERE pat.patientID=?';
+  db.query(query, [patientID], function (error, results, fields) {
     if(error){
       console.log(error);
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      console.log("get associations successfully");
+      console.log(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -86,7 +90,7 @@ router.get('/hospital/:hospitalid', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -113,7 +117,7 @@ router.post('/:id/hospital/:hospitalid', function (req, res) {
       res.status(500).send({ error: error });
     } else {
       console.log("POST SUCCESSFUL: New patient-hospital association");
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -136,7 +140,7 @@ router.put('/:id/hospital/:hospitalid', function (req, res) {
         res.status(500).send({ error: error });
       } else {
         console.log("PUT SUCCESS: Edited patient-hospital notes");
-        res.send(results);
+        res.status(200).send(results);
       }
     });
 });
@@ -154,7 +158,7 @@ router.delete('/:id/hospital/:hospitalid', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -172,7 +176,7 @@ router.get('/healthclub/:healthclubid', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -199,7 +203,7 @@ router.post('/:id/healthclub/:healthclubid', function (req, res) {
       res.status(500).send({ error: error });
     } else {
       console.log("POST SUCCESSFUL: New patient-healthclub association");
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -222,7 +226,7 @@ router.put('/:id/healthclub/:healthclubid', function (req, res) {
         res.status(500).send({ error: error });
       } else {
         console.log("PUT SUCCESS: Edited patient-healthclub notes");
-        res.send(results);
+        res.status(200).send(results);
       }
     });
 });
@@ -240,7 +244,7 @@ router.delete('/:id/healthclub/:healthclubid', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -258,7 +262,7 @@ router.get('/doctor/:doctorid', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -282,7 +286,7 @@ router.post('/:id/doctor/:doctorid', function (req, res) {
       res.status(500).send({ error: error });
     } else {
       console.log("POST SUCCESSFUL: New patient-doctor association");
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -300,7 +304,7 @@ router.delete('/:id/doctor/:doctorid', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -318,7 +322,7 @@ router.get('/employer/:employerid', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -342,7 +346,7 @@ router.post('/:id/employer/:employerid', function (req, res) {
       res.status(500).send({ error: error });
     } else {
       console.log("POST SUCCESSFUL: New patient-employer association");
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -360,7 +364,7 @@ router.delete('/:id/employer/:employerid', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -378,7 +382,7 @@ router.get('/insurance/:insuranceid', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -402,7 +406,7 @@ router.post('/:id/insurance/:insuranceid', function (req, res) {
       res.status(500).send({ error: error });
     } else {
       console.log("POST SUCCESSFUL: New patient-insurance association");
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -420,7 +424,7 @@ router.delete('/:id/insurance/:insuranceid', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -447,7 +451,7 @@ router.post('/', function (req, res) {
       } else {
         console.log("POST SUCCESS: New patient");
         crypto.keygen("patient", results.insertId);
-        res.send(results);
+        res.status(200).send(results);
       }
     });
 });
@@ -475,7 +479,7 @@ router.put('/:id', function (req, res) {
         res.status(500).send({ error: error });
       } else {
         console.log("PUT SUCCESS: Edited whole patient");
-        res.send(results);
+        res.status(200).send(results);
       }
     });
 });
@@ -497,7 +501,7 @@ router.put('/notes/:id', function (req, res) {
         res.status(500).send({ error: error });
       } else {
         console.log("PUT SUCCESS: Edited patient notes");
-        res.send(results);
+        res.status(200).send(results);
       }
     });
 });
@@ -514,7 +518,7 @@ router.delete('/:id', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
