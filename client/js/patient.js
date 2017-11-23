@@ -54,11 +54,11 @@ document.getElementById("addNote").onmousedown = function(){
   encryptedEntity.notes = final_enc;
   // console.log(entityType + " final " + entityID);
 
-  window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
-  client.httpPutAsync(client.SERVER_URL + "patient/" + entityID, encryptedEntity, function(response){
+  //window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
+  client.httpPutAsync(client.SERVER_URL + "patient/notes/" + entityID, encryptedEntity, function(response){
     console.log(response);
     //console.log(entityType + " after put " + entityID);
-    window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
+    //window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
   });
 }
 
@@ -79,13 +79,28 @@ document.getElementById('relation-insert-button').onmousedown = function(){
     //console.log("after post");
     console.log(response);
     relation.getPatientRelations(entityType, entityID, function(relations){
-      var enc = relation.updatePolicies(entityID, userInfo, relations);
+      relations = JSON.parse(relations);
+      var policy = relation.getPolicy(entityID, relations);
+      console.log(userInfo);
+      var newCypher = new Object();
+      newCypher.name = crypto.encryptPolicy(policy, crypto.decrypt(entityType, entityID, new Buffer(userInfo.name.data, 'binary')));
+      newCypher.address = crypto.encryptPolicy(policy, crypto.decrypt(entityType, entityID, new Buffer(userInfo.address.data, 'binary')));
+      newCypher.bloodgroup = crypto.encryptPolicy(policy, crypto.decrypt(entityType, entityID, new Buffer(userInfo.bloodgroup.data, 'binary')));
+      newCypher.birthdate = crypto.encryptPolicy(policy, crypto.decrypt(entityType, entityID, new Buffer(userInfo.birthdate.data, 'binary')));
+      newCypher.mobilenumber = crypto.encryptPolicy(policy, crypto.decrypt(entityType, entityID, new Buffer(userInfo.mobilenumber.data, 'binary')));
+      newCypher.gender = crypto.encryptPolicy(policy, crypto.decrypt(entityType, entityID, new Buffer(userInfo.gender.data, 'binary')));
+      newCypher.notes = crypto.encryptPolicy(policy, crypto.decrypt(entityType, entityID, new Buffer(userInfo.notes.data, 'binary')));
+
       console.log("final data");
-      console.log(enc);
+      console.log(policy);
+      console.log(newCypher);
+      client.httpPutAsync(client.SERVER_URL + 'patient/' + entityID, newCypher, function(result){
+        console.log(result);
+      });
     });
-    window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
+    //window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
   });
-  window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
+  //window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
 };
 
 document.getElementById("decryptButton").onmousedown = function(){
@@ -114,9 +129,9 @@ document.getElementById("decryptButton").onmousedown = function(){
   document.getElementById('patientGender').innerHTML = dec_gender;
   let dec_notes = crypto.decrypt(entityType, entityID, enc_notes);
   document.getElementById('patientNotes').innerHTML = dec_notes;
-  document.getElementById('addNotesForm').innerHTML = '<label>Add Health Data</label>'
+  document.getElementById('addNotesDiv').innerHTML = '<label>Add Health Data</label>'
   + '<br><input type="text" id="dataInput">'
-  + '<br><input id="addNote" type="button">Add Health Data</input>';
+  + '<br>';
 
   document.getElementById('relation-insert').innerHTML = '<form id="relation-form">'
   + '<select id="inputEntity">'
@@ -129,5 +144,6 @@ document.getElementById("decryptButton").onmousedown = function(){
   + '<input type="number" id="inputID">'
   + '</form>';
 
+  document.getElementById('addNote').style.display = 'block';
   document.getElementById('relation-insert-button').style.display = 'block';
 };

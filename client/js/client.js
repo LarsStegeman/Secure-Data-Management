@@ -8,8 +8,9 @@ function httpGetAsync(theUrl, callback)
         callback(xmlHttp.responseText);
       }
       else{
+        console.log("get state = " + xmlHttp.readyState);
         console.log("get status = " + xmlHttp.status);
-        console.log(xmlHttp.responseText);
+        //console.log(xmlHttp.responseText);
       }
     };
     xmlHttp.open("GET", theUrl, true); // true for asynchronous
@@ -36,10 +37,10 @@ function httpPostAsync(theUrl, data, callback)
         console.log("d");
         callback(xmlHttp.responseText);
       }
-      if(xmlHttp.status == 0){
+      else{
+        console.log("post request state = " + xmlHttp.readyState);
         console.log("post request code = " + xmlHttp.status);
         //console.log(xmlHttp.responseText);
-        callback(null);
       }
     };
 }

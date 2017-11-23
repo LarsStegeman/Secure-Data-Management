@@ -32,15 +32,17 @@ function encrypt(identity, id, value) {
   let policy = "" + identity + " = " + id;
   let enc_value = cpabe.encryptMessage(pubkey, policy, new Buffer(value));
 	console.log("Encrypted successfully:");
-	console.log(Array.apply([], enc_value).join(","))
+	//console.log(Array.apply([], enc_value).join(","))
   return enc_value;
 }
 
-function encryptPolicy(identity, id, policy, value) {
-  let pubkey = getKeyFromFile(PUBLIC_KEY_NAME);
+function encryptPolicy(policy, value) {
+	console.log("encryptPolicy");
+	let pubkey = getKeyFromFile(PUBLIC_KEY_NAME);
+	console.log("pibkey");
   let enc_value = cpabe.encryptMessage(pubkey, policy, new Buffer(value));
 	console.log("Encrypted successfully:");
-	console.log(Array.apply([], enc_value).join(","))
+	//console.log(Array.apply([], enc_value).join(","))
   return enc_value;
 }
 
@@ -62,4 +64,5 @@ module.exports.checkKeyDirectory = checkKeyDirectory;
 module.exports.copyKeyFile = copyKeyFile;
 module.exports.getKeyFromFile = getKeyFromFile;
 module.exports.encrypt = encrypt;
+module.exports.encryptPolicy = encryptPolicy;
 module.exports.decrypt = decrypt;
