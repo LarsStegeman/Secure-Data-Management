@@ -1,0 +1,57 @@
+body {
+  background-color: #eee;
+}
+
+h2{
+  margin-top: 30px;
+  margin-left: 30px;
+  margin-bottom: 30px;
+}
+.dl-horizontal{
+  margin-left:30px;
+  background-color:;
+}
+
+.dl-horizontal dt{
+  font-style: normal;
+  text-align: left;
+  padding: 6px;
+  background-color: #ffffff;
+}
+
+.dl-horizontal dd{
+  font-style: normal;
+  text-align: left;
+  padding: 6px;
+}
+
+
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+
+#addNotesForm{
+  margin-left:30px;
+  width: 600px;
+}
+
+#decryptButton{
+  margin-left:30px;
+  margin-top:30px;
+}
+
+#relation-insert-button{
+  margin-left:30px;
+}
+#relation-form{
+  margin-left:30px;
+  width: 600px;
+}
+#inputID{
+    margin-left:10px;
+}

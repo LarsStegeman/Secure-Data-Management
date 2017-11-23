@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <title>Client</title>
     <link href="vendor/bootstrap.css" rel="stylesheet">
+    <link href="css/patient.css" rel="stylesheet">
   </head>
   <body>
     <nav class="navbar navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a id="navbar-user" class="navbar-brand" href="#">WebSiteName</a>
+          <a id="navbar-user" class="navbar-brand" href="#">Patient</a>
         </div>
         <ul class="nav navbar-nav">
           <li id="nav-patient"><a href="#">Patient</a></li>
@@ -27,6 +28,7 @@
       </div>
     </nav>
     <div id="content">
+      <h2 style=="text-align:center;">Personal Health Data</h2>
       <dl class='dl-horizontal'>
         <dt>Name</dt><dd id='patientName'></dd>
         <dt>Address</dt><dd id='patientAddress'></dd>
@@ -36,15 +38,12 @@
         <dt>Gender</dt><dd id="patientGender"></dd>
         <dt>Health Data</dt><dd id="patientNotes"></dd>
       </dl>
-      <form id='addNotesForm'>
-        <label>Add Health Data</label>
-        <br><input type='text' id='dataInput'>
-        <br><button id='addNote' type='button'>Add Health Data</button>
-      </form>
+      <div id='addNotesDiv'></div>
+      <input id="addNote" type="button" style="display: none;" value="Add Health Data">
       <div id="messages"></div>
-      <button id="decryptButton">Decrypt</button>
+      <input type="button" id="decryptButton" value="Decrypt">
       <div id="relation-insert"></div>
-      <button id="relation-insert-button" style="display: none;">Add Relation</button>
+      <input type="button" id="relation-insert-button" style="display: none;" value="Add Relation">
     </div>
     <script type="text/javascript" src="vendor/jquery.js"></script>
     <script type="text/javascript" src="vendor/bootstrap.js"></script>
