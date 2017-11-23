@@ -29,9 +29,9 @@ function printPatient(response){
   userInfo = response[0];
   document.getElementById("patientName").innerHTML = response[0]['name']['data'];
   document.getElementById("patientAddress").innerHTML = response[0]['address']['data'];
-  document.getElementById("patientBirth").innerHTML = response[0]['birthDate']['data'];
-  document.getElementById("patientBlood").innerHTML = response[0]['bloodGroup']['data'];
-  document.getElementById("patientNumber").innerHTML = response[0]['mobileNumber']['data'];
+  document.getElementById("patientBirth").innerHTML = response[0]['birthdate']['data'];
+  document.getElementById("patientBlood").innerHTML = response[0]['bloodgroup']['data'];
+  document.getElementById("patientNumber").innerHTML = response[0]['mobilenumber']['data'];
   document.getElementById("patientGender").innerHTML = response[0]['gender']['data'];
   if (response[0]['notes'])
     document.getElementById("patientNotes").innerHTML = response[0]['notes']['data'];
@@ -59,6 +59,7 @@ document.getElementById("nav-keys").onmousedown = function(){
 };
 
 document.getElementById("decryptButton").onmousedown = function(){
+
   let enc_name = new Buffer(userInfo.name.data, 'binary');
   let enc_address = new Buffer(userInfo.address.data, 'binary');
   let enc_birthdate = new Buffer(userInfo.birthdate.data, 'binary');
@@ -67,12 +68,14 @@ document.getElementById("decryptButton").onmousedown = function(){
   let enc_gender = new Buffer(userInfo.gender.data, 'binary');
   let enc_notes = new Buffer(userInfo.notes.data, 'binary');
 
+  document.getElementById('messages').innerHTML = 'wrong key';
   let dec_name = crypto.decrypt(entityType, entityID, enc_name);
   document.getElementById('patientName').innerHTML = dec_name;
+  document.getElementById('messages').innerHTML = '';
   let dec_address = crypto.decrypt(entityType, entityID, enc_address);
   document.getElementById('patientAddress').innerHTML = dec_address;
   let dec_birthdate = crypto.decrypt(entityType, entityID, enc_birthdate);
-  document.getElementById('patientBirthdate').innerHTML = dec_birthdate;
+  document.getElementById('patientBirth').innerHTML = dec_birthdate;
   let dec_mobilenumber = crypto.decrypt(entityType, entityID, enc_mobilenumber);
   document.getElementById('patientNumber').innerHTML = dec_mobilenumber;
   let dec_bloodgroup = crypto.decrypt(entityType, entityID, enc_bloodgroup);

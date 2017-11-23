@@ -40,7 +40,7 @@ router.get('/:id', function (req, res) {
   if (!doctorID) {
     return res.status(400).send({ error: true, message: 'Please provide doctorID' });
   }
-  db.query('select * from hospital where doctorID=?', [doctorID], function (error, results, fields) {
+  db.query('select * from doctor where doctorID=?', [doctorID], function (error, results, fields) {
     if(error){
       console.log(error);
       // Error 500
