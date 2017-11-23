@@ -36,7 +36,7 @@ function encrypt(identity, id, value) {
   return enc_value;
 }
 
-function encrypt(identity, id, policy, value) {
+function encryptPolicy(identity, id, policy, value) {
   let pubkey = getKeyFromFile(PUBLIC_KEY_NAME);
   let enc_value = cpabe.encryptMessage(pubkey, policy, new Buffer(value));
 	console.log("Encrypted successfully:");

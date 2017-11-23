@@ -1,5 +1,6 @@
 const client = require('./js/client.js');
 const crypto = require('./js/crypto.js');
+const relation = require('./js/relation.js');
 
 var userInfo;
 
@@ -25,7 +26,7 @@ client.httpGetAsync(client.SERVER_URL + "patient/" + entityID, function(response
 
 
 function printPatient(response){
-  console.log(response);
+  //console.log(response);
   response = JSON.parse(response);
   userInfo = response[0];
   document.getElementById("patientName").innerHTML = response[0]['name']['data'];
@@ -77,6 +78,11 @@ document.getElementById('relation-insert-button').onmousedown = function(){
   client.httpPostAsync(client.SERVER_URL + 'patient/' + entityID + '/' + entity + '/'+ id, null, function(response){
     console.log("after post");
     console.log(response);
+    relation.getPatientRelations(entityType, entityID, function(relations){
+      var enc = relation.updatePolicies(entityID, userInfo, relations);
+      console.log("final data");
+      console.log(enc);
+    });
     window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
   });
   window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
