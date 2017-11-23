@@ -63,7 +63,7 @@ router.get('/associations/:id', function (req, res) {
   if (!patientID) {
     res.status(400).send({ error: 'Please provide patientID' });
   }
-  let query = 'SELECT doc.*, hos.*, hc.*, emp.*, ins.* FROM patient pat LEFT JOIN patientdoctor doc ON pat.patientID=doc.patientID LEFT JOIN patienthospital hos ON doc.patientID=hos.patientID LEFT JOIN patienthealthclub hc ON hos.patientID=hc.patientID LEFT JOIN patientemployer emp ON hc.patientID=emp.patientID LEFT JOIN patientinsurance ins ON emp.patientID=ins.patientID WHERE pat.patientID=?'
+  let query = 'SELECT doc.*, hos.*, hc.*, emp.*, ins.* FROM patient pat LEFT OUTER JOIN patientdoctor doc USING (patientID) LEFT OUTER JOIN patienthospital hos USING (patientID) LEFT OUTER JOIN patienthealthclub hc USING (patientID) LEFT OUTER JOIN patientemployer emp USING (patientID) LEFT OUTER JOIN patientinsurance ins USING (patientID) WHERE pat.patientID=?';
   db.query(query, [patientID], function (error, results, fields) {
     if(error){
       console.log(error);
