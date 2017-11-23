@@ -58,7 +58,7 @@ document.getElementById("addNote").onmousedown = function(){
   client.httpPutAsync(client.SERVER_URL + "patient/notes/" + entityID, encryptedEntity, function(response){
     console.log(response);
     //console.log(entityType + " after put " + entityID);
-    //window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
+    window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
   });
 }
 
@@ -96,6 +96,7 @@ document.getElementById('relation-insert-button').onmousedown = function(){
       console.log(newCypher);
       client.httpPutAsync(client.SERVER_URL + 'patient/' + entityID, newCypher, function(result){
         console.log(result);
+        window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
       });
     });
     //window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
