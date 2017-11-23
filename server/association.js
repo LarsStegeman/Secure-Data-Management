@@ -35,7 +35,7 @@ let employerParams = {
 
 let insuranceParams = {
   "patientID": patientID,
-  "employerID": entityID
+  "insuranceID": entityID
 };
 
 let params = {};
@@ -74,11 +74,13 @@ db.query("INSERT INTO patient" + entityType + " SET ?", params, function (error,
   if(error){
     console.log(error);
   } else {
-    db.query('SELECT * from patient WHERE patientID=?', [patientID], function (error, results, fields) {
+    // SELECT pat.*, doc.doctorID, hos.hospitalID, hc.healthclubID, emp.employerID, ins.insuranceID FROM patient pat, patientdoctor doc, patienthospital hos, patienthealthclub hc, patientemployer emp, patientinsurance ins WHERE pat.patientID=? OR doc.patientID=? OR hos.patientID=? OR hc.patientID=? OR emp.patientID=? OR ins.patientID=?
+    db.query('SELECT * FROM patient pat INNER JOIN patientdoctor doc ON doc.patientID=pat.patientID INNER JOIN patienthospital hos ON hos.patientID=pat.patientID INNER JOIN patienthealthclub hc ON hc.patientID=pat.patientID INNER JOIN patientemployer emp ON emp.patientID=pat.patientID INNER JOIN patientinsurance ins ON ins.patientID=pat.patientID WHERE pat.patientID=?', [patientID], function (error, results, fields) {
       if(error){
         console.log(error);
       } else {
-        switch (entityType) {
+        console.log(results);
+        /*switch (entityType) {
           case "doctor" :
 
             break;
@@ -97,8 +99,8 @@ db.query("INSERT INTO patient" + entityType + " SET ?", params, function (error,
           default:
             console.log("The entity type must be \"doctor\", \"hospital\", \"healthclub\", \"employer\", \"insurance\"");
             process.exit(-1);
-        }
+        }*/
       }
-    	});
+    });
   }
 });
