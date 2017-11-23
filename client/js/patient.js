@@ -18,6 +18,7 @@ const getParams = query => {
 };
 entityType = getParams(window.location.search)["type"];
 entityID = getParams(window.location.search)["id"];
+console.log(entityType + " " + entityID);
 
 document.getElementById("nav-patient").classList.add("active");
 client.httpGetAsync(client.SERVER_URL + "patient/" + entityID, function(response){printPatient(response);});
@@ -39,14 +40,21 @@ function printPatient(response){
 
 //add Data to notes of a patient
 //by now it's only replacing notes with data, but we need to append it to the notes. Maybe decrypting, append and encrypt again.
-function addData(data){
+document.getElementById("addNote").onmousedown = function(){
+  var data = document.getElementById('dataInput').value;
+  let enc_notes = new Buffer(userInfo.notes.data, 'binary');
+  var dec_notes = crypto.decrypt(entityType, entityID, enc_notes);
+  dec_notes = dec_notes + "/n" + data;
+  console.log(dec_notes);
+  let final_enc = crypto.encrypt(entityType, entityID, dec_notes);
+  let encryptedEntity = {};
+  // Name encryption
+  encryptedEntity.notes = final_enc;
 
-  client.httpPutAsync(client.SERVER_URL + "patient/" + entityID, data, function(response){
+  client.httpPutAsync(client.SERVER_URL + "patient/" + entityID, encryptedEntity, function(response){
     console.log(response);
-  });
-  if(entityType && entityID) {
     window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
-  }
+  });
 }
 
 //switch user (logout)
