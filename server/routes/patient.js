@@ -63,7 +63,7 @@ router.get('/associations/:id', function (req, res) {
   if (!patientID) {
     res.status(400).send({ error: 'Please provide patientID' });
   }
-  let query = 'SELECT doc.*, hos.*, hc.*, emp.*, ins.* FROM patient pat LEFT JOIN patientdoctor doc ON pat.patientID=doc.patientID LEFT JOIN patienthospital hos ON doc.patientID=hos.patientID LEFT JOIN patienthealthclub hc ON hos.patientID=hc.patientID LEFT JOIN patientemployer emp ON hc.patientID=emp.patientID LEFT JOIN patientinsurance ins ON emp.patientID=ins.patientID WHERE pat.patientID=?'
+  let query = 'SELECT doc.*, hos.*, hc.*, emp.*, ins.* FROM patient pat LEFT OUTER JOIN patientdoctor doc USING (patientID) LEFT OUTER JOIN patienthospital hos USING (patientID) LEFT OUTER JOIN patienthealthclub hc USING (patientID) LEFT OUTER JOIN patientemployer emp USING (patientID) LEFT OUTER JOIN patientinsurance ins USING (patientID) WHERE pat.patientID=?';
   db.query(query, [patientID], function (error, results, fields) {
     if(error){
       console.log(error);
@@ -84,7 +84,7 @@ router.get('/hospital/:hospitalid', function (req, res) {
   if (!hospitalID) {
     res.status(400).send({ error: 'Please provide hospitalID' });
   }
-  db.query('select * from patienthospital where hospitalID=?', [hospitalID], function (error, results, fields) {
+  db.query('SELECT pat.*, hos.* FROM patient pat, patienthospital hos WHERE hos.patientID=pat.patientID AND hos.hospitalID=?', [hospitalID], function (error, results, fields) {
     if(error){
       console.log(error);
       // Error 500
@@ -170,7 +170,7 @@ router.get('/healthclub/:healthclubid', function (req, res) {
   if (!healthclubID) {
     res.status(400).send({ error: 'Please provide healthclubID' });
   }
-  db.query('select * from patienthealthclub where healthclubID=?', [healthclubID], function (error, results, fields) {
+  db.query('SELECT pat.*, hc.* FROM patient pat, patienthealthclub hc WHERE hc.patientID=pat.patientID AND hc.healthclubID=?', [healthclubID], function (error, results, fields) {
     if(error){
       console.log(error);
       // Error 500
@@ -256,7 +256,7 @@ router.get('/doctor/:doctorid', function (req, res) {
   if (!doctorID) {
     res.status(400).send({ error: 'Please provide doctorID' });
   }
-  db.query('select * from patientdoctor where doctorID=?', [doctorID], function (error, results, fields) {
+  db.query('SELECT pat.*, doc.* FROM patient pat, patientdoctor doc WHERE doc.patientID=pat.patientID AND doc.doctorID=?', [doctorID], function (error, results, fields) {
     if(error){
       console.log(error);
       // Error 500
@@ -316,7 +316,7 @@ router.get('/employer/:employerid', function (req, res) {
   if (!employerID) {
     res.status(400).send({ error: 'Please provide employerID' });
   }
-  db.query('select * from patientemployer where employerID=?', [employerID], function (error, results, fields) {
+  db.query('SELECT pat.*, emp.* FROM patient pat, patientemployer emp WHERE emp.patientID=pat.patientID AND emp.employerID=?', [employerID], function (error, results, fields) {
     if(error){
       console.log(error);
       // Error 500
@@ -376,7 +376,7 @@ router.get('/insurance/:insuranceid', function (req, res) {
   if (!insuranceID) {
     res.status(400).send({ error: 'Please provide insuranceID' });
   }
-  db.query('select * from patientinsurance where insuranceID=?', [insuranceID], function (error, results, fields) {
+  db.query('SELECT pat.*, ins.* FROM patient pat, patientinsurance ins WHERE ins.patientID=pat.patientID AND ins.insuranceID=?', [insuranceID], function (error, results, fields) {
     if(error){
       console.log(error);
       // Error 500
