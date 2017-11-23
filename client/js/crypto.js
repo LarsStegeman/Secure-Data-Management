@@ -36,6 +36,14 @@ function encrypt(identity, id, value) {
   return enc_value;
 }
 
+function encrypt(identity, id, policy, value) {
+  let pubkey = getKeyFromFile(PUBLIC_KEY_NAME);
+  let enc_value = cpabe.encryptMessage(pubkey, policy, new Buffer(value));
+	console.log("Encrypted successfully:");
+	console.log(Array.apply([], enc_value).join(","))
+  return enc_value;
+}
+
 function decrypt(identity, id, value) {
   let pubkey = getKeyFromFile(PUBLIC_KEY_NAME);
 	let privkey = getKeyFromFile(PRIVATE_KEY_NAME);
