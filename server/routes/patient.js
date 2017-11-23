@@ -58,6 +58,7 @@ router.get('/:id', function (req, res) {
 
 // GET ALL PATIENT ASSOCIATIONS
 router.get('/associations/:id', function (req, res) {
+  console.log("get associations received");
   let patientID = req.params.id;
   if (!patientID) {
     res.status(400).send({ error: 'Please provide patientID' });
@@ -68,6 +69,8 @@ router.get('/associations/:id', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
+      console.log("get associations successfully");
+      console.log(results);
       res.send(results);
     }
 	});

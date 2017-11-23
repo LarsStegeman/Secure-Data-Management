@@ -14,19 +14,26 @@ function httpGetAsync(theUrl, callback)
 
 function httpPostAsync(theUrl, data, callback)
 {
-    console.log(data);
     let jsonData = JSON.stringify(data);
     console.log("AFTER STRINGIFY:");
-    console.log(jsonData);
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.open("POST", theUrl, true); // true for asynchronous
     xmlHttp.setRequestHeader("Content-type", "application/json");
     xmlHttp.onreadystatechange = function() {
       if (xmlHttp.readyState == XMLHttpRequest.DONE && xmlHttp.status == 200){
+        console.log("d");
         callback(xmlHttp.responseText);
       }
+      console.log("post request code = " + xmlHttp.status);
     };
-    xmlHttp.send(jsonData);
+    if (data == null || !data){
+      console.log("e");
+      xmlHttp.send('');
+    }
+    else{
+      console.log("g");
+      xmlHttp.send(jsonData);
+    }
 }
 
 function httpPutAsync(theUrl, data, callback)
