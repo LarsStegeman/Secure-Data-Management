@@ -19,6 +19,21 @@ router.get('/', function(req, res, next) {
   	});
 });
 
+// GET next employer ID
+// RETURNS string with integer value of next ID
+router.get('/next', function(req, res, next) {
+  db.query('SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = \'employer\' AND table_schema = DATABASE( ) ;', function (error, results, fields) {
+    if(error){
+      console.log(error);
+      // Error 500
+      res.status(500).send({ error: error });
+    } else {
+      let nextID = JSON.stringify(results).match(db.numberPattern)[0];
+      res.send(nextID);
+    }
+  	});
+});
+
 // Get a single employer
 router.get('/:id', function (req, res) {
   let employerID = req.params.id;
@@ -34,21 +49,6 @@ router.get('/:id', function (req, res) {
       res.send(results);
     }
 	});
-});
-
-// GET next employer ID
-// RETURNS string with integer value of next ID
-router.get('/next', function(req, res, next) {
-  db.query('SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = \'employer\' AND table_schema = DATABASE( ) ;', function (error, results, fields) {
-    if(error){
-      console.log(error);
-      // Error 500
-      res.status(500).send({ error: error });
-    } else {
-      let nextID = JSON.stringify(results).match(db.numberPattern)[0];
-      res.send(nextID);
-    }
-  	});
 });
 
 /* POST employer */
