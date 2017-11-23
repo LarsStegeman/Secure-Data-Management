@@ -11,6 +11,7 @@
   "main": "/client/index.html",
   "scripts": {
     "client": "nw .",
+    "associatePatient": "node ./server/association.js",
     "server": "node ./server/main.js",
     "build": "node build.js",
     "db.create": "cd server/db && mysql -u root -p -e \"drop database if exists PatientHealthData;create database PatientHealthData;\"",
