@@ -40,9 +40,9 @@ function decrypt(identity, id, value) {
   let pubkey = getKeyFromFile(PUBLIC_KEY_NAME);
 	let privkey = getKeyFromFile(PRIVATE_KEY_NAME);
   let policy = "" + identity + " = " + id;
-	console.log("a");
+	//console.log("a");
   let decrypted = cpabe.decryptMessage(pubkey, privkey, value);
-	console.log("b");
+	//console.log("b");
   console.log("decrypted" + decrypted.toString());
   return decrypted.toString();
 }
