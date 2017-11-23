@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
   	});
 });
@@ -29,7 +29,7 @@ router.get('/next', function(req, res, next) {
       res.status(500).send({ error: error });
     } else {
       let nextID = JSON.stringify(results).match(db.numberPattern)[0];
-      res.send(nextID);
+      res.status(200).send(nextID);
     }
   	});
 });
@@ -46,7 +46,7 @@ router.get('/:id', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -66,7 +66,7 @@ router.post('/', function (req, res) {
       } else {
         console.log("POST SUCCESS: New insurance");
         crypto.keygen("insurance", results.insertId);
-        res.send(results);
+        res.status(200).send(results);
       }
     });
 });
@@ -89,7 +89,7 @@ router.put('/:id', function (req, res) {
         res.status(500).send({ error: error });
       } else {
         console.log("PUT SUCCESS: Edited insurance");
-        res.send(results);
+        res.status(200).send(results);
       }
     });
 });
@@ -106,7 +106,7 @@ router.delete('/:id', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
