@@ -40,7 +40,7 @@ router.get('/:id', function (req, res) {
   if (!doctorID) {
     return res.status(400).send({ error: true, message: 'Please provide doctorID' });
   }
-  db.query('select * from hospital where doctorID=?', [doctorID], function (error, results, fields) {
+  db.query('select * from doctor where doctorID=?', [doctorID], function (error, results, fields) {
     if(error){
       console.log(error);
       // Error 500
@@ -53,8 +53,12 @@ router.get('/:id', function (req, res) {
 
 /* POST doctor */
 router.post('/', function (req, res) {
-    let params = req.body;
-    console.log(params);
+    let params = {
+      name: new Buffer(req.body.name.data, 'binary'),
+      address: new Buffer(req.body.address.data, 'binary'),
+      birthdate: new Buffer(req.body.birthdate.data, 'binary'),
+      mobilenumber: new Buffer(req.body.mobilenumber.data, 'binary')
+    };
     db.query("INSERT INTO doctor SET ?", params, function (error, results, fields) {
       if(error){
         console.log(error);
