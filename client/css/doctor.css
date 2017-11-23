@@ -1,0 +1,32 @@
+body {
+  background-color: #eee;
+}
+
+h2{
+  margin-top: 30px;
+  margin-left: 30px;
+  margin-bottom: 30px;
+}
+.dl-horizontal{
+  margin-left:30px;
+  width: 600px;
+  background-color:;
+  border: groove 3px #ccc;
+}
+
+.dl-horizontal dt{
+  font-style: normal;
+  text-align: left;
+  padding: 0.8em;
+  background-color: #ffffff;
+}
+
+
+.dl-horizontal dd{
+  text-align: left;
+}
+
+
+#decryptButton{
+  margin-left:30px;
+}
