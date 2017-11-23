@@ -46,18 +46,18 @@ document.getElementById("addNote").onmousedown = function(){
   let enc_notes = new Buffer(userInfo.notes.data, 'binary');
   var dec_notes = crypto.decrypt(entityType, entityID, enc_notes);
   dec_notes = dec_notes + "<br>" + data;
-  console.log(dec_notes);
+  // console.log(dec_notes);
   let final_enc = crypto.encrypt(entityType, entityID, dec_notes);
-  console.log(entityType + " after encrypt " + entityID);
+  // console.log(entityType + " after encrypt " + entityID);
   let encryptedEntity = {};
   // Name encryption
   encryptedEntity.notes = final_enc;
-  console.log(entityType + " final " + entityID);
+  // console.log(entityType + " final " + entityID);
 
   window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
   client.httpPutAsync(client.SERVER_URL + "patient/" + entityID, encryptedEntity, function(response){
     console.log(response);
-    console.log(entityType + " after put " + entityID);
+    //console.log(entityType + " after put " + entityID);
     window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
   });
 }
@@ -76,7 +76,7 @@ document.getElementById('relation-insert-button').onmousedown = function(){
   var entity = entitySelect.options[entitySelect.selectedIndex].value;
   var id = document.getElementById('inputID').value;
   client.httpPostAsync(client.SERVER_URL + 'patient/' + entityID + '/' + entity + '/'+ id, null, function(response){
-    console.log("after post");
+    //console.log("after post");
     console.log(response);
     relation.getPatientRelations(entityType, entityID, function(relations){
       var enc = relation.updatePolicies(entityID, userInfo, relations);
@@ -114,6 +114,9 @@ document.getElementById("decryptButton").onmousedown = function(){
   document.getElementById('patientGender').innerHTML = dec_gender;
   let dec_notes = crypto.decrypt(entityType, entityID, enc_notes);
   document.getElementById('patientNotes').innerHTML = dec_notes;
+  document.getElementById('addNotesForm').innerHTML = '<label>Add Health Data</label>'
+  + '<br><input type="text" id="dataInput">'
+  + '<br><input id="addNote" type="button">Add Health Data</input>';
 
   document.getElementById('relation-insert').innerHTML = '<form id="relation-form">'
   + '<select id="inputEntity">'

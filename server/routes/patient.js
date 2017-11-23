@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
   	});
 });
@@ -30,7 +30,7 @@ router.get('/next', function(req, res, next) {
       res.status(500).send({ error: error });
     } else {
       let nextID = JSON.stringify(results).match(db.numberPattern)[0];
-      res.send(nextID);
+      res.status(200).send(nextID);
     }
   	});
 });
@@ -47,7 +47,7 @@ router.get('/:id', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -63,7 +63,8 @@ router.get('/associations/:id', function (req, res) {
   if (!patientID) {
     res.status(400).send({ error: 'Please provide patientID' });
   }
-  db.query('SELECT doc.*, hos.*, hc.*, emp.*, ins.* FROM patient pat LEFT JOIN patientdoctor doc ON pat.patientID=doc.patientID LEFT JOIN patienthospital hos ON doc.patientID=hos.patientID LEFT JOIN patienthealthclub hc ON hos.patientID=hc.patientID LEFT JOIN patientemployer emp ON hc.patientID=emp.patientID LEFT JOIN patientinsurance ins ON emp.patientID=ins.patientID WHERE pat.patientID=?', [patientID], function (error, results, fields) {
+  let query = 'SELECT doc.*, hos.*, hc.*, emp.*, ins.* FROM patient pat LEFT JOIN patientdoctor doc ON pat.patientID=doc.patientID LEFT JOIN patienthospital hos ON doc.patientID=hos.patientID LEFT JOIN patienthealthclub hc ON hos.patientID=hc.patientID LEFT JOIN patientemployer emp ON hc.patientID=emp.patientID LEFT JOIN patientinsurance ins ON emp.patientID=ins.patientID WHERE pat.patientID=?'
+  db.query(query, [patientID], function (error, results, fields) {
     if(error){
       console.log(error);
       // Error 500
@@ -71,7 +72,7 @@ router.get('/associations/:id', function (req, res) {
     } else {
       console.log("get associations successfully");
       console.log(results);
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -89,7 +90,7 @@ router.get('/hospital/:hospitalid', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -116,7 +117,7 @@ router.post('/:id/hospital/:hospitalid', function (req, res) {
       res.status(500).send({ error: error });
     } else {
       console.log("POST SUCCESSFUL: New patient-hospital association");
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -139,9 +140,27 @@ router.put('/:id/hospital/:hospitalid', function (req, res) {
         res.status(500).send({ error: error });
       } else {
         console.log("PUT SUCCESS: Edited patient-hospital notes");
-        res.send(results);
+        res.status(200).send(results);
       }
     });
+});
+
+/* DELETE patient-hospital */
+router.delete('/:id/hospital/:hospitalid', function (req, res) {
+  let patientID = req.params.id;
+  let hospitalID = req.params.hospitalid;
+  if (!patientID || !hospitalID) {
+    res.status(400).send({ error: 'Please provide patientID and hospitalID' });
+  }
+  db.query('DELETE FROM patienthospital WHERE patientID = ? AND hospitalID = ?', [patientID, hospitalID], function (error, results, fields) {
+    if(error){
+      console.log(error);
+      // Error 500
+      res.status(500).send({ error: error });
+    } else {
+      res.status(200).send(results);
+    }
+	});
 });
 
 /***************************** PATIENT-HEALTHCLUB ***********************/
@@ -157,7 +176,7 @@ router.get('/healthclub/:healthclubid', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -184,7 +203,7 @@ router.post('/:id/healthclub/:healthclubid', function (req, res) {
       res.status(500).send({ error: error });
     } else {
       console.log("POST SUCCESSFUL: New patient-healthclub association");
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -207,9 +226,27 @@ router.put('/:id/healthclub/:healthclubid', function (req, res) {
         res.status(500).send({ error: error });
       } else {
         console.log("PUT SUCCESS: Edited patient-healthclub notes");
-        res.send(results);
+        res.status(200).send(results);
       }
     });
+});
+
+/* DELETE patient-healthclub */
+router.delete('/:id/healthclub/:healthclubid', function (req, res) {
+  let patientID = req.params.id;
+  let healthclubID = req.params.healthclubid;
+  if (!patientID || !healthclubID) {
+    res.status(400).send({ error: 'Please provide patientID and healthclubID' });
+  }
+  db.query('DELETE FROM patienthealthclub WHERE patientID = ? AND healthclubID = ?', [patientID, healthclubID], function (error, results, fields) {
+    if(error){
+      console.log(error);
+      // Error 500
+      res.status(500).send({ error: error });
+    } else {
+      res.status(200).send(results);
+    }
+	});
 });
 
 /***************************** PATIENT-DOCTOR ***********************/
@@ -225,7 +262,7 @@ router.get('/doctor/:doctorid', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -249,7 +286,25 @@ router.post('/:id/doctor/:doctorid', function (req, res) {
       res.status(500).send({ error: error });
     } else {
       console.log("POST SUCCESSFUL: New patient-doctor association");
-      res.send(results);
+      res.status(200).send(results);
+    }
+	});
+});
+
+/* DELETE patient-doctor */
+router.delete('/:id/doctor/:doctorid', function (req, res) {
+  let patientID = req.params.id;
+  let doctorID = req.params.doctorid;
+  if (!patientID || !doctorID) {
+    res.status(400).send({ error: 'Please provide patientID and doctorID' });
+  }
+  db.query('DELETE FROM patientdoctor WHERE patientID = ? AND doctorID = ?', [patientID, doctorID], function (error, results, fields) {
+    if(error){
+      console.log(error);
+      // Error 500
+      res.status(500).send({ error: error });
+    } else {
+      res.status(200).send(results);
     }
 	});
 });
@@ -267,7 +322,7 @@ router.get('/employer/:employerid', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -291,7 +346,25 @@ router.post('/:id/employer/:employerid', function (req, res) {
       res.status(500).send({ error: error });
     } else {
       console.log("POST SUCCESSFUL: New patient-employer association");
-      res.send(results);
+      res.status(200).send(results);
+    }
+	});
+});
+
+/* DELETE patient-employer */
+router.delete('/:id/employer/:employerid', function (req, res) {
+  let patientID = req.params.id;
+  let employerID = req.params.employerid;
+  if (!patientID || !employerID) {
+    res.status(400).send({ error: 'Please provide patientID and employerID' });
+  }
+  db.query('DELETE FROM patientemployer WHERE patientID = ? AND employerID = ?', [patientID, employerID], function (error, results, fields) {
+    if(error){
+      console.log(error);
+      // Error 500
+      res.status(500).send({ error: error });
+    } else {
+      res.status(200).send(results);
     }
 	});
 });
@@ -309,7 +382,7 @@ router.get('/insurance/:insuranceid', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
@@ -333,7 +406,25 @@ router.post('/:id/insurance/:insuranceid', function (req, res) {
       res.status(500).send({ error: error });
     } else {
       console.log("POST SUCCESSFUL: New patient-insurance association");
-      res.send(results);
+      res.status(200).send(results);
+    }
+	});
+});
+
+/* DELETE patient-insurance */
+router.delete('/:id/insurance/:insuranceid', function (req, res) {
+  let patientID = req.params.id;
+  let insuranceID = req.params.insuranceid;
+  if (!patientID || !insuranceID) {
+    res.status(400).send({ error: 'Please provide patientID and insuranceID' });
+  }
+  db.query('DELETE FROM patientinsurance WHERE patientID = ? AND insuranceID = ?', [patientID, insuranceID], function (error, results, fields) {
+    if(error){
+      console.log(error);
+      // Error 500
+      res.status(500).send({ error: error });
+    } else {
+      res.status(200).send(results);
     }
 	});
 });
@@ -360,7 +451,7 @@ router.post('/', function (req, res) {
       } else {
         console.log("POST SUCCESS: New patient");
         crypto.keygen("patient", results.insertId);
-        res.send(results);
+        res.status(200).send(results);
       }
     });
 });
@@ -388,7 +479,7 @@ router.put('/:id', function (req, res) {
         res.status(500).send({ error: error });
       } else {
         console.log("PUT SUCCESS: Edited whole patient");
-        res.send(results);
+        res.status(200).send(results);
       }
     });
 });
@@ -410,7 +501,7 @@ router.put('/notes/:id', function (req, res) {
         res.status(500).send({ error: error });
       } else {
         console.log("PUT SUCCESS: Edited patient notes");
-        res.send(results);
+        res.status(200).send(results);
       }
     });
 });
@@ -427,7 +518,7 @@ router.delete('/:id', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      res.send(results);
+      res.status(200).send(results);
     }
 	});
 });
