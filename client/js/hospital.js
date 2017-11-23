@@ -35,6 +35,9 @@ function printHospital(response){
   document.getElementById("hospitalAddress").innerHTML = JSON.stringify(userInfo['address']['data']);
 }
 
+document.getElementById("nav-patient").onmousedown = function(){
+  window.location.replace("patienthospital.html" + window.location.search);
+}
 
 //switch user (logout)
 document.getElementById("nav-changeuser").onmousedown = function() {
