@@ -141,6 +141,24 @@ router.put('/:id/hospital/:hospitalid', function (req, res) {
     });
 });
 
+/* DELETE patient-hospital */
+router.delete('/:id/hospital/:hospitalid', function (req, res) {
+  let patientID = req.params.id;
+  let hospitalID = req.params.hospitalid;
+  if (!patientID || !hospitalID) {
+    res.status(400).send({ error: 'Please provide patientID and hospitalID' });
+  }
+  db.query('DELETE FROM patienthospital WHERE patientID = ? AND hospitalID = ?', [patientID, hospitalID], function (error, results, fields) {
+    if(error){
+      console.log(error);
+      // Error 500
+      res.status(500).send({ error: error });
+    } else {
+      res.send(results);
+    }
+	});
+});
+
 /***************************** PATIENT-HEALTHCLUB ***********************/
 // GET PATIENT-HEALTHCLUB using healthclubID
 router.get('/healthclub/:healthclubid', function (req, res) {
@@ -209,6 +227,24 @@ router.put('/:id/healthclub/:healthclubid', function (req, res) {
     });
 });
 
+/* DELETE patient-healthclub */
+router.delete('/:id/healthclub/:healthclubid', function (req, res) {
+  let patientID = req.params.id;
+  let healthclubID = req.params.healthclubid;
+  if (!patientID || !healthclubID) {
+    res.status(400).send({ error: 'Please provide patientID and healthclubID' });
+  }
+  db.query('DELETE FROM patienthealthclub WHERE patientID = ? AND healthclubID = ?', [patientID, healthclubID], function (error, results, fields) {
+    if(error){
+      console.log(error);
+      // Error 500
+      res.status(500).send({ error: error });
+    } else {
+      res.send(results);
+    }
+	});
+});
+
 /***************************** PATIENT-DOCTOR ***********************/
 // GET PATIENT-DOCTOR using doctorID
 router.get('/doctor/:doctorid', function (req, res) {
@@ -246,6 +282,24 @@ router.post('/:id/doctor/:doctorid', function (req, res) {
       res.status(500).send({ error: error });
     } else {
       console.log("POST SUCCESSFUL: New patient-doctor association");
+      res.send(results);
+    }
+	});
+});
+
+/* DELETE patient-doctor */
+router.delete('/:id/doctor/:doctorid', function (req, res) {
+  let patientID = req.params.id;
+  let doctorID = req.params.doctorid;
+  if (!patientID || !doctorID) {
+    res.status(400).send({ error: 'Please provide patientID and doctorID' });
+  }
+  db.query('DELETE FROM patientdoctor WHERE patientID = ? AND doctorID = ?', [patientID, doctorID], function (error, results, fields) {
+    if(error){
+      console.log(error);
+      // Error 500
+      res.status(500).send({ error: error });
+    } else {
       res.send(results);
     }
 	});
@@ -293,6 +347,24 @@ router.post('/:id/employer/:employerid', function (req, res) {
 	});
 });
 
+/* DELETE patient-employer */
+router.delete('/:id/employer/:employerid', function (req, res) {
+  let patientID = req.params.id;
+  let employerID = req.params.employerid;
+  if (!patientID || !employerID) {
+    res.status(400).send({ error: 'Please provide patientID and employerID' });
+  }
+  db.query('DELETE FROM patientemployer WHERE patientID = ? AND employerID = ?', [patientID, employerID], function (error, results, fields) {
+    if(error){
+      console.log(error);
+      // Error 500
+      res.status(500).send({ error: error });
+    } else {
+      res.send(results);
+    }
+	});
+});
+
 /***************************** PATIENT-INSURANCE ***********************/
 // GET PATIENT-INSURANCE using insuranceID
 router.get('/insurance/:insuranceid', function (req, res) {
@@ -330,6 +402,24 @@ router.post('/:id/insurance/:insuranceid', function (req, res) {
       res.status(500).send({ error: error });
     } else {
       console.log("POST SUCCESSFUL: New patient-insurance association");
+      res.send(results);
+    }
+	});
+});
+
+/* DELETE patient-insurance */
+router.delete('/:id/insurance/:insuranceid', function (req, res) {
+  let patientID = req.params.id;
+  let insuranceID = req.params.insuranceid;
+  if (!patientID || !insuranceID) {
+    res.status(400).send({ error: 'Please provide patientID and insuranceID' });
+  }
+  db.query('DELETE FROM patientinsurance WHERE patientID = ? AND insuranceID = ?', [patientID, insuranceID], function (error, results, fields) {
+    if(error){
+      console.log(error);
+      // Error 500
+      res.status(500).send({ error: error });
+    } else {
       res.send(results);
     }
 	});
