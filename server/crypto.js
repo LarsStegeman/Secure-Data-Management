@@ -11,6 +11,9 @@ const MASTER_KEY_NAME = "mstkey.key";
 function checkKeyDirectory() {
 	if (!fs.existsSync(KEY_DIR)){
 		fs.mkdirSync(KEY_DIR);
+		return false;
+	} else {
+		return fs.existsSync(path.join(KEY_DIR, MASTER_KEY_NAME)) && fs.existsSync(path.join(KEY_DIR, PUBLIC_KEY_NAME));
 	}
 }
 
@@ -29,10 +32,12 @@ function getKeyFromFile(filename){
 
 // Generate Master Key and Public Key and save them to file
 function setup() {
-	checkKeyDirectory();
-	const keys = cpabe.setup();
-	saveKeyToFile(keys.pubkey, PUBLIC_KEY_NAME);
-	saveKeyToFile(keys.mstkey, MASTER_KEY_NAME);
+	if(!checkKeyDirectory()) {
+		console.log("No pair Master/Public key found. Generating a new Master/Public key pair...");
+		const keys = cpabe.setup();
+		saveKeyToFile(keys.pubkey, PUBLIC_KEY_NAME);
+		saveKeyToFile(keys.mstkey, MASTER_KEY_NAME);
+	}
 }
 
 // Generates Private Key with policy: "entity = id"
