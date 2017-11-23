@@ -19,21 +19,6 @@ router.get('/', function(req, res, next) {
   	});
 });
 
-// GET next Patient ID
-// RETURNS string with integer value of next ID
-router.get('/next', function(req, res, next) {
-  db.query('SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = \'patient\' AND table_schema = DATABASE( ) ;', function (error, results, fields) {
-    if(error){
-      console.log(error);
-      // Error 500
-      res.status(500).send({ error: error });
-    } else {
-      let nextID = JSON.stringify(results).match(db.numberPattern)[0];
-      res.send(nextID);
-    }
-  	});
-});
-
 // Get single patient
 router.get('/:id', function (req, res) {
   let patientID = req.params.id;
@@ -51,9 +36,24 @@ router.get('/:id', function (req, res) {
 	});
 });
 
+// GET next Patient ID
+// RETURNS string with integer value of next ID
+router.get('/next', function(req, res, next) {
+  db.query('SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = \'patient\' AND table_schema = DATABASE( ) ;', function (error, results, fields) {
+    if(error){
+      console.log(error);
+      // Error 500
+      res.status(500).send({ error: error });
+    } else {
+      let nextID = JSON.stringify(results).match(db.numberPattern)[0];
+      res.send(nextID);
+    }
+  	});
+});
+
 /* POST patient */
 router.post('/', function (req, res) {
-  console.log("RECEIVED: New patient data");
+  console.log("POST RECEIVED: New patient data");
   let params = {
     name: new Buffer(req.body.name.data, 'binary'),
     address: new Buffer(req.body.address.data, 'binary'),
@@ -69,7 +69,7 @@ router.post('/', function (req, res) {
         // Error 500
         res.status(500).send({ error: error });
       } else {
-        console.log("SUCCESS: New patient");
+        console.log("POST SUCCESS: New patient");
         crypto.keygen("patient", results.insertId);
         res.send(results);
       }
@@ -77,23 +77,26 @@ router.post('/', function (req, res) {
 });
 
 /* PUT patient */
-// If the body's request includes the patientID, this can change the patientID in the DB
 router.put('/:id', function (req, res) {
     let patientID = req.params.id;
-    let params = req.body;
-    console.log(params);
-    console.log(patientID);
-
+    if (!patientID) {
+      return res.status(400).send({ error: true, message: 'Please provide patientID' });
+    }
+    console.log("PUT RECEIVED: TO edit patient " + patientID);
+    let params = {
+      name: new Buffer(req.body.name.data, 'binary'),
+      address: new Buffer(req.body.address.data, 'binary')
+    };
     db.query("UPDATE patient SET ? WHERE patientID = ?", [params, patientID], function (error, results, fields) {
       if(error){
         console.log(error);
         // Error 500
         res.status(500).send({ error: error });
       } else {
+        console.log("PUT SUCCESS: Edited patient");
         res.send(results);
       }
     });
-
 });
 
 /* DELETE patient */

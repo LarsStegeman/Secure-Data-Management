@@ -19,21 +19,6 @@ router.get('/', function(req, res, next) {
   	});
 });
 
-// GET next hospital ID
-// RETURNS string with integer value of next ID
-router.get('/next', function(req, res, next) {
-  db.query('SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = \'hospital\' AND table_schema = DATABASE( ) ;', function (error, results, fields) {
-    if(error){
-      console.log(error);
-      // Error 500
-      res.status(500).send({ error: error });
-    } else {
-      let nextID = JSON.stringify(results).match(db.numberPattern)[0];
-      res.send(nextID);
-    }
-  	});
-});
-
 // Get a single hospital
 router.get('/:id', function (req, res) {
   let hospitalID = req.params.id;
@@ -51,9 +36,24 @@ router.get('/:id', function (req, res) {
 	});
 });
 
+// GET next hospital ID
+// RETURNS string with integer value of next ID
+router.get('/next', function(req, res, next) {
+  db.query('SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = \'hospital\' AND table_schema = DATABASE( ) ;', function (error, results, fields) {
+    if(error){
+      console.log(error);
+      // Error 500
+      res.status(500).send({ error: error });
+    } else {
+      let nextID = JSON.stringify(results).match(db.numberPattern)[0];
+      res.send(nextID);
+    }
+  	});
+});
+
 /* POST hospital */
 router.post('/', function (req, res) {
-    console.log("RECEIVED: New hospital data");
+    console.log("POST RECEIVED: New hospital data");
     let params = {
       name: new Buffer(req.body.name.data, 'binary'),
       address: new Buffer(req.body.address.data, 'binary')
@@ -64,7 +64,7 @@ router.post('/', function (req, res) {
         // Error 500
         res.status(500).send({ error: error });
       } else {
-        console.log("SUCCESS: New hospital");
+        console.log("POST SUCCESS: New hospital");
         crypto.keygen("hospital", results.insertId);
         res.send(results);
       }
@@ -72,11 +72,16 @@ router.post('/', function (req, res) {
 });
 
 /* PUT hospital */
-// If the body's request includes the hospitalID, this can change the hospitalID in the DB
 router.put('/:id', function (req, res) {
     let hospitalID = req.params.id;
-    let params = req.body;
-    console.log(params);
+    if (!hospitalID) {
+      return res.status(400).send({ error: true, message: 'Please provide hospitalID' });
+    }
+    console.log("PUT RECEIVED: To edit hospital " + hospitalID);
+    let params = {
+      name: new Buffer(req.body.name.data, 'binary'),
+      address: new Buffer(req.body.address.data, 'binary')
+    };
     db.query("UPDATE hospital SET ? WHERE hospitalID = ?", [params, hospitalID], function (error, results, fields) {
       if(error){
         console.log(error);

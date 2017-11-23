@@ -6,7 +6,7 @@ const db = require('../db/db.js');
 // Crypto/key related
 const crypto = require('../crypto.js');
 
-// GET all doctos IDs
+// GET all doctors IDs
 router.get('/', function(req, res, next) {
   db.query('SELECT doctorID from doctor', function (error, results, fields) {
     if(error){
@@ -17,6 +17,23 @@ router.get('/', function(req, res, next) {
       res.send(results);
     }
   	});
+});
+
+// Get a single doctor
+router.get('/:id', function (req, res) {
+  let doctorID = req.params.id;
+  if (!doctorID) {
+    return res.status(400).send({ error: true, message: 'Please provide doctorID' });
+  }
+  db.query('select * from doctor where doctorID=?', [doctorID], function (error, results, fields) {
+    if(error){
+      console.log(error);
+      // Error 500
+      res.status(500).send({ error: error });
+    } else {
+      res.send(results);
+    }
+	});
 });
 
 // GET next doctor ID
@@ -34,26 +51,9 @@ router.get('/next', function(req, res, next) {
   	});
 });
 
-// Get a single doctor
-router.get('/:id', function (req, res) {
-  let doctorID = req.params.id;
-  if (!doctorID) {
-    return res.status(400).send({ error: true, message: 'Please provide doctorID' });
-  }
-  db.query('select * from hospital where doctorID=?', [doctorID], function (error, results, fields) {
-    if(error){
-      console.log(error);
-      // Error 500
-      res.status(500).send({ error: error });
-    } else {
-      res.send(results);
-    }
-	});
-});
-
 /* POST doctor */
 router.post('/', function (req, res) {
-  console.log("RECEIVED: New doctor data");
+  console.log("POST RECEIVED: New doctor data");
     let params = {
       name: new Buffer(req.body.name.data, 'binary'),
       address: new Buffer(req.body.address.data, 'binary'),
@@ -66,7 +66,7 @@ router.post('/', function (req, res) {
         // Error 500
         res.status(500).send({ error: error });
       } else {
-        console.log("SUCCESS: New doctor");
+        console.log("POST SUCCESS: New doctor");
         crypto.keygen("doctor", results.insertId);
         res.send(results);
       }
@@ -74,17 +74,25 @@ router.post('/', function (req, res) {
 });
 
 /* PUT doctor */
-// If the body's request includes the doctorID, this can change the doctorID in the DB
 router.put('/:id', function (req, res) {
     let doctorID = req.params.id;
-    let params = req.body;
-    console.log(params);
+    if (!doctorID) {
+      return res.status(400).send({ error: true, message: 'Please provide doctorID' });
+    }
+    console.log("PUT RECEIVED: To edit doctor " + doctorID);
+    let params = {
+      name: new Buffer(req.body.name.data, 'binary'),
+      address: new Buffer(req.body.address.data, 'binary'),
+      birthdate: new Buffer(req.body.birthdate.data, 'binary'),
+      mobilenumber: new Buffer(req.body.mobilenumber.data, 'binary')
+    };
     db.query("UPDATE doctor SET ? WHERE doctorID = ?", [params, doctorID], function (error, results, fields) {
       if(error){
         console.log(error);
         // Error 500
         res.status(500).send({ error: error });
       } else {
+        console.log("PUT SUCCESS: Edited doctor");
         res.send(results);
       }
     });
