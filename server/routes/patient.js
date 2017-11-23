@@ -85,8 +85,7 @@ router.put('/:id', function (req, res) {
     }
     console.log("PUT RECEIVED: TO edit patient " + patientID);
     let params = {
-      name: new Buffer(req.body.name.data, 'binary'),
-      address: new Buffer(req.body.address.data, 'binary')
+      notes: new Buffer(req.body.notes.data, 'binary')
     };
     db.query("UPDATE patient SET ? WHERE patientID = ?", [params, patientID], function (error, results, fields) {
       if(error){
