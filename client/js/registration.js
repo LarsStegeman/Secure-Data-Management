@@ -81,6 +81,12 @@ document.getElementById("registBtn").onmousedown = function() {
   let type = document.getElementById("type").value;
   let nextUrl = client.SERVER_URL + type + "/next";
 
+  let afterRegistration = function (res) {
+    jsonRes = JSON.parse(res);
+    alert(type + " registered with success! Your " + type + " ID is: " + jsonRes.insertId + ". Set your private key in the Setup page.");
+    window.location.replace("setup.html");
+  };
+
   client.httpGetAsync(nextUrl, function(nextID){
     let encryptedEntity = {};
     // Name encryption
@@ -99,6 +105,6 @@ document.getElementById("registBtn").onmousedown = function() {
         encryptedEntity.notes = getValueAndEncrypt("notes", type, nextID);
       }
     }
-    client.httpPostAsync(client.SERVER_URL + type, encryptedEntity, console.log);
+    client.httpPostAsync(client.SERVER_URL + type, encryptedEntity, afterRegistration);
   });
 };
