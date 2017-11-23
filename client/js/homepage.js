@@ -26,29 +26,26 @@ switch(entityType){
   case "patient":
     document.getElementById("nav-patient").classList.add("active");
     window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
-    //httpGetAsync(client.SERVER_URL + "patient/" + entityID, function(response){printPatient(response);});
     break;
   case "doctor":
     document.getElementById("nav-doctor").classList.add("active");
-    client.httpGetAsync(client.SERVER_URL + "doctor/" + entityID, function(response){printDoctor(response);});
+    window.location.replace("doctor.html?type=" + entityType + "&id=" + entityID);
     break;
   case "hospital":
     document.getElementById("nav-hospital").classList.add("active");
     window.location.replace("hospital.html?type=" + entityType + "&id=" + entityID);
-    //client.httpGetAsync(client.SERVER_URL + "hospital/" + entityID, function(response){printNameAddress(response);});
     break;
   case "healthclub":
     document.getElementById("nav-healthclub").classList.add("active");
-    client.httpGetAsync(client.SERVER_URL + "healthclub/" + entityID, function(response){printNameAddress(response);});
+    window.location.replace("healthclub.html?type=" + entityType + "&id=" + entityID);
     break;
   case "employer":
     document.getElementById("nav-employer").classList.add("active");
-    client.httpGetAsync(client.SERVER_URL + "employer/" + entityID, function(response){printNameAddress(response);});
+    window.location.replace("employer.html?type=" + entityType + "&id=" + entityID);
     break;
   case "insurance":
     document.getElementById("nav-insurance").classList.add("active");
     window.location.replace("insurance.html?type=" + entityType + "&id=" + entityID);
-    //client.httpGetAsync(client.SERVER_URL + "insurance/" + entityID, function(response){printNameAddress(response)});
     break;
   default:
     console.log(entityType);
@@ -58,27 +55,3 @@ switch(entityType){
 document.getElementById("nav-changeuser").onmousedown = function() {
   window.location.replace("index.html");
 };
-
-function printNameAddress(response){
-  console.log(response);
-  response = JSON.parse(response);
-  document.getElementById("content").innerHTML = "<dl clas='dl-horizontal'><dt>Name</dt><dd>" + response[0]['name']['data'] + "</dd>" + "<dt>Address</dt><dd> " + response[0]['address']['data'] + "</dd>";
-}
-
-function printDoctor(response){
-  console.log(response);
-  response = JSON.parse(response);
-  document.getElementById("content").innerHTML = "<dl class='dl-horizontal'><dt>Name</dt><dd>" + response[0]['name']['data']
-  + "</dd>" + "<dt>Address</dt><dd> " + response[0]['address']['data'] + "</dd>"
-  + "<dt>Birth Date</dt><dd> " + response[0]['birthDate']['data'] + "</dd>"
-  + "<dt>Mobile Number</dt><dd> " + response[0]['mobileNum']['data'] + "</dd>"
-  + "</dl>";
-}
-
-function addData(data){
-  console.log("data:");
-  console.log(data);
-  if(entityType && entityID) {
-    window.location.reload();
-  }
-}
