@@ -53,9 +53,10 @@ router.get('/:id', function (req, res) {
 
 /* POST health club */
 router.post('/', function (req, res) {
+    console.log("RECEIVED: New healthclub data");
     let params = {
-      name: new TextDecoder("utf-8").decode(req.body.name.data),
-      address: new TextDecoder("utf-8").decode(req.body.address.data),
+      name: new Buffer(req.body.name.data, 'binary'),
+      address: new Buffer(req.body.address.data, 'binary')
     };
     db.query("INSERT INTO healthclub SET ?", params, function (error, results, fields) {
       if(error){
@@ -63,6 +64,7 @@ router.post('/', function (req, res) {
         // Error 500
         res.status(500).send({ error: error });
       } else {
+        console.log("SUCCESS: New healthclub");
         crypto.keygen("healthclub", results.insertId);
         res.send(results);
       }

@@ -53,6 +53,7 @@ router.get('/:id', function (req, res) {
 
 /* POST doctor */
 router.post('/', function (req, res) {
+  console.log("RECEIVED: New doctor data");
     let params = {
       name: new Buffer(req.body.name.data, 'binary'),
       address: new Buffer(req.body.address.data, 'binary'),
@@ -65,6 +66,7 @@ router.post('/', function (req, res) {
         // Error 500
         res.status(500).send({ error: error });
       } else {
+        console.log("SUCCESS: New doctor");
         crypto.keygen("doctor", results.insertId);
         res.send(results);
       }

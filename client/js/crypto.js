@@ -14,6 +14,7 @@ function checkKeyDirectory() {
 }
 
 async function copyKeyFile(sourcePath, filename) {
+	checkKeyDirectory();
 	destinyPath = path.join(KEY_DIR, filename);
 	return await fs.copyFile(sourcePath, destinyPath, (err) => {
     if (err) throw err;

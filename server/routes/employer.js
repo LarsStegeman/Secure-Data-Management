@@ -23,9 +23,10 @@ router.get('/next', function(req, res, next) {
 
 /* POST employer */
 router.post('/', function (req, res) {
+    console.log("RECEIVED: New employer data");
     let params = {
-      name: new TextDecoder("utf-8").decode(req.body.name.data),
-      address: new TextDecoder("utf-8").decode(req.body.address.data),
+      name: new Buffer(req.body.name.data, 'binary'),
+      address: new Buffer(req.body.address.data, 'binary')
     };
     db.query("INSERT INTO employer SET ?", params, function (error, results, fields) {
       if(error){
@@ -33,6 +34,7 @@ router.post('/', function (req, res) {
         // Error 500
         res.status(500).send({ error: error });
       } else {
+        console.log("SUCCESS: New employer");
         crypto.keygen("employer", results.insertId);
         res.send(results);
       }
