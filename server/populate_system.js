@@ -10,7 +10,7 @@ const db = require('../server/db/db.js');
 crypto.setup();
 
 //Make 2 keys for each entity
-const entities = ['patient', 'hospital', 'healthclub', 'insurance' , 'employee', 'doctor'];
+const entities = ['patient', 'hospital', 'healthclub', 'insurance' , 'employer', 'doctor'];
 
 for (var i = 0; i < entities.length; i++) {
 	crypto.keygen(entities[i], 1);
@@ -77,6 +77,44 @@ db.query("INSERT INTO hospital SET ?", params4, function (error, results, fields
 	}
 });
 
+//Insurance1
+let params5 = {
+    name: new Buffer(encrypt('insurance = 1', 'name1'), 'binary'),
+    address: new Buffer(encrypt('insurance = 1', 'address1'), 'binary')
+};
+
+db.query("INSERT INTO insurance SET ?", params5, function (error, results, fields) {
+       if(error){
+        console.log(error);
+	}
+});
+
+//HealthClub1
+let params6 = {
+    name: new Buffer(encrypt('healthclub = 1', 'name1'), 'binary'),
+    address: new Buffer(encrypt('healthclub = 1', 'address1'), 'binary')
+};
+
+db.query("INSERT INTO healthclub SET ?", params6, function (error, results, fields) {
+       if(error){
+        console.log(error);
+	}
+});
+
+//Employer1
+let params7 = {
+    name: new Buffer(encrypt('employer = 1', 'name1'), 'binary'),
+    address: new Buffer(encrypt('employer = 1', 'address1'), 'binary')
+};
+
+db.query("INSERT INTO employer SET ?", params7, function (error, results, fields) {
+       if(error){
+        console.log(error);
+	}
+});
+
+
+
 //Association Doctor1 Patient2
 let association1 = {
 	patientID: 2,
@@ -89,7 +127,6 @@ db.query("INSERT INTO patientdoctor SET ?", association1, function (error, resul
 });
 
 //Association Hospital1 Patient1
-
 let data_enc = new Buffer(encrypt('hospital = 1 or patient = 1', 'hospital data'), 'binary');
 let association2 = {
 	patientID: 1,
@@ -101,6 +138,9 @@ db.query("INSERT INTO patienthospital SET ?", association2, function (error, res
         console.log(error);
 	}
 });
+
+
+
 
 
 function encrypt(policy, value) {
