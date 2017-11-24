@@ -30,6 +30,10 @@ function printhealthclub(response){
   document.getElementById("healthclubAddress").innerHTML = response[0]['address']['data'];
 }
 
+document.getElementById("nav-patient").onmousedown = function(){
+  window.location.replace("patienthealthclub.html" + window.location.search);
+}
+
 //switch user (logout)
 document.getElementById("nav-changeuser").onmousedown = function() {
   window.location.replace("index.html");

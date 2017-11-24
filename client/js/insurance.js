@@ -30,6 +30,9 @@ function printinsurance(response){
   document.getElementById("insuranceAddress").innerHTML = response[0]['address']['data'];
 }
 
+document.getElementById("nav-patient").onmousedown = function(){
+  window.location.replace("patientinsurance.html" + window.location.search);
+}
 
 //switch user (logout)
 document.getElementById("nav-changeuser").onmousedown = function() {

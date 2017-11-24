@@ -30,6 +30,10 @@ function printemployer(response){
   document.getElementById("employerAddress").innerHTML = response[0]['address']['data'];
 }
 
+document.getElementById("nav-patient").onmousedown = function(){
+  window.location.replace("patientemployer.html" + window.location.search);
+}
+
 //switch user (logout)
 document.getElementById("nav-changeuser").onmousedown = function() {
   window.location.replace("index.html");

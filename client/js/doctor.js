@@ -32,6 +32,10 @@ function printdoctor(response){
   document.getElementById("doctorNumber").innerHTML = response[0]['mobilenumber']['data'];
 }
 
+document.getElementById("nav-patient").onmousedown = function(){
+  window.location.replace("patientdoctor.html" + window.location.search);
+}
+
 //switch user (logout)
 document.getElementById("nav-changeuser").onmousedown = function() {
   window.location.replace("index.html");
