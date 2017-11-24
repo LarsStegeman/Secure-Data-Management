@@ -23,7 +23,7 @@ function updatePolicies(id, data, policy){
   return finalData;
 }
 
-function getPolicy(id, relations){
+function getPolicy(id, relations, doctor, hospital, healthclub, insurance, employer){
   var finalPolicy = 'patient = ' + id;
   var policyObj = new Object();
   policyObj.doctors = [];
@@ -32,31 +32,31 @@ function getPolicy(id, relations){
   policyObj.insurances = [];
   policyObj.employers = [];
   for (i=0; i < relations.length; i++){
-    if (relations[i].doctorID){
+    if (relations[i].doctorID && doctor){
       if (!policyObj.doctors.includes(relations[i].doctorID)){
         policyObj.doctors.push(relations[i].doctorID);
         finalPolicy = finalPolicy + ' or doctor = ' + relations[i].doctorID;
       }
     }
-    if (relations[i].hospitalID){
+    if (relations[i].hospitalID && hospital){
       if (!policyObj.hospitals.includes(relations[i].hospitalID)){
         policyObj.hospitals.push(relations[i].hospitalID);
         finalPolicy = finalPolicy + ' or hospital = ' + relations[i].hospitalID;
       }
     }
-    if (relations[i].healclubID){
-      if (!policyObj.healthclubs.includes(relations[i].healclubID)){
-        policyObj.healthclubs.push(relations[i].healclubID);
-        finalPolicy = finalPolicy + ' or healthclub = ' + relations[i].healclubID;
+    if (relations[i].healthclubID && healthclub){
+      if (!policyObj.healthclubs.includes(relations[i].healthclubID)){
+        policyObj.healthclubs.push(relations[i].healthclubID);
+        finalPolicy = finalPolicy + ' or healthclub = ' + relations[i].healthclubID;
       }
     }
-    if (relations[i].insuranceID){
+    if (relations[i].insuranceID && insurance){
       if (!policyObj.insurances.includes(relations[i].insuranceID)){
         policyObj.insurances.push(relations[i].insuranceID);
         finalPolicy = finalPolicy + ' or insurance = ' + relations[i].insuranceID;
       }
     }
-    if (relations[i].employerID){
+    if (relations[i].employerID && employer){
       if (!policyObj.employers.includes(relations[i].employerID)){
         policyObj.employers.push(relations[i].employerID);
         finalPolicy = finalPolicy + ' or employer = ' + relations[i].employerID;
