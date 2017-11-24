@@ -57,10 +57,10 @@ function bin2String(array) {
   return result;
 }
 
-/*module.exports.KEY_DIR = KEY_DIR;
+module.exports.KEY_DIR = KEY_DIR;
 module.exports.PUBLIC_KEY_NAME = PUBLIC_KEY_NAME;
 module.exports.MASTER_KEY_NAME = MASTER_KEY_NAME;
 module.exports.checkKeyDirectory = checkKeyDirectory;
-module.exports.saveKeyToFile = saveKeyToFile;*/
+module.exports.saveKeyToFile = saveKeyToFile;
 module.exports.setup = setup;
 module.exports.keygen = keygen;
