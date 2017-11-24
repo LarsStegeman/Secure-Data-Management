@@ -20,24 +20,18 @@ $ npm install
 $ npm install nw --nwjs_build_type=sdk
 ```
 
-3. Create the database
+3. (Re)set database
 ```sh
-$ npm run db.create
+$ npm run db.reset
 ```
 
-4. Run the .sql script to insert the tables
-```sh
-$ npm run db.tables
-```
-Note: You can reset the database by repeating steps 3 and 4
-
-5. Move Bootstrap required files to client/vendor
+4. Move Bootstrap required files to client/vendor
 ```sh
 $ npm run build
 ```
 Note: This step needs only to be executed once, as long as you don't delete client/vendor or its contents
 
-6. Run the client
+5. Run the client
 ```sh
 $ npm run client
 ```
@@ -48,51 +42,10 @@ $ npm run server
 
 ### Server REST API
 
-When running the server, you can reach it at localhost:8080
-
-The current working routes are:
-* GET:
-    * http://localhost:8080/hospital/ - Returns all the hospitals IDs
-    * http://localhost:8080/hospital/:id - Returns the data from the hospital with hospitalID = id
-    * http://localhost:8080/patient/ - Returns all the patients IDs
-    * http://localhost:8080/patient/:id - Returns the data from the patient with patientID = id
-    * http://localhost:8080/doctor/ - Returns all the doctors IDs
-    * http://localhost:8080/doctor/:id - Returns the data from the doctor with doctorID = id
-    * http://localhost:8080/healthclub/ - Returns all the healthclubs IDs
-    * http://localhost:8080/healthclub/:id - Returns the data from the healthclub with clubID = id
-* POST:
-    * http://localhost:8080/patient
-    * http://localhost:8080/doctor
-    * http://localhost:8080/hospital
-    * http://localhost:8080/healthclub
-* PUT:
-    * http://localhost:8080/patient/:id
-    * http://localhost:8080/doctor/:id
-    * http://localhost:8080/hospital/:id
-    * http://localhost:8080/healthclub/:id
-* DELETE:
-    * http://localhost:8080/patient/:id
-    * http://localhost:8080/doctor/:id
-    * http://localhost:8080/hospital/:id
-    * http://localhost:8080/healthclub/:id
+When running the server, you can reach it at localhost:8080. Many routes are available (see server/routes foulder)
 
 ### Troubleshooting
 
 If versions mismatch when using nw use this:
 http://docs.nwjs.io/en/latest/For%20Users/Advanced/Use%20Native%20Node%20Modules/
 
-For more troubleshooting check the Drive
-
- ### TODO
-- All connection parameters should be in configuration folders (database, server, client).
-Client:
-	- Make it look better.
-	- Show errors : not able to connect to host/wrong key/wrong username.
-	- After succesful decrypt go to next page to show results.
-	- Change results by encrypting and sending to server. (Later: add some validation).
-
-Server:
-	- Publish public key for client. (Maybe display when connecting)
-	- Create keys with given policy.
-	- Handle request messages and return results from database.
-	- Handle update messages and update in database. (Later: add some validation).
