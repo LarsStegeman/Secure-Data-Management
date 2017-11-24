@@ -19,10 +19,13 @@ const getParams = query => {
 };
 entityType = getParams(window.location.search)["type"];
 entityID = getParams(window.location.search)["id"];
-console.log(entityType + " " + entityID);
 
 document.getElementById("nav-patient").classList.add("active");
 client.httpGetAsync(client.SERVER_URL + "patient/hospital/" + entityID, function(response){printPatient(response);});
+
+document.getElementById("nav-hospital").onmousedown = function(){
+  window.location.replace("hospital.html?type=" + entityType + "&id=" + entityID);
+}
 
 document.getElementById("nav-changeuser").onmousedown = function() {
   window.location.replace("index.html");
@@ -39,12 +42,8 @@ let decryptButton = function(id){
   let enc_mobilenumber = new Buffer(userInfo[id]['mobilenumber']['data'], 'binary');
   let enc_bloodgroup = new Buffer(userInfo[id]['bloodgroup']['data'], 'binary');
   let enc_gender = new Buffer(userInfo[id]['gender']['data'], 'binary');
-  let enc_notes = null;
-  if(userInfo[id]['notes'])
-    enc_notes = new Buffer(userInfo[id]['notes']['data'], 'binary');
-  let enc_data = null;
-  if(userInfo[id]['data'])
-    enc_data = new Buffer(userInfo[id]['data'], 'binary');
+  let enc_notes = '';
+  let enc_data = '';
 
   let dec_name = crypto.decrypt(entityType, entityID, enc_name);
   document.getElementById('patientName'+id).innerHTML = dec_name;
@@ -58,10 +57,17 @@ let decryptButton = function(id){
   document.getElementById('patientBlood'+id).innerHTML = dec_bloodgroup;
   let dec_gender = crypto.decrypt(entityType, entityID, enc_gender);
   document.getElementById('patientGender'+id).innerHTML = dec_gender;
-  let dec_notes = crypto.decrypt(entityType, entityID, enc_notes);
-  document.getElementById('patientNotes'+id).innerHTML = dec_notes;
-  let dec_data = crypto.decrypt(entityType, entityID, enc_data);
-  document.getElementById('patientData'+id).innerHTML = dec_data;
+  if(userInfo[id]['notes']){
+    enc_notes = new Buffer(userInfo[id]['notes']['data'], 'binary');
+    let dec_notes = crypto.decrypt(entityType, entityID, enc_notes);
+    document.getElementById('patientNotes'+id).innerHTML = dec_notes;
+  }
+  if(userInfo[id]['data']){
+    enc_data = new Buffer(userInfo[id]['data'], 'binary');
+    let dec_data = crypto.decrypt(entityType, entityID, enc_data);
+    document.getElementById('patientData'+id).innerHTML = dec_data;
+  }
+
   document.getElementById('addNotesDiv'+id).innerHTML = '<label>Add Health Data</label>'
   + '<input type="text" id="dataInput'+id+'">';
 
@@ -74,22 +80,20 @@ function addNote(id){
   if (userInfo[id].data){
     var enc_notes = new Buffer(userInfo[id].data.data, 'binary');
     dec_notes = crypto.decrypt(entityType, entityID, enc_notes);
+    dec_notes = dec_notes + "<br>" + data;
   }
-  dec_notes = dec_notes + "<br>" + data;
-  // console.log(dec_notes);
+  else{
+      dec_notes = data;
+  }
+
   var policy = "patient = " + userInfo[id].patientID + " or hospital = " + entityID;
-  console.log(policy);
   let final_enc = crypto.encryptPolicy(policy, dec_notes);
-  // console.log(entityType + " after encrypt " + entityID);
   let encryptedEntity = {};
   // Name encryption
   encryptedEntity.data = final_enc;
-  // console.log(entityType + " final " + entityID);
 
-  //window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
   client.httpPutAsync(client.SERVER_URL + "patient/" + userInfo[id].patientID + "/hospital/" + entityID, encryptedEntity, function(response){
     console.log(response);
-    //console.log(entityType + " after put " + entityID);
     window.location.replace("patienthospital.html?type=" + entityType + "&id=" + entityID);
   });
 }
@@ -115,7 +119,6 @@ function printPatient(response) {
         + '<div id="messages"></div>'
         + '<input type="button" id="decryptButton' + i + '" value="Decrypt" onmousedown="decryptButton('+i+')">'
        document.getElementById("content").appendChild(divPatient);
-       //document.getElementById("decryptButton" + i).addEventListener("mousedown", decryptButton(i));
     }
   } else {
     alert("No patients are associated to hospital ID="+entityID);

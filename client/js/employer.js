@@ -24,23 +24,10 @@ client.httpGetAsync(client.SERVER_URL + "employer/" + entityID, function(respons
 
 
 function printemployer(response){
-  console.log(response);
   response = JSON.parse(response);
   userInfo = response[0];
   document.getElementById("employerName").innerHTML = response[0]['name']['data'];
   document.getElementById("employerAddress").innerHTML = response[0]['address']['data'];
-}
-
-//add Data to notes of a employer
-//by now it's only replacing notes with data, but we need to append it to the notes. Maybe decrypting, append and encrypt again.
-function addData(data){
-
-  client.httpPutAsync(client.SERVER_URL + "employer/" + entityID, data, function(response){
-    console.log(response);
-  });
-  if(entityType && entityID) {
-    window.location.replace("employer.html?type=" + entityType + "&id=" + entityID);
-  }
 }
 
 //switch user (logout)

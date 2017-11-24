@@ -24,25 +24,12 @@ client.httpGetAsync(client.SERVER_URL + "doctor/" + entityID, function(response)
 
 
 function printdoctor(response){
-  console.log(response);
   response = JSON.parse(response);
   userInfo = response[0];
   document.getElementById("doctorName").innerHTML = response[0]['name']['data'];
   document.getElementById("doctorAddress").innerHTML = response[0]['address']['data'];
   document.getElementById("doctorBirth").innerHTML = response[0]['birthdate']['data'];
   document.getElementById("doctorNumber").innerHTML = response[0]['mobilenumber']['data'];
-}
-
-//add Data to notes of a doctor
-//by now it's only replacing notes with data, but we need to append it to the notes. Maybe decrypting, append and encrypt again.
-function addData(data){
-
-  client.httpPutAsync(client.SERVER_URL + "doctor/" + entityID, data, function(response){
-    console.log(response);
-  });
-  if(entityType && entityID) {
-    window.location.replace("doctor.html?type=" + entityType + "&id=" + entityID);
-  }
 }
 
 //switch user (logout)
