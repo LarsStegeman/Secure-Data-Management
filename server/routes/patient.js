@@ -70,7 +70,6 @@ router.get('/associations/:id', function (req, res) {
       // Error 500
       res.status(500).send({ error: error });
     } else {
-      console.log("get associations successfully");
       console.log(results);
       res.status(200).send(results);
     }

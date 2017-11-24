@@ -10,11 +10,15 @@ document.getElementById("setKeys").onclick = function() {
     if (publicKey) {
       if (window.confirm("This will replace your current public key. Are you sure?")) {
         crypto.copyKeyFile(publicKey.path, crypto.PUBLIC_KEY_NAME);
+        window.alert("Public key copied successfully!");
+        window.location.replace("index.html");
       }
     }
     if (privateKey) {
       if (window.confirm("This will replace your current private key. Are you sure?")) {
         crypto.copyKeyFile(privateKey.path, crypto.PRIVATE_KEY_NAME);
+        window.alert("Private key copied successfully!");
+        window.location.replace("index.html");
       }
     }
   } else {
