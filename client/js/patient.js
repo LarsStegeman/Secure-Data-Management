@@ -92,6 +92,7 @@ document.getElementById('relation-insert-button').onmousedown = function(){
 
       client.httpPutAsync(client.SERVER_URL + 'patient/' + entityID, newCypher, function(result){
         console.log(result);
+        window.alert("Association between patient " + entityID + " and " + entity + " " + id + " created successfully!");
         window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
       });
     });
@@ -128,7 +129,7 @@ document.getElementById('relation-delete-button').onmousedown = function(){
 
       client.httpPutAsync(client.SERVER_URL + 'patient/' + entityID, newCypher, function(result){
         console.log(result);
-        window.alert("Association between patient " + entityID + " and " + entity + " " + id + " created successfully!");
+        window.alert("Association between patient " + entityID + " and " + entity + " " + id + " removed successfully!");
         window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
       });
     });
