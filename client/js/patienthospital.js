@@ -24,6 +24,14 @@ console.log(entityType + " " + entityID);
 document.getElementById("nav-patient").classList.add("active");
 client.httpGetAsync(client.SERVER_URL + "patient/hospital/" + entityID, function(response){printPatient(response);});
 
+document.getElementById("nav-changeuser").onmousedown = function() {
+  window.location.replace("index.html");
+};
+
+document.getElementById("nav-keys").onmousedown = function(){
+  window.location.replace("setup.html");
+};
+
 let decryptButton = function(id){
   let enc_name = new Buffer(userInfo[id]['name']['data'], 'binary');
   let enc_address = new Buffer(userInfo[id]['address']['data'], 'binary');
@@ -103,7 +111,7 @@ function printPatient(response) {
         +  '<dt>Hospital Related Data</dt><dd id="patientData' + i + '">' + (userInfo[i]['data'] ? userInfo[i]['data']['data'] : '') + '</dd>'
         + '</dl>'
         + '<div id="addNotesDiv' + i + '"></div>'
-        + '<input id="addNote' + i + '" type="button" style="display: none;" value="Add Hospital Related Data" onmousedown="addNote('+ i+')">'
+        + '<input id="addNote' + i + '" type="button" style="display: none;" value="Add Hospital Related Data" onmousedown="addNote('+i+')">'
         + '<div id="messages"></div>'
         + '<input type="button" id="decryptButton' + i + '" value="Decrypt" onmousedown="decryptButton('+i+')">'
        document.getElementById("content").appendChild(divPatient);
