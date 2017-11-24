@@ -72,15 +72,22 @@ document.getElementById('relation-insert-button').onmousedown = function(){
     console.log(response);
     relation.getPatientRelations(entityType, entityID, function(relations){
       relations = JSON.parse(relations);
-      var policy = relation.getPolicy(entityID, relations);
+      var policyname = relation.getPolicy(entityID, relations, true, true, true, true, true);
+      var policyaddress = relation.getPolicy(entityID, relations, true, true, true, true, true);
+      var policyblood = relation.getPolicy(entityID, relations, true, true, true, true, true);
+      var policybirth = relation.getPolicy(entityID, relations, true, true, true, true, true);
+      var policynumber = relation.getPolicy(entityID, relations, true, true, true, true, true);
+      var policygender = relation.getPolicy(entityID, relations, true, true, true, true, true);
+      var policynotes = relation.getPolicy(entityID, relations, true, true, true, false, false);
+
       var newCypher = new Object();
-      newCypher.name = crypto.encryptPolicy(policy, crypto.decrypt(entityType, entityID, new Buffer(userInfo.name.data, 'binary')));
-      newCypher.address = crypto.encryptPolicy(policy, crypto.decrypt(entityType, entityID, new Buffer(userInfo.address.data, 'binary')));
-      newCypher.bloodgroup = crypto.encryptPolicy(policy, crypto.decrypt(entityType, entityID, new Buffer(userInfo.bloodgroup.data, 'binary')));
-      newCypher.birthdate = crypto.encryptPolicy(policy, crypto.decrypt(entityType, entityID, new Buffer(userInfo.birthdate.data, 'binary')));
-      newCypher.mobilenumber = crypto.encryptPolicy(policy, crypto.decrypt(entityType, entityID, new Buffer(userInfo.mobilenumber.data, 'binary')));
-      newCypher.gender = crypto.encryptPolicy(policy, crypto.decrypt(entityType, entityID, new Buffer(userInfo.gender.data, 'binary')));
-      newCypher.notes = crypto.encryptPolicy(policy, crypto.decrypt(entityType, entityID, new Buffer(userInfo.notes.data, 'binary')));
+      newCypher.name = crypto.encryptPolicy(policyname, crypto.decrypt(entityType, entityID, new Buffer(userInfo.name.data, 'binary')));
+      newCypher.address = crypto.encryptPolicy(policyaddress, crypto.decrypt(entityType, entityID, new Buffer(userInfo.address.data, 'binary')));
+      newCypher.bloodgroup = crypto.encryptPolicy(policyblood, crypto.decrypt(entityType, entityID, new Buffer(userInfo.bloodgroup.data, 'binary')));
+      newCypher.birthdate = crypto.encryptPolicy(policybirth, crypto.decrypt(entityType, entityID, new Buffer(userInfo.birthdate.data, 'binary')));
+      newCypher.mobilenumber = crypto.encryptPolicy(policynumber, crypto.decrypt(entityType, entityID, new Buffer(userInfo.mobilenumber.data, 'binary')));
+      newCypher.gender = crypto.encryptPolicy(policygender, crypto.decrypt(entityType, entityID, new Buffer(userInfo.gender.data, 'binary')));
+      newCypher.notes = crypto.encryptPolicy(policynotes, crypto.decrypt(entityType, entityID, new Buffer(userInfo.notes.data, 'binary')));
 
       client.httpPutAsync(client.SERVER_URL + 'patient/' + entityID, newCypher, function(result){
         console.log(result);
