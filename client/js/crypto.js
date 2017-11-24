@@ -32,17 +32,13 @@ function encrypt(identity, id, value) {
   let policy = "" + identity + " = " + id;
   let enc_value = cpabe.encryptMessage(pubkey, policy, new Buffer(value));
 	console.log("Encrypted successfully:");
-	//console.log(Array.apply([], enc_value).join(","))
   return enc_value;
 }
 
 function encryptPolicy(policy, value) {
-	console.log("encryptPolicy");
 	let pubkey = getKeyFromFile(PUBLIC_KEY_NAME);
-	console.log("pibkey");
   let enc_value = cpabe.encryptMessage(pubkey, policy, new Buffer(value));
 	console.log("Encrypted successfully:");
-	//console.log(Array.apply([], enc_value).join(","))
   return enc_value;
 }
 
@@ -50,10 +46,8 @@ function decrypt(identity, id, value) {
   let pubkey = getKeyFromFile(PUBLIC_KEY_NAME);
 	let privkey = getKeyFromFile(PRIVATE_KEY_NAME);
   let policy = "" + identity + " = " + id;
-	//console.log("a");
   let decrypted = cpabe.decryptMessage(pubkey, privkey, value);
-	//console.log("b");
-  console.log("decrypted" + decrypted.toString());
+  console.log("decrypted " + decrypted.toString());
   return decrypted.toString();
 }
 

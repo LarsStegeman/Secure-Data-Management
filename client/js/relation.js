@@ -2,7 +2,6 @@ const client = require('./client.js');
 const crypto = require('./crypto.js');
 
 function getPatientRelations(entity, id, callback){
-  console.log("get Patient " + id + "relations");
   client.httpGetAsync(client.SERVER_URL + "patient/associations/" + id, function(response){
     console.log(response);
     callback(response);
@@ -17,14 +16,9 @@ function getEntityPatients(entity, id, callback){
 };
 
 function updatePolicies(id, data, policy){
-  console.log("updatePolicies");
-  console.log(data.length);
   var finalData = [];
   for (i=0; i < data.length; i++){
-    console.log(i);
-    console.log(data[i]);
     finalData[i] = crypto.encryptPolicy(policy, data[i]);
-    console.log(finalData[i]);
   }
   return finalData;
 }
@@ -51,7 +45,6 @@ function getPolicy(id, relations){
       }
     }
     if (relations[i].healclubID){
-  console.log(finalPolicy);
       if (!policyObj.healthclubs.includes(relations[i].healclubID)){
         policyObj.healthclubs.push(relations[i].healclubID);
         finalPolicy = finalPolicy + ' or healthclub = ' + relations[i].healclubID;

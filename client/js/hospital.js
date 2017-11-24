@@ -25,12 +25,8 @@ client.httpGetAsync(client.SERVER_URL + "hospital/" + entityID, function(respons
 
 
 function printHospital(response){
-  console.log("printHospital")
-  console.log(response);
   response = JSON.parse(response);
   userInfo = response[0];
-  console.log(userInfo['name']['data']);
-  //console.log(JSON.stringify(response[0]['name']['data']));
   document.getElementById("hospitalName").innerHTML = JSON.stringify(userInfo['name']['data']);
   document.getElementById("hospitalAddress").innerHTML = JSON.stringify(userInfo['address']['data']);
 }

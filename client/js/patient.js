@@ -19,14 +19,12 @@ const getParams = query => {
 };
 entityType = getParams(window.location.search)["type"];
 entityID = getParams(window.location.search)["id"];
-console.log(entityType + " " + entityID);
 
 document.getElementById("nav-patient").classList.add("active");
 client.httpGetAsync(client.SERVER_URL + "patient/" + entityID, function(response){printPatient(response);});
 
 
 function printPatient(response){
-  //console.log(response);
   response = JSON.parse(response);
   userInfo = response[0];
   document.getElementById("patientName").innerHTML = response[0]['name']['data'];
@@ -46,18 +44,13 @@ document.getElementById("addNote").onmousedown = function(){
   let enc_notes = new Buffer(userInfo.notes.data, 'binary');
   var dec_notes = crypto.decrypt(entityType, entityID, enc_notes);
   dec_notes = dec_notes + "<br>" + data;
-  // console.log(dec_notes);
   let final_enc = crypto.encrypt(entityType, entityID, dec_notes);
-  // console.log(entityType + " after encrypt " + entityID);
   let encryptedEntity = {};
   // Name encryption
   encryptedEntity.notes = final_enc;
-  // console.log(entityType + " final " + entityID);
 
-  //window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
   client.httpPutAsync(client.SERVER_URL + "patient/notes/" + entityID, encryptedEntity, function(response){
     console.log(response);
-    //console.log(entityType + " after put " + entityID);
     window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
   });
 }
@@ -76,12 +69,10 @@ document.getElementById('relation-insert-button').onmousedown = function(){
   var entity = entitySelect.options[entitySelect.selectedIndex].value;
   var id = document.getElementById('inputID').value;
   client.httpPostAsync(client.SERVER_URL + 'patient/' + entityID + '/' + entity + '/'+ id, null, function(response){
-    //console.log("after post");
     console.log(response);
     relation.getPatientRelations(entityType, entityID, function(relations){
       relations = JSON.parse(relations);
       var policy = relation.getPolicy(entityID, relations);
-      console.log(userInfo);
       var newCypher = new Object();
       newCypher.name = crypto.encryptPolicy(policy, crypto.decrypt(entityType, entityID, new Buffer(userInfo.name.data, 'binary')));
       newCypher.address = crypto.encryptPolicy(policy, crypto.decrypt(entityType, entityID, new Buffer(userInfo.address.data, 'binary')));
@@ -91,9 +82,6 @@ document.getElementById('relation-insert-button').onmousedown = function(){
       newCypher.gender = crypto.encryptPolicy(policy, crypto.decrypt(entityType, entityID, new Buffer(userInfo.gender.data, 'binary')));
       newCypher.notes = crypto.encryptPolicy(policy, crypto.decrypt(entityType, entityID, new Buffer(userInfo.notes.data, 'binary')));
 
-      console.log("final data");
-      console.log(policy);
-      console.log(newCypher);
       client.httpPutAsync(client.SERVER_URL + 'patient/' + entityID, newCypher, function(result){
         console.log(result);
         window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
@@ -147,4 +135,5 @@ document.getElementById("decryptButton").onmousedown = function(){
 
   document.getElementById('addNote').style.display = 'block';
   document.getElementById('relation-insert-button').style.display = 'block';
+  document.getElementById("decryptButton").style.display = 'none';
 };
