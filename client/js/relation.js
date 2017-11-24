@@ -44,10 +44,10 @@ function getPolicy(id, relations){
         finalPolicy = finalPolicy + ' or hospital = ' + relations[i].hospitalID;
       }
     }
-    if (relations[i].healclubID){
-      if (!policyObj.healthclubs.includes(relations[i].healclubID)){
-        policyObj.healthclubs.push(relations[i].healclubID);
-        finalPolicy = finalPolicy + ' or healthclub = ' + relations[i].healclubID;
+    if (relations[i].healthclubID){
+      if (!policyObj.healthclubs.includes(relations[i].healthclubID)){
+        policyObj.healthclubs.push(relations[i].healthclubID);
+        finalPolicy = finalPolicy + ' or healthclub = ' + relations[i].healthclubID;
       }
     }
     if (relations[i].insuranceID){
