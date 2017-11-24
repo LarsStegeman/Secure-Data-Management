@@ -34,6 +34,9 @@ let decryptButton = function(id){
   let enc_notes = null;
   if(userInfo[id]['notes'])
     enc_notes = new Buffer(userInfo[id]['notes']['data'], 'binary');
+  let enc_data = null;
+  if(userInfo[id]['data'])
+    enc_data = new Buffer(userInfo[id]['data'], 'binary');
 
   let dec_name = crypto.decrypt(entityType, entityID, enc_name);
   document.getElementById('patientName'+id).innerHTML = dec_name;
@@ -49,12 +52,39 @@ let decryptButton = function(id){
   document.getElementById('patientGender'+id).innerHTML = dec_gender;
   let dec_notes = crypto.decrypt(entityType, entityID, enc_notes);
   document.getElementById('patientNotes'+id).innerHTML = dec_notes;
+  let dec_data = crypto.decrypt(entityType, entityID, enc_data);
+  document.getElementById('patientData'+id).innerHTML = dec_data;
   document.getElementById('addNotesDiv'+id).innerHTML = '<label>Add Health Data</label>'
-  + '<br><input type="text" id="dataInput">'
-  + '<br>';
+  + '<input type="text" id="dataInput'+id+'">';
 
-  document.getElementById('addNote').style.display = 'block';
+  document.getElementById('addNote'+id).style.display = 'block';
 };
+
+function addNote(id){
+  var data = document.getElementById('dataInput'+id).value;
+  var dec_notes = '';
+  if (userInfo[id].data){
+    var enc_notes = new Buffer(userInfo[id].data.data, 'binary');
+    dec_notes = crypto.decrypt(entityType, entityID, enc_notes);
+  }
+  dec_notes = dec_notes + "<br>" + data;
+  // console.log(dec_notes);
+  var policy = "patient = " + userInfo[id].patientID + " or hospital = " + entityID;
+  console.log(policy);
+  let final_enc = crypto.encryptPolicy(policy, dec_notes);
+  // console.log(entityType + " after encrypt " + entityID);
+  let encryptedEntity = {};
+  // Name encryption
+  encryptedEntity.data = final_enc;
+  // console.log(entityType + " final " + entityID);
+
+  //window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
+  client.httpPutAsync(client.SERVER_URL + "patient/" + userInfo[id].patientID + "/hospital/" + entityID, encryptedEntity, function(response){
+    console.log(response);
+    //console.log(entityType + " after put " + entityID);
+    window.location.replace("patienthospital.html?type=" + entityType + "&id=" + entityID);
+  });
+}
 
 function printPatient(response) {
   userInfo = JSON.parse(response);
@@ -73,7 +103,7 @@ function printPatient(response) {
         +  '<dt>Hospital Related Data</dt><dd id="patientData' + i + '">' + (userInfo[i]['data'] ? userInfo[i]['data']['data'] : '') + '</dd>'
         + '</dl>'
         + '<div id="addNotesDiv' + i + '"></div>'
-        + '<input id="addNote' + i + '" type="button" style="display: none;" value="Add Hospital Related Data">'
+        + '<input id="addNote' + i + '" type="button" style="display: none;" value="Add Hospital Related Data" onmousedown="addNote('+ i+')">'
         + '<div id="messages"></div>'
         + '<input type="button" id="decryptButton' + i + '" value="Decrypt" onmousedown="decryptButton('+i+')">'
        document.getElementById("content").appendChild(divPatient);
