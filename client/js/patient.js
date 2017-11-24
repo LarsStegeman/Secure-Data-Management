@@ -80,6 +80,43 @@ document.getElementById('relation-insert-button').onmousedown = function(){
       var policygender = relation.getPolicy(entityID, relations, true, true, true, true, true);
       var policynotes = relation.getPolicy(entityID, relations, true, true, true, false, false);
 
+
+      var newCypher = new Object();
+      newCypher.name = crypto.encryptPolicy(policyname, crypto.decrypt(entityType, entityID, new Buffer(userInfo.name.data, 'binary')));
+      newCypher.address = crypto.encryptPolicy(policyaddress, crypto.decrypt(entityType, entityID, new Buffer(userInfo.address.data, 'binary')));
+      newCypher.bloodgroup = crypto.encryptPolicy(policyblood, crypto.decrypt(entityType, entityID, new Buffer(userInfo.bloodgroup.data, 'binary')));
+      newCypher.birthdate = crypto.encryptPolicy(policybirth, crypto.decrypt(entityType, entityID, new Buffer(userInfo.birthdate.data, 'binary')));
+      newCypher.mobilenumber = crypto.encryptPolicy(policynumber, crypto.decrypt(entityType, entityID, new Buffer(userInfo.mobilenumber.data, 'binary')));
+      newCypher.gender = crypto.encryptPolicy(policygender, crypto.decrypt(entityType, entityID, new Buffer(userInfo.gender.data, 'binary')));
+      newCypher.notes = crypto.encryptPolicy(policynotes, crypto.decrypt(entityType, entityID, new Buffer(userInfo.notes.data, 'binary')));
+
+      client.httpPutAsync(client.SERVER_URL + 'patient/' + entityID, newCypher, function(result){
+        console.log(result);
+        window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
+      });
+    });
+    //window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
+  });
+  //window.location.replace("patient.html?type=" + entityType + "&id=" + entityID);
+};
+
+document.getElementById('relation-delete-button').onmousedown = function(){
+  var entitySelect = document.getElementById('inputEntity-delete');
+  var entity = entitySelect.options[entitySelect.selectedIndex].value;
+  var id = document.getElementById('inputID-delete').value;
+  client.httpDelAsync(client.SERVER_URL + 'patient/' + entityID + '/' + entity + '/'+ id, function(response){
+    console.log(response);
+    relation.getPatientRelations(entityType, entityID, function(relations){
+      relations = JSON.parse(relations);
+      var policyname = relation.getPolicy(entityID, relations, true, true, true, true, true);
+      var policyaddress = relation.getPolicy(entityID, relations, true, true, true, true, true);
+      var policyblood = relation.getPolicy(entityID, relations, true, true, true, true, true);
+      var policybirth = relation.getPolicy(entityID, relations, true, true, true, true, true);
+      var policynumber = relation.getPolicy(entityID, relations, true, true, true, true, true);
+      var policygender = relation.getPolicy(entityID, relations, true, true, true, true, true);
+      var policynotes = relation.getPolicy(entityID, relations, true, true, true, false, false);
+
+      console.log(policyname);
       var newCypher = new Object();
       newCypher.name = crypto.encryptPolicy(policyname, crypto.decrypt(entityType, entityID, new Buffer(userInfo.name.data, 'binary')));
       newCypher.address = crypto.encryptPolicy(policyaddress, crypto.decrypt(entityType, entityID, new Buffer(userInfo.address.data, 'binary')));
@@ -141,7 +178,19 @@ document.getElementById("decryptButton").onmousedown = function(){
   + '<input type="number" id="inputID">'
   + '</form>';
 
+  document.getElementById('relation-delete').innerHTML = '<form id="relation-delete-form">'
+  + '<select id="inputEntity-delete">'
+    + '<option value="doctor">Doctor</option>'
+    + '<option value="hospital">Hospital</option>'
+    + '<option value="healthclub">HealthClub</option>'
+    + '<option value="insurance">Insurance</option>'
+    + '<option value="employer">Employer</option>'
+  + '</select>'
+  + '<input type="number" id="inputID-delete">'
+  + '</form>';
+
   document.getElementById('addNote').style.display = 'block';
   document.getElementById('relation-insert-button').style.display = 'block';
+  document.getElementById('relation-delete-button').style.display = 'block';
   document.getElementById("decryptButton").style.display = 'none';
 };

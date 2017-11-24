@@ -45,7 +45,24 @@ function httpPutAsync(theUrl, data, callback)
     xmlHttp.send(params);
 }
 
+function httpDelAsync(theUrl, callback)
+{
+    console.log("a");
+    let xmlHttp = new XMLHttpRequest();
+    console.log("B");
+    xmlHttp.open("DELETE", theUrl, true); // true for asynchronous
+    console.log("C");
+    xmlHttp.onreadystatechange = function() {
+      console.log(xmlHttp.readyState + " " + xmlHttp.status);
+      if (xmlHttp.readyState == XMLHttpRequest.DONE && xmlHttp.status == 200){
+        callback(xmlHttp.responseText);
+      }
+    };
+    xmlHttp.send();
+}
+
 module.exports.SERVER_URL = SERVER_URL;
 module.exports.httpGetAsync = httpGetAsync;
 module.exports.httpPostAsync = httpPostAsync;
 module.exports.httpPutAsync = httpPutAsync;
+module.exports.httpDelAsync = httpDelAsync;
